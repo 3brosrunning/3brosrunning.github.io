@@ -252,7 +252,7 @@
     }
 
     // Load the CSV
-    Papa.parse("runners.csv", {
+    Papa.parse("runners.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
       complete: function(results) {
