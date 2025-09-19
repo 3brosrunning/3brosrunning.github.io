@@ -222,7 +222,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years";
+      if (years === maxYears) return "highlight-most-years"; // all ties get gold
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
@@ -233,7 +233,9 @@
       runnerList.innerHTML = "";
 
       // Find the maximum years for "Top Legacy Runner"
-      const yearsList = data.map(r => parseInt(r.Years));
+      const yearsList = data
+        .map(r => parseInt(r.Years))
+        .filter(y => !isNaN(y)); // ignore empty or bad rows
       const maxYears = Math.max(...yearsList);
 
       data.forEach(runner => {
@@ -251,7 +253,7 @@
       });
     }
 
-    // Load the CSV
+    // Load the CSV (with cache-busting)
     Papa.parse("runners.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
