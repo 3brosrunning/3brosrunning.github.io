@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Legacy La Porte By the Bay Half Marathon - 3 Bros Running Company</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: #f7f8fa; 
+      margin: 0; 
+      color: #333;
+    }
+    .legacy-header {
+      background: linear-gradient(100deg, #8e24aa 0%, #ba68c8 100%);
+      color: #fff;
+      padding: 40px 20px 20px 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+    .legacy-header h1 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .legacy-header h3 {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .legacy-content {
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .content-text {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+      padding: 36px 28px;
+      font-size: 1.15rem;
+      line-height: 1.7;
+    }
+    .gratitude {
+      font-style: italic;
+      color: #8e24aa;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border-left: 4px solid #ba68c8;
+      padding-left: 12px;
+      background: #f3e5f5;
+    }
+    .contact {
+      margin-top: 26px;
+      font-size: 0.98rem;
+      color: #888;
+    }
+    .back-link {
+      margin-top: 16px;
+      display: inline-block;
+      font-weight: bold;
+      color: #8e24aa;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-link:hover {
+      color: #5e1670;
+      text-decoration: underline;
+    }
+    .search-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    #runnerSearch {
+      width: 90%;
+      max-width: 500px;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    #runnerSearch:focus {
+      outline: none;
+      border-color: #8e24aa;
+      box-shadow: 0 0 8px rgba(142, 36, 170, 0.2);
+    }
+    #runnerList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 0;
+    }
+    .runner-card {
+      position: relative;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-basis: calc(33.33% - 20px);
+      box-sizing: border-box;
+      min-width: 250px;
+    }
+    .runner-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+    .runner-name {
+      font-size: 1.25em;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .runner-count {
+      font-size: 1em;
+      color: #666;
+      margin-top: 5px;
+    }
+    /* Highlight classes */
+    .highlight-most-years {
+      border: 2px solid #ffc107;
+      background-color: #fff8e1;
+    }
+    .highlight-most-years::before {
+      content: 'Top Legacy Runner';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffc107;
+      color: #333;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 0.9em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .highlight-10plus {
+      border: 2px solid #8e24aa;
+      background-color: #f3e5f5;
+    }
+    .highlight-10plus::before {
+      content: '10+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #8e24aa;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .highlight-5plus {
+      border: 2px solid #4CAF50;
+      background-color: #eaf7e9;
+    }
+    .highlight-5plus::before {
+      content: '5+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #4CAF50;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
+    @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="legacy-header">
+    <h1>Honoring Our La Porte By the Bay Half Marathon Runners</h1>
+    <h3>Celebrating Endurance, Tradition, and the Legacy of the Fred Hartman Bridge</h3>
+  </div>
+
+  <div class="legacy-content">
+    <div class="content-text">
+      <p>
+        The <strong>La Porte By the Bay Half Marathon</strong> is the grand finale of the Texas Bridge Series—a 13.1 mile test of endurance that takes runners over the iconic Fred Hartman Bridge.
+      </p>
+      <p>
+        Legacy runners return year after year, taking on the sweeping incline and unpredictable winds that make this course one of Texas’ most unforgettable challenges.
+      </p>
+      <p class="gratitude">
+        We honor those who have completed this race five, ten, or even more times—especially our top legacy champions. Your persistence and strength inspire the running community.
+      </p>
+      <p>With gratitude,<br><strong>The 3 Bros Running Company Team</strong></p>
+      <p class="contact">
+        <em>As of 9/22/25 – questions or corrections, contact us at 
+        <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
+      </p>
+      <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" class="back-link">Return to Texas Bridge Series Website</a>
+    </div>
+
+    <div class="search-container">
+      <input type="text" id="runnerSearch" placeholder="Search for a runner...">
+    </div>
+
+    <div id="runnerList">Loading runners…</div>
+  </div>
+
+  <!-- PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    function getHighlightClass(years, maxYears) {
+      if (years === maxYears) return "highlight-most-years"; 
+      if (years >= 10) return "highlight-10plus";
+      if (years >= 5) return "highlight-5plus";
+      return "";
+    }
+
+    function renderRunners(data) {
+      const runnerList = document.getElementById("runnerList");
+      runnerList.innerHTML = "";
+      if (data.length === 0) {
+        runnerList.innerText = "No runner data available.";
+        return;
+      }
+
+      const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
+      const maxYears = Math.max(...yearsList);
+
+      data.forEach(runner => {
+        const years = parseInt(runner.Years);
+        if (!runner.First || !runner.Last || isNaN(years)) return;
+
+        const fullName = runner.First + " " + runner.Last;
+
+        const card = document.createElement("div");
+        card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
+        card.setAttribute("data-years", years);
+        card.style.paddingTop = "30px";
+        card.innerHTML = `
+          <p class="runner-name">${fullName}</p>
+          <p class="runner-count">${years} years</p>
+        `;
+        runnerList.appendChild(card);
+      });
+    }
+
+    Papa.parse("runnerslaporte.csv?v=" + new Date().getTime(), {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        renderRunners(results.data);
+      },
+      error: function(err) {
+        document.getElementById("runnerList").innerText = "Error loading runner data.";
+        console.error(err);
+      }
+    });
+
+    document.getElementById("runnerSearch").addEventListener("input", function() {
+      const term = this.value.toLowerCase();
+      document.querySelectorAll(".runner-card").forEach(card => {
+        const name = card.querySelector(".runner-name").innerText.toLowerCase();
+        card.style.display = name.includes(term) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
