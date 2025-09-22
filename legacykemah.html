@@ -222,7 +222,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years"; // all ties get gold
+      if (years === maxYears) return "highlight-most-years";
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
@@ -232,28 +232,38 @@
       const runnerList = document.getElementById("runnerList");
       runnerList.innerHTML = "";
 
-      // Find the maximum years for "Top Legacy Runner"
       const yearsList = data
         .map(r => parseInt(r.Years))
-        .filter(y => !isNaN(y)); // ignore empty or bad rows
+        .filter(y => !isNaN(y));
       const maxYears = Math.max(...yearsList);
 
       data.forEach(runner => {
         const years = parseInt(runner.Years);
-        if (!runner.Name || isNaN(years)) return; // skip bad rows
+
+        // Build full name depending on CSV format
+        let fullName = "";
+        if (runner.Name) {
+          fullName = runner.Name.trim();
+        } else {
+          const firstName = (runner["First Name"] || "").trim();
+          const lastName = (runner["Last Name"] || "").trim();
+          fullName = `${firstName} ${lastName}`.trim();
+        }
+
+        if (!fullName || isNaN(years)) return;
+
         const card = document.createElement("div");
         card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
         card.setAttribute("data-years", years);
         card.style.paddingTop = "30px";
         card.innerHTML = `
-          <p class="runner-name">${runner.Name}</p>
+          <p class="runner-name">${fullName}</p>
           <p class="runner-count">${years} years</p>
         `;
         runnerList.appendChild(card);
       });
     }
 
-    // Load the CSV (with cache-busting)
     Papa.parse("runnerskemah.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
@@ -262,7 +272,6 @@
       }
     });
 
-    // Search filter
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
