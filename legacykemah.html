@@ -1,223 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Legacy Runners - 3 Bros Running Company</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { 
-      font-family: 'Segoe UI', Arial, sans-serif; 
-      background: #f7f8fa; 
-      margin: 0; 
-      color: #333;
-    }
-    .legacy-header {
-      background: linear-gradient(100deg, #ff9800 0%, #ffd54f 100%);
-      color: #222;
-      padding: 40px 20px 20px 20px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-    }
-    .legacy-header h1 {
-      font-size: 2.6rem;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-    }
-    .legacy-header h3 {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
-    .legacy-content {
-      max-width: 960px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-    .content-text {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.09);
-      padding: 36px 28px;
-      font-size: 1.15rem;
-      line-height: 1.7;
-    }
-    .gratitude {
-      font-style: italic;
-      color: #ff9800;
-      font-weight: 600;
-      margin-top: 24px;
-      margin-bottom: 24px;
-      border-left: 4px solid #ffd54f;
-      padding-left: 12px;
-      background: #fffbe9;
-    }
-    .contact {
-      margin-top: 26px;
-      font-size: 0.98rem;
-      color: #888;
-    }
-
-    .search-container {
-      text-align: center;
-      margin: 30px 0;
-    }
-    #runnerSearch {
-      width: 90%;
-      max-width: 500px;
-      padding: 12px 15px;
-      font-size: 16px;
-      border: 2px solid #ddd;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-    }
-    #runnerSearch:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-    }
-    #runnerList {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 0;
-    }
-    .runner-card {
-      position: relative;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 20px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      text-align: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      flex-basis: calc(33.33% - 20px);
-      box-sizing: border-box;
-      min-width: 250px;
-    }
-    .runner-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    }
-    .runner-name {
-      font-size: 1.25em;
-      font-weight: 600;
-      color: #333;
-      margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .runner-count {
-      font-size: 1em;
-      color: #666;
-      margin-top: 5px;
-    }
-
-    /* Highlight for Top Legacy Runner */
-    .highlight-most-years {
-      border: 2px solid #ffc107;
-      background-color: #fff8e1;
-    }
-    .highlight-most-years::before {
-      content: 'Top Legacy Runner';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #ffc107;
-      color: #333;
-      padding: 5px 12px;
-      border-radius: 5px;
-      font-size: 0.9em;
-      font-weight: bold;
-      letter-spacing: 1px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Highlight for 10+ years */
-    .highlight-10plus {
-      border: 2px solid #007bff;
-      background-color: #e6f2ff;
-    }
-    .highlight-10plus::before {
-      content: '10+ Year Legacy';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #007bff;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.8em;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Highlight for 5+ years */
-    .highlight-5plus {
-      border: 2px solid #4CAF50;
-      background-color: #eaf7e9;
-    }
-    .highlight-5plus::before {
-      content: '5+ Year Legacy';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #4CAF50;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.8em;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    @media (max-width: 768px) {
-      .runner-card { flex-basis: calc(50% - 15px); }
-    }
-    @media (max-width: 500px) {
-      .runner-card { flex-basis: 100%; }
-    }
-  </style>
-</head>
-<body>
-  <div class="legacy-header">
-    <h1>Honoring Our Legacy Runners</h1>
-    <h3>Celebrating Endurance, Commitment, and Community</h3>
-  </div>
-
-  <div class="legacy-content">
-    <div class="content-text">
-      <p>
-        We are proud to honor the remarkable runners who have completed the <strong>Toughest 10K Kemah</strong> year after year. Your dedication to conquering this challenging course has made you an enduring part of our community and history.
-      </p>
-      <p>Each year, you show resilience, strength, and unwavering commitment, inspiring us all.</p>
-      <p class="gratitude">
-        Below is a list of our esteemed legacy runners—those who have embraced the Toughest 10K Kemah challenge time and time again.<br><br>
-        Thank you for being an essential part of our journey.<br>
-        We look forward to cheering you on in many more races to come!
-      </p>
-      <p>With heartfelt gratitude,<br><strong>The 3 Bros Running Company Team</strong></p>
-      <p class="contact">
-        <em>As of 2024 – for questions or corrections, contact us at 
-        <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
-      </p>
-    </div>
-
-    <div class="search-container">
-      <input type="text" id="runnerSearch" placeholder="Search for a runner...">
-    </div>
-
-    <!-- Runner list will be filled by JS -->
-    <div id="runnerList"></div>
-  </div>
-
   <!-- PapaParse for CSV parsing -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
@@ -243,8 +23,15 @@
         // Build full name depending on CSV format
         let fullName = "";
         if (runner.Name) {
+          // If there's a single Name column
           fullName = runner.Name.trim();
+        } else if (runner.First || runner.Last) {
+          // If using "First" and "Last"
+          const firstName = (runner.First || "").trim();
+          const lastName = (runner.Last || "").trim();
+          fullName = `${firstName} ${lastName}`.trim();
         } else {
+          // Fallback for "First Name" + "Last Name"
           const firstName = (runner["First Name"] || "").trim();
           const lastName = (runner["Last Name"] || "").trim();
           fullName = `${firstName} ${lastName}`.trim();
@@ -264,6 +51,7 @@
       });
     }
 
+    // Load CSV (make sure runnerskemah.csv is in the same folder as this HTML file)
     Papa.parse("runnerskemah.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
@@ -272,6 +60,7 @@
       }
     });
 
+    // Search filter
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
@@ -280,5 +69,3 @@
       });
     });
   </script>
-</body>
-</html>
