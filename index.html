@@ -6,16 +6,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
-    header { background: #222; color: #fff; padding: 20px 0; text-align: center; }
+    header { background: #222; color: #fff; padding: 20px 0; text-align: center; position: relative; }
     nav { margin: 10px 0; }
     nav a { color: #fff; margin: 0 12px; text-decoration: none; font-weight: bold; }
     nav a:hover { text-decoration: underline; }
-    .hero { background: #ff9800; color: #fff; padding: 40px 20px; text-align: center; }
+    .dropdown { display: inline-block; position: relative; }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #222;
+      min-width: 200px;
+      z-index: 1;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 10px 15px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .dropdown-content a:hover { background-color: #444; }
+    .dropdown:hover .dropdown-content { display: block; }
+    .hero { background: #ff9800; color: #fff; padding: 60px 20px; text-align: center; }
     .section { padding: 30px 20px; background: #fff; margin: 20px auto; max-width: 900px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);}
-    .events { background: #e0f7fa; }
-    .event { margin: 10px 0; }
     footer { background: #222; color: #fff; text-align: center; padding: 15px 0; margin-top: 40px;}
     .social a { color: #ff9800; margin: 0 8px; text-decoration: none; }
+    .social a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -24,25 +41,31 @@
     <nav>
       <a href="https://3brosrunning.com/">Home</a>
       <a href="#about">About</a>
-      <a href="#events">Events</a>
-      <a href="#contact">Contact</a>
-      <a href="legacykemah.html">Kemah Legacy</a>
-      <a href="legacygalveston.html">Galveston Legacy</a>
-      <a href="legacylaporte.html">La Porte Legacy</a>
-      <a href="legacytbs.html">Texas Bridge Series Legacy</a>
-      <a href="legacyluckychallenge.html">Lucky Trails Legacy</a>
-      <a href="legacypelicanchallenge.html">Pelican Challenge Legacy</a>
-      <a href="legacysbfull.html">Seabrook Full Legacy</a>
-      <a href="legacysbhalf.html">Seabrook Half Legacy</a>
+
+      <!-- Legacy Dropdown -->
+      <div class="dropdown">
+        <a href="#">Legacy &#9662;</a>
+        <div class="dropdown-content">
+          <a href="legacykemah.html">Kemah Legacy</a>
+          <a href="legacygalveston.html">Galveston Legacy</a>
+          <a href="legacylaporte.html">La Porte Legacy</a>
+          <a href="legacytbs.html">Texas Bridge Series Legacy</a>
+          <a href="legacyluckychallenge.html">Lucky Trails Legacy</a>
+          <a href="legacypelicanchallenge.html">Pelican Challenge Legacy</a>
+          <a href="legacysbfull.html">Seabrook Full Legacy</a>
+          <a href="legacysbhalf.html">Seabrook Half Legacy</a>
+        </div>
+      </div>
+
       <a href="https://runsignup.com/w/TexasBridgeSeries">Texas Bridge Series</a>
       <a href="https://seabrookluckytrails.com/">Lucky Trails Challenge</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <div class="hero">
     <h2>Bringing Big City Race Experiences to Smaller Cities!</h2>
-    <p>Join us for upcoming races and make each city a destination for runners and families.</p>
-    <a href="#events" style="background:#fff; color:#ff9800; padding:10px 20px; border-radius:5px; font-weight:bold; text-decoration:none;">See Upcoming Events</a>
+    <p>Join us for races that make every city a destination for runners and families.</p>
   </div>
 
   <div class="section" id="about">
@@ -51,28 +74,15 @@
     <p>Founded by three brothers passionate about running and building a healthier community.</p>
   </div>
 
-  <div class="section events" id="events">
-    <h2>Upcoming Events</h2>
-    <div class="event">
-      <strong>Beaumont 5K</strong> - October 12, 2025 <a href="#">Register</a>
-    </div>
-    <div class="event">
-      <strong>Houston Half Marathon</strong> - November 8, 2025 <a href="#">Register</a>
-    </div>
-    <div class="event">
-      <strong>Galveston Fun Run</strong> - December 6, 2025 <a href="#">Register</a>
+  <div class="section" id="contact">
+    <h2>Contact Us</h2>
+    <p>Email: <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></p>
+    <div class="social">
+      <a href="https://instagram.com/3brosrunning" target="_blank">Instagram</a> | 
+      <a href="https://facebook.com/3brosrunning" target="_blank">Facebook</a> | 
+      <a href="https://twitter.com/3brosrunning" target="_blank">Twitter</a>
     </div>
   </div>
-
-<div class="section" id="contact">
-  <h2>Contact Us</h2>
-  <p>Email: <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></p>
-  <div class="social">
-    <a href="https://instagram.com/3brosrunning" target="_blank">Instagram</a> | 
-    <a href="https://facebook.com/3brosrunning" target="_blank">Facebook</a> | 
-    <a href="https://twitter.com/3brosrunning" target="_blank">Twitter</a>
-  </div>
-</div>
 
   <footer>
     &copy; 2025 3 Bros Running Company. All Rights Reserved.
