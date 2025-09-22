@@ -69,7 +69,6 @@
       color: #0056b3;
       text-decoration: underline;
     }
-
     .search-container {
       text-align: center;
       margin: 30px 0;
@@ -126,7 +125,6 @@
       color: #666;
       margin-top: 5px;
     }
-
     /* Highlight classes */
     .highlight-most-years {
       border: 2px solid #ffc107;
@@ -185,13 +183,8 @@
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
-
-    @media (max-width: 768px) {
-      .runner-card { flex-basis: calc(50% - 15px); }
-    }
-    @media (max-width: 500px) {
-      .runner-card { flex-basis: 100%; }
-    }
+    @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
+    @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
   </style>
 </head>
 <body>
@@ -226,23 +219,9 @@
     <div id="runnerList">Loading runners…</div>
   </div>
 
-  <!-- PapaParse for CSV parsing -->
+  <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
-    async function loadCSV(url) {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('CSV file not found');
-        const csvText = await response.text();
-        const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-        return parsed.data;
-      } catch (err) {
-        console.error(err);
-        document.getElementById('runnerList').innerText = "Failed to load runner data. Make sure runnerslucky.csv is in the same folder.";
-        return [];
-      }
-    }
-
     function getHighlightClass(years, maxYears) {
       if (years === maxYears) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
@@ -263,26 +242,35 @@
 
       data.forEach(runner => {
         const years = parseInt(runner.Years);
-        if (!runner.Name || isNaN(years)) return;
+        if (!runner.First || !runner.Last || isNaN(years)) return;
+
+        const fullName = runner.First + " " + runner.Last;
+
         const card = document.createElement("div");
         card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
         card.setAttribute("data-years", years);
         card.style.paddingTop = "30px";
         card.innerHTML = `
-          <p class="runner-name">${runner.Name}</p>
+          <p class="runner-name">${fullName}</p>
           <p class="runner-count">${years} years</p>
         `;
         runnerList.appendChild(card);
       });
     }
 
-    // Load CSV reliably
-    (async () => {
-      const runners = await loadCSV('runnerslucky.csv?v=' + new Date().getTime());
-      renderRunners(runners);
-    })();
+    Papa.parse("runnerslucky.csv?v=" + new Date().getTime(), {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        renderRunners(results.data);
+      },
+      error: function(err) {
+        document.getElementById("runnerList").innerText = "Error loading runner data.";
+        console.error(err);
+      }
+    });
 
-    // Search functionality
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
