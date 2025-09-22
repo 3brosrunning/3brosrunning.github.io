@@ -223,12 +223,26 @@
       <input type="text" id="runnerSearch" placeholder="Search for a runner...">
     </div>
 
-    <div id="runnerList"></div>
+    <div id="runnerList">Loading runners…</div>
   </div>
 
   <!-- PapaParse for CSV parsing -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
+    async function loadCSV(url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('CSV file not found');
+        const csvText = await response.text();
+        const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+        return parsed.data;
+      } catch (err) {
+        console.error(err);
+        document.getElementById('runnerList').innerText = "Failed to load runner data. Make sure runnerslucky.csv is in the same folder.";
+        return [];
+      }
+    }
+
     function getHighlightClass(years, maxYears) {
       if (years === maxYears) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
@@ -239,10 +253,12 @@
     function renderRunners(data) {
       const runnerList = document.getElementById("runnerList");
       runnerList.innerHTML = "";
+      if (data.length === 0) {
+        runnerList.innerText = "No runner data available.";
+        return;
+      }
 
-      const yearsList = data
-        .map(r => parseInt(r.Years))
-        .filter(y => !isNaN(y));
+      const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
       const maxYears = Math.max(...yearsList);
 
       data.forEach(runner => {
@@ -260,14 +276,13 @@
       });
     }
 
-    Papa.parse("runnerslucky.csv?v=" + new Date().getTime(), {
-      download: true,
-      header: true,
-      complete: function(results) {
-        renderRunners(results.data);
-      }
-    });
+    // Load CSV reliably
+    (async () => {
+      const runners = await loadCSV('runnerslucky.csv?v=' + new Date().getTime());
+      renderRunners(runners);
+    })();
 
+    // Search functionality
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
