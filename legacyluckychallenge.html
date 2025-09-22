@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Legacy Runners - 3 Bros Running Company</title>
+  <title>Legacy Lucky Trails Challenge - 3 Bros Running Company</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { 
@@ -56,6 +56,18 @@
       margin-top: 26px;
       font-size: 0.98rem;
       color: #888;
+    }
+    .back-link {
+      margin-top: 16px;
+      display: inline-block;
+      font-weight: bold;
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-link:hover {
+      color: #0056b3;
+      text-decoration: underline;
     }
 
     .search-container {
@@ -115,7 +127,7 @@
       margin-top: 5px;
     }
 
-    /* Highlight for Top Legacy Runner */
+    /* Highlight classes */
     .highlight-most-years {
       border: 2px solid #ffc107;
       background-color: #fff8e1;
@@ -135,8 +147,6 @@
       letter-spacing: 1px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
-
-    /* Highlight for 10+ years */
     .highlight-10plus {
       border: 2px solid #007bff;
       background-color: #e6f2ff;
@@ -156,8 +166,6 @@
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
-
-    /* Highlight for 5+ years */
     .highlight-5plus {
       border: 2px solid #4CAF50;
       background-color: #eaf7e9;
@@ -188,33 +196,33 @@
 </head>
 <body>
   <div class="legacy-header">
-    <h1>Honoring Our Legacy Runners</h1>
-    <h3>Celebrating Endurance, Commitment, and Community</h3>
+    <h1>Honoring Our Lucky Trails Champions</h1>
+    <h3>Celebrating Determination, Grit, and the Human Spirit</h3>
   </div>
 
   <div class="legacy-content">
     <div class="content-text">
       <p>
-        We are proud to honor the remarkable runners who have completed the <strong>Toughest 10K Kemah</strong> year after year. Your dedication to conquering this challenging course has made you an enduring part of our community and history.
+        The <strong>Lucky Trails Challenge</strong> isn’t just a test of endurance—it’s a celebration of determination, grit, and the human spirit. Completing both a full marathon on Saturday and a half marathon on Sunday, these runners conquer an astounding 36.3 miles over one unforgettable weekend.
       </p>
-      <p>Each year, you show resilience, strength, and unwavering commitment, inspiring us all.</p>
+      <p>
+        We call it the Lucky Trails Challenge because luck is earned here—mile by mile. This challenge takes place on scenic trails that twist and turn like the paths life often throws at us. Those who take it on embody perseverance, finding fortune in the triumph of their own willpower.
+      </p>
       <p class="gratitude">
-        Below is a list of our esteemed legacy runners—those who have embraced the Toughest 10K Kemah challenge time and time again.<br><br>
-        Thank you for being an essential part of our journey.<br>
-        We look forward to cheering you on in many more races to come!
+        What’s more inspiring? These remarkable athletes have tackled this feat more than ten times! Their achievements stand as a testament to the magic of commitment and the joy of embracing a challenge head-on. To our Lucky Trails legends, we salute you for proving that fortune truly favors the bold.
       </p>
       <p>With heartfelt gratitude,<br><strong>The 3 Bros Running Company Team</strong></p>
       <p class="contact">
-        <em>As of 2025 – for questions or corrections, contact us at 
+        <em>As of 9/22/25 – questions or corrections, contact us at 
         <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
       </p>
+      <a href="https://seabrookluckytrails.com/" class="back-link">Return to Lucky Trails Challenge Website</a>
     </div>
 
     <div class="search-container">
       <input type="text" id="runnerSearch" placeholder="Search for a runner...">
     </div>
 
-    <!-- Runner list will be filled by JS -->
     <div id="runnerList"></div>
   </div>
 
@@ -222,7 +230,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years"; // all ties get gold
+      if (years === maxYears) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
@@ -232,15 +240,14 @@
       const runnerList = document.getElementById("runnerList");
       runnerList.innerHTML = "";
 
-      // Find the maximum years for "Top Legacy Runner"
       const yearsList = data
         .map(r => parseInt(r.Years))
-        .filter(y => !isNaN(y)); // ignore empty or bad rows
+        .filter(y => !isNaN(y));
       const maxYears = Math.max(...yearsList);
 
       data.forEach(runner => {
         const years = parseInt(runner.Years);
-        if (!runner.Name || isNaN(years)) return; // skip bad rows
+        if (!runner.Name || isNaN(years)) return;
         const card = document.createElement("div");
         card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
         card.setAttribute("data-years", years);
@@ -253,7 +260,6 @@
       });
     }
 
-    // Load the CSV (with cache-busting)
     Papa.parse("runnerslucky.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
@@ -262,7 +268,6 @@
       }
     });
 
-    // Search filter
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
