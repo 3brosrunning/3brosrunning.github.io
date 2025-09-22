@@ -1,8 +1,176 @@
-  <!-- PapaParse for CSV parsing -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kemah Legacy Runners - 3 Bros Running Company</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: #f7f8fa; 
+      margin: 0; 
+      color: #333;
+    }
+    .legacy-header {
+      background: linear-gradient(100deg, #2196f3 0%, #64b5f6 100%);
+      color: #fff;
+      padding: 40px 20px 20px 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+    .legacy-header h1 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .legacy-header h3 {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .legacy-content {
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .search-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    #runnerSearch {
+      width: 90%;
+      max-width: 500px;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    #runnerSearch:focus {
+      outline: none;
+      border-color: #2196f3;
+      box-shadow: 0 0 8px rgba(33, 150, 243, 0.2);
+    }
+    #runnerList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 0;
+    }
+    .runner-card {
+      position: relative;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-basis: calc(33.33% - 20px);
+      box-sizing: border-box;
+      min-width: 250px;
+    }
+    .runner-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
+    .runner-name {
+      font-size: 1.25em;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .runner-count {
+      font-size: 1em;
+      color: #666;
+      margin-top: 5px;
+    }
+    /* Highlight classes */
+    .highlight-most-years {
+      border: 2px solid #ffc107;
+      background-color: #fff8e1;
+    }
+    .highlight-most-years::before {
+      content: 'Top Legacy Runner';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffc107;
+      color: #333;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 0.9em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .highlight-10plus {
+      border: 2px solid #007bff;
+      background-color: #e6f2ff;
+    }
+    .highlight-10plus::before {
+      content: '10+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .highlight-5plus {
+      border: 2px solid #4CAF50;
+      background-color: #eaf7e9;
+    }
+    .highlight-5plus::before {
+      content: '5+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #4CAF50;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
+    @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="legacy-header">
+    <h1>Kemah Legacy Runners</h1>
+    <h3>Celebrating Years of Dedication</h3>
+  </div>
+
+  <div class="legacy-content">
+    <div class="search-container">
+      <input type="text" id="runnerSearch" placeholder="Search for a runner...">
+    </div>
+
+    <div id="runnerList">Loading runners…</div>
+  </div>
+
+  <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years";
+      if (years === maxYears) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
@@ -11,33 +179,19 @@
     function renderRunners(data) {
       const runnerList = document.getElementById("runnerList");
       runnerList.innerHTML = "";
+      if (data.length === 0) {
+        runnerList.innerText = "No runner data available.";
+        return;
+      }
 
-      const yearsList = data
-        .map(r => parseInt(r.Years))
-        .filter(y => !isNaN(y));
+      const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
       const maxYears = Math.max(...yearsList);
 
       data.forEach(runner => {
         const years = parseInt(runner.Years);
+        if (!runner.First || !runner.Last || isNaN(years)) return;
 
-        // Build full name depending on CSV format
-        let fullName = "";
-        if (runner.Name) {
-          // If there's a single Name column
-          fullName = runner.Name.trim();
-        } else if (runner.First || runner.Last) {
-          // If using "First" and "Last"
-          const firstName = (runner.First || "").trim();
-          const lastName = (runner.Last || "").trim();
-          fullName = `${firstName} ${lastName}`.trim();
-        } else {
-          // Fallback for "First Name" + "Last Name"
-          const firstName = (runner["First Name"] || "").trim();
-          const lastName = (runner["Last Name"] || "").trim();
-          fullName = `${firstName} ${lastName}`.trim();
-        }
-
-        if (!fullName || isNaN(years)) return;
+        const fullName = runner.First + " " + runner.Last;
 
         const card = document.createElement("div");
         card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
@@ -51,16 +205,19 @@
       });
     }
 
-    // Load CSV (make sure runnerskemah.csv is in the same folder as this HTML file)
     Papa.parse("runnerskemah.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
+      skipEmptyLines: true,
       complete: function(results) {
         renderRunners(results.data);
+      },
+      error: function(err) {
+        document.getElementById("runnerList").innerText = "Error loading runner data.";
+        console.error(err);
       }
     });
 
-    // Search filter
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
@@ -69,3 +226,5 @@
       });
     });
   </script>
+</body>
+</html>
