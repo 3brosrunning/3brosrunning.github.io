@@ -2,52 +2,191 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Kemah Runners</title>
+  <title>Legacy Lucky Trails Challenge - 3 Bros Running Company</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f9f9f9;
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: #f7f8fa; 
+      margin: 0; 
       color: #333;
     }
-    h1 {
-      color: #ff9800;
+    .legacy-header {
+      background: linear-gradient(100deg, #ff9800 0%, #ffd54f 100%);
+      color: #222;
+      padding: 40px 20px 20px 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
     }
-    .intro {
+    .legacy-header h1 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    }
+    .legacy-header h3 {
+      font-size: 1.5rem;
+      margin-top: 10px;
       margin-bottom: 20px;
+    }
+    .legacy-content {
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .content-text {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+      padding: 36px 28px;
+      font-size: 1.15rem;
+      line-height: 1.7;
+    }
+    .gratitude {
+      font-style: italic;
+      color: #ff9800;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 24px;
+      border-left: 4px solid #ffd54f;
+      padding-left: 12px;
+      background: #fffbe9;
+    }
+    .contact {
+      margin-top: 26px;
+      font-size: 0.98rem;
+      color: #888;
+    }
+    .back-link {
+      margin-top: 16px;
+      display: inline-block;
+      font-weight: bold;
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-link:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    .search-container {
+      text-align: center;
+      margin: 30px 0;
     }
     #runnerSearch {
-      margin-bottom: 20px;
-      padding: 8px;
-      width: 250px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      width: 90%;
+      max-width: 500px;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+    #runnerSearch:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
     }
     #runnerList {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      justify-content: center;
+      gap: 20px;
+      padding: 0;
     }
     .runner-card {
-      background: white;
-      border-radius: 8px;
-      padding: 10px 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      width: 180px;
+      position: relative;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-basis: calc(33.33% - 20px);
+      box-sizing: border-box;
+      min-width: 250px;
+    }
+    .runner-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
     }
     .runner-name {
-      font-weight: bold;
+      font-size: 1.25em;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .runner-count {
+      font-size: 1em;
       color: #666;
+      margin-top: 5px;
     }
-    /* Highlight styles */
-    .highlight-most-years { border: 2px solid gold; }
-    .highlight-10plus { border: 2px solid #4caf50; }
-    .highlight-5plus { border: 2px solid #2196f3; }
+    /* Highlight classes */
+    .highlight-most-years {
+      border: 2px solid #ffc107;
+      background-color: #fff8e1;
+    }
+    .highlight-most-years::before {
+      content: 'Top Legacy Runner';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffc107;
+      color: #333;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 0.9em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .highlight-10plus {
+      border: 2px solid #007bff;
+      background-color: #e6f2ff;
+    }
+    .highlight-10plus::before {
+      content: '10+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .highlight-5plus {
+      border: 2px solid #4CAF50;
+      background-color: #eaf7e9;
+    }
+    .highlight-5plus::before {
+      content: '5+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #4CAF50;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
+    @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
 
-    /* Floating button */
+    /* Floating button styles */
     .floating-btn {
       position: fixed;
       bottom: 20px;
@@ -67,7 +206,7 @@
       transform: translateY(-3px);
     }
 
-    /* Mobile tweak: center the button */
+    /* Mobile tweak: center the floating button */
     @media (max-width: 600px) {
       .floating-btn {
         left: 50%;
@@ -76,38 +215,49 @@
       }
     }
   </style>
-  <!-- PapaParse for CSV parsing -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
-  <h1>Kemah Runners</h1>
-  <div class="intro">
-    <p>
-      Welcome to the Kemah Runners list! These are the runners who have been part 
-      of our series over the years. Interested in more races? 
-      <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" target="_blank">
-        Check out the Texas Bridge Series here
-      </a>.
-    </p>
-    <p><strong>Date Updated:</strong> September 22, 2025</p>
-    <p><strong>Questions?</strong> Contact us at 
-      <a href="mailto:admin@3brosrunning">admin@3brosrunning</a>
-    </p>
+  <div class="legacy-header">
+    <h1>Honoring Our Lucky Trails Champions</h1>
+    <h3>Celebrating Determination, Grit, and the Human Spirit</h3>
   </div>
 
-  <input type="text" id="runnerSearch" placeholder="Search runners...">
-  <div id="runnerList"></div>
+  <div class="legacy-content">
+    <div class="content-text">
+      <p>
+        The <strong>Lucky Trails Challenge</strong> isn’t just a test of endurance—it’s a celebration of determination, grit, and the human spirit. Completing both a full marathon on Saturday and a half marathon on Sunday, these runners conquer an astounding 36.3 miles over one unforgettable weekend.
+      </p>
+      <p>
+        We call it the Lucky Trails Challenge because luck is earned here—mile by mile. This challenge takes place on scenic trails that twist and turn like the paths life often throws at us. Those who take it on embody perseverance, finding fortune in the triumph of their own willpower.
+      </p>
+      <p class="gratitude">
+        What’s more inspiring? These remarkable athletes have tackled this feat more than ten times! Their achievements stand as a testament to the magic of commitment and the joy of embracing a challenge head-on. To our Lucky Trails legends, we salute you for proving that fortune truly favors the bold.
+      </p>
+      <p>With heartfelt gratitude,<br><strong>The 3 Bros Running Company Team</strong></p>
+      <p class="contact">
+        <em>As of 9/22/25 – questions or corrections, contact us at 
+        <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
+      </p>
+      <a href="https://seabrookluckytrails.com/" class="back-link">Return to Lucky Trails Challenge Website</a>
+    </div>
+
+    <div class="search-container">
+      <input type="text" id="runnerSearch" placeholder="Search for a runner...">
+    </div>
+
+    <div id="runnerList">Loading runners…</div>
+  </div>
 
   <!-- Floating button -->
-  <a href="https://seabrookluckytrails.com/" 
-     class="floating-btn" 
-     target="_blank">
-     ← Back to Lucky Trails
+  <a href="https://seabrookluckytrails.com/" class="floating-btn" target="_blank">
+    ← Back to Lucky Trails
   </a>
 
+  <!-- PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years";
+      if (years === maxYears) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
@@ -116,19 +266,19 @@
     function renderRunners(data) {
       const runnerList = document.getElementById("runnerList");
       runnerList.innerHTML = "";
+      if (data.length === 0) {
+        runnerList.innerText = "No runner data available.";
+        return;
+      }
 
       const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
       const maxYears = Math.max(...yearsList);
 
       data.forEach(runner => {
-        const first = (runner.First || "").trim();
-        const last = (runner.Last || "").trim();
         const years = parseInt(runner.Years);
+        if (!runner.First || !runner.Last || isNaN(years)) return;
 
-        if (!first && !last) return;
-        if (isNaN(years)) return;
-
-        const fullName = `${first} ${last}`.trim();
+        const fullName = runner.First + " " + runner.Last;
 
         const card = document.createElement("div");
         card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
@@ -142,11 +292,16 @@
       });
     }
 
-    Papa.parse("runnerskemah.csv?v=" + new Date().getTime(), {
+    Papa.parse("runnerslucky.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
+      skipEmptyLines: true,
       complete: function(results) {
         renderRunners(results.data);
+      },
+      error: function(err) {
+        document.getElementById("runnerList").innerText = "Error loading runner data.";
+        console.error(err);
       }
     });
 
