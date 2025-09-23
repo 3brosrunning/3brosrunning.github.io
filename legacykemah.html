@@ -185,6 +185,48 @@
     }
     @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
     @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
+
+    /* Floating button */
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #2196f3;
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 999;
+    }
+    .floating-btn:hover {
+      background-color: #1976d2;
+    }
+    .floating-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+    @media (max-width: 600px) {
+      .floating-btn {
+        padding: 10px;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        justify-content: center;
+      }
+      .floating-btn .btn-text {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -215,6 +257,12 @@
 
     <div id="runnerList">Loading runners…</div>
   </div>
+
+  <!-- Floating button -->
+  <a href="https://runsignup.com/Race/TX/Kemah/Toughest10Kemah" class="floating-btn" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    <span class="btn-text">10K Kemah</span>
+  </a>
 
   <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
