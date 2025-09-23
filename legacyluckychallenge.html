@@ -215,20 +215,19 @@
       flex-shrink: 0;
     }
 
-    /* Mobile tweak: center + icon only */
-    @media (max-width: 600px) {
+    /* Mobile tweak: smaller, circular, aligned right */
+      @media (max-width: 600px) {
       .floating-btn {
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        font-size: 1.2rem;
-        padding: 10px;
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        justify-content: center;
+      left: auto;
+      right: 20px;          /* move back to right side */
+      transform: none;      /* remove centering */
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      justify-content: center;
       }
-
       .floating-btn .btn-text {
         display: none;
       }
