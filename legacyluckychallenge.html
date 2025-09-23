@@ -200,18 +200,37 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       transition: background 0.3s ease, transform 0.2s ease;
       z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .floating-btn:hover {
       background: #e68900;
       transform: translateY(-3px);
     }
 
-    /* Mobile tweak: center the floating button */
+    .floating-btn svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Mobile tweak: center + icon only */
     @media (max-width: 600px) {
       .floating-btn {
         left: 50%;
         right: auto;
         transform: translateX(-50%);
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        justify-content: center;
+      }
+
+      .floating-btn .btn-text {
+        display: none;
       }
     }
   </style>
@@ -250,7 +269,10 @@
 
   <!-- Floating button -->
   <a href="https://seabrookluckytrails.com/" class="floating-btn" target="_blank">
-    ← Back to Lucky Trails
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+    </svg>
+    <span class="btn-text">Back to Lucky Trails</span>
   </a>
 
   <!-- PapaParse -->
