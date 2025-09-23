@@ -185,6 +185,53 @@
     }
     @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
     @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
+
+    /* Floating button styles */
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #00bcd4;
+      color: #222;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      transition: background 0.3s ease, transform 0.2s ease;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .floating-btn:hover {
+      background: #0097a7;
+      transform: translateY(-3px);
+    }
+
+    .floating-btn svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Mobile tweak: smaller, circular, aligned right */
+    @media (max-width: 600px) {
+      .floating-btn {
+        left: auto;
+        right: 20px;
+        transform: none;
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        justify-content: center;
+      }
+      .floating-btn .btn-text {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -209,7 +256,7 @@
         <em>As of 9/22/25 – questions or corrections, contact us at 
         <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
       </p>
-      <a href="https://3brosrunning.com" class="back-link">Return to 3 Bros Running Company Main Page</a>
+      <a href="https://seabrookluckytrails.com/" class="back-link">Return to Lucky Trails Challenge Website</a>
     </div>
 
     <div class="search-container">
@@ -218,6 +265,14 @@
 
     <div id="runnerList">Loading runners…</div>
   </div>
+
+  <!-- Floating button -->
+  <a href="https://seabrookluckytrails.com/" class="floating-btn" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+    </svg>
+    <span class="btn-text">Back to Lucky Trails</span>
+  </a>
 
   <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
