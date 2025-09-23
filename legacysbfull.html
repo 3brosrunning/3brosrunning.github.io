@@ -183,6 +183,49 @@
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
+
+    /* Floating button */
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+    .floating-btn:hover {
+      background: #e64a19;
+      transform: translateY(-2px);
+    }
+    .floating-btn::before {
+      content: "🏃";
+      margin-right: 8px;
+    }
+    /* Mobile: round icon only */
+    @media (max-width: 600px) {
+      .floating-btn {
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+        padding: 0;
+        font-size: 22px;
+      }
+      .floating-btn::before {
+        margin: 0;
+      }
+      .floating-btn span {
+        display: none;
+      }
+    }
+
     @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
     @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
   </style>
@@ -215,6 +258,11 @@
 
     <div id="runnerList">Loading runners…</div>
   </div>
+
+  <!-- Floating button -->
+  <button class="floating-btn" onclick="window.location.href='https://seabrookluckytrails.com'">
+    <span>Seabrook Lucky Trails</span>
+  </button>
 
   <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
