@@ -185,6 +185,48 @@
     }
     @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
     @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
+
+    /* Floating Button */
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #8e24aa;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 22px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.2s ease;
+      z-index: 1000;
+    }
+    .floating-btn:hover {
+      background: #5e1670;
+      transform: translateY(-2px);
+    }
+    .floating-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+    }
+    /* Mobile → icon only */
+    @media (max-width: 600px) {
+      .floating-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        padding: 0;
+        justify-content: center;
+      }
+      .floating-btn span { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -219,65 +261,9 @@
     <div id="runnerList">Loading runners…</div>
   </div>
 
-  <!-- PapaParse -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script>
-    function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years"; 
-      if (years >= 10) return "highlight-10plus";
-      if (years >= 5) return "highlight-5plus";
-      return "";
-    }
-
-    function renderRunners(data) {
-      const runnerList = document.getElementById("runnerList");
-      runnerList.innerHTML = "";
-      if (data.length === 0) {
-        runnerList.innerText = "No runner data available.";
-        return;
-      }
-
-      const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
-      const maxYears = Math.max(...yearsList);
-
-      data.forEach(runner => {
-        const years = parseInt(runner.Years);
-        if (!runner.First || !runner.Last || isNaN(years)) return;
-
-        const fullName = runner.First + " " + runner.Last;
-
-        const card = document.createElement("div");
-        card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
-        card.setAttribute("data-years", years);
-        card.style.paddingTop = "30px";
-        card.innerHTML = `
-          <p class="runner-name">${fullName}</p>
-          <p class="runner-count">${years} years</p>
-        `;
-        runnerList.appendChild(card);
-      });
-    }
-
-    Papa.parse("runnerslaporte.csv?v=" + new Date().getTime(), {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: function(results) {
-        renderRunners(results.data);
-      },
-      error: function(err) {
-        document.getElementById("runnerList").innerText = "Error loading runner data.";
-        console.error(err);
-      }
-    });
-
-    document.getElementById("runnerSearch").addEventListener("input", function() {
-      const term = this.value.toLowerCase();
-      document.querySelectorAll(".runner-card").forEach(card => {
-        const name = card.querySelector(".runner-name").innerText.toLowerCase();
-        card.style.display = name.includes(term) ? "" : "none";
-      });
-    });
-  </script>
-</body>
-</html>
+  <!-- Floating Button -->
+  <a href="https://runsignup.com/Race/TX/LaPorte/LaPorteByTheBayHalf" class="floating-btn" target="_blank">
+    <span>La Porte Half</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M10 17l5-5-5-5v10z"/>
+    </s
