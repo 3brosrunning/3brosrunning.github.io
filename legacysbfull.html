@@ -258,7 +258,6 @@
     <div id="runnerList">Loading runners…</div>
   </div>
 
-  <!-- Floating button -->
   <a href="https://seabrookluckytrails.com" class="floating-btn">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
@@ -266,9 +265,11 @@
     <span class="btn-text">Back to Lucky Trails</span>
   </a>
 
-  <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
+    // Global storage for runner data
+    let allRunners = [];
+
     function getHighlightClass(years, maxYears) {
       if (years === maxYears) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
@@ -276,41 +277,45 @@
       return "";
     }
 
+    // Optimized Rendering: Builds the entire list as a string first
     function renderRunners(data) {
       const runnerList = document.getElementById("runnerList");
-      runnerList.innerHTML = "";
+      
       if (data.length === 0) {
-        runnerList.innerText = "No runner data available.";
+        runnerList.innerHTML = "No runner data available.";
         return;
       }
 
       const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
       const maxYears = Math.max(...yearsList);
 
-      data.forEach(runner => {
+      // Create a single HTML string for all cards to avoid DOM thrashing
+      const htmlBuffer = data.map(runner => {
         const years = parseInt(runner.Years);
-        if (!runner.First || !runner.Last || isNaN(years)) return;
+        if (!runner.First || !runner.Last || isNaN(years)) return "";
 
         const fullName = runner.First + " " + runner.Last;
+        const highlightClass = getHighlightClass(years, maxYears);
 
-        const card = document.createElement("div");
-        card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
-        card.setAttribute("data-years", years);
-        card.style.paddingTop = "30px";
-        card.innerHTML = `
-          <p class="runner-name">${fullName}</p>
-          <p class="runner-count">${years} years</p>
+        return `
+          <div class="runner-card ${highlightClass}" style="padding-top: 30px;">
+            <p class="runner-name">${fullName}</p>
+            <p class="runner-count">${years} years</p>
+          </div>
         `;
-        runnerList.appendChild(card);
-      });
+      }).join('');
+
+      runnerList.innerHTML = htmlBuffer;
     }
 
+    // Load and Parse CSV
     Papa.parse("runnersmarathon.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
       skipEmptyLines: true,
       complete: function(results) {
-        renderRunners(results.data);
+        allRunners = results.data;
+        renderRunners(allRunners);
       },
       error: function(err) {
         document.getElementById("runnerList").innerText = "Error loading runner data.";
@@ -318,12 +323,22 @@
       }
     });
 
+    // Optimized Search: Hides the list while filtering to prevent layout stutter
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
-      document.querySelectorAll(".runner-card").forEach(card => {
+      const runnerList = document.getElementById("runnerList");
+      const cards = document.querySelectorAll(".runner-card");
+
+      // Hide list to stop the browser from animating layout changes while typing
+      runnerList.style.display = 'none';
+
+      cards.forEach(card => {
         const name = card.querySelector(".runner-name").innerText.toLowerCase();
         card.style.display = name.includes(term) ? "" : "none";
       });
+
+      // Show list again all at once
+      runnerList.style.display = 'flex';
     });
   </script>
 </body>
