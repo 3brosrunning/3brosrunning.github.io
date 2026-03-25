@@ -14,16 +14,36 @@
     .filter-btn.active { background: #ff5722; color: #fff; border-color: #ff5722; }
     
     #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-    .runner-card { position: relative; background: #fff; border-radius: 15px; padding: 50px 20px 20px; text-align: center; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
     
-    .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
-    .top-leader { border: 2.5px solid #d4af37; background: #fffdf0; } .top-leader .badge { background: #d4af37; color: #fff; }
-    .filter-leader { border: 2.5px solid #00acc1; background: #f0fbfc; } .filter-leader .badge { background: #00acc1; color: #fff; }
-    .legacy-20 { border: 2px solid #673ab7; } .legacy-20 .badge { background: #673ab7; color: #fff; }
-    .legacy-10 { border: 2px solid #007bff; } .legacy-10 .badge { background: #007bff; color: #fff; }
-    .legacy-5 { border: 2px solid #4caf50; } .legacy-5 .badge { background: #4caf50; color: #fff; }
+    /* Base Card Style */
+    .runner-card { position: relative; border-radius: 15px; padding: 50px 20px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform 0.2s; }
+    .runner-card:hover { transform: translateY(-5px); }
+    
+    .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; white-space: nowrap; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    
+    /* Full Tile Color Themes */
+    .tier-leader { background-color: #fffdf0; border: 2px solid #d4af37; }
+    .tier-leader .badge { background: #d4af37; color: #fff; }
 
-    .race-history { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.85rem; text-align: left; color: #555; }
+    .tier-filter-leader { background-color: #e0f7fa; border: 2px solid #00acc1; }
+    .tier-filter-leader .badge { background: #00acc1; color: #fff; }
+
+    .tier-20 { background-color: #ede7f6; border: 2px solid #673ab7; }
+    .tier-20 .badge { background: #673ab7; color: #fff; }
+
+    .tier-15 { background-color: #e8eaf6; border: 2px solid #3f51b5; }
+    .tier-15 .badge { background: #3f51b5; color: #fff; }
+
+    .tier-10 { background-color: #e3f2fd; border: 2px solid #007bff; }
+    .tier-10 .badge { background: #007bff; color: #fff; }
+
+    .tier-5 { background-color: #e8f5e9; border: 2px solid #4caf50; }
+    .tier-5 .badge { background: #4caf50; color: #fff; }
+
+    /* Default (Under 5 years) */
+    .tier-base { background-color: #ffffff; border: 1px solid #ddd; }
+
+    .race-history { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.85rem; text-align: left; color: #444; }
   </style>
 </head>
 <body>
@@ -62,7 +82,6 @@
         let count = parseInt(r.Total_Years);
         let label = "Years Participated";
         
-        // Match specific counts for filters
         if (currentFilter === "Trail") { count = parseInt(r.Trail_Challenges) || 0; label = "Trail Challenges"; }
         else if (currentFilter === "Pelican") { count = parseInt(r.Pelican_Challenges) || 0; label = "Pelican Challenges"; }
         else if (currentFilter !== "all") { 
@@ -76,7 +95,7 @@
           return nameMatch && hasRaces;
       });
 
-      // Sort descending by count. If tied, sort by name.
+      // Sort descending by count. If tied, sort alphabetically.
       processed.sort((a, b) => b.count - a.count || a.Name.localeCompare(b.Name));
       
       const catMax = processed.length > 0 ? processed[0].count : 0;
@@ -89,27 +108,23 @@
 
       runnerList.innerHTML = processed.map(runner => {
         const overall = parseInt(runner.Total_Years);
-        let highlight = ""; let badge = "";
+        let highlight = "tier-base"; 
+        let badge = "";
         
-        // Priority logic for Badges (Supports exact ties perfectly)
-        if (overall === globalMax) { highlight = "top-leader"; badge = "Overall Legacy Leader"; }
-        else if (currentFilter !== 'all' && runner.count === catMax && runner.count > 0) { highlight = "filter-leader"; badge = currentFilter + " Leader"; }
-        else if (overall >= 20) { highlight = "legacy-20"; badge = "20+ Year Legend"; }
-        else if (overall >= 15) { highlight = "legacy-15"; badge = "15+ Year Veteran"; }
-        else if (overall >= 10) { highlight = "legacy-10"; badge = "10+ Year Legacy"; }
-        else if (overall >= 5) { highlight = "legacy-5"; badge = "5+ Year Legacy"; }
+        // Tier Assignment
+        if (overall === globalMax && currentFilter === 'all') { highlight = "tier-leader"; badge = "Overall Legacy Leader"; }
+        else if (currentFilter !== 'all' && runner.count === catMax && runner.count > 0) { highlight = "tier-filter-leader"; badge = currentFilter + " Leader"; }
+        else if (overall >= 20) { highlight = "tier-20"; badge = "20+ Year Legend"; }
+        else if (overall >= 15) { highlight = "tier-15"; badge = "15+ Year Veteran"; }
+        else if (overall >= 10) { highlight = "tier-10"; badge = "10+ Year Legacy"; }
+        else if (overall >= 5) { highlight = "tier-5"; badge = "5+ Year Legacy"; }
 
-        // Accurately display just the matching history lines based on the pure text
+        // Determine History Display based on EXACT strings created by Python script
         let displayHist = runner.rawHistory;
-        
         if (currentFilter === "Trail") {
-            displayHist = runner.rawHistory.filter(l => l.includes("Full") && l.includes("Half"));
+            displayHist = runner.rawHistory.filter(l => l.includes("Full, Half"));
         } else if (currentFilter === "Pelican") {
-            // Must have 2 Halves (Half, Half) and NO Full marathon
-            displayHist = runner.rawHistory.filter(l => {
-                const halfCount = (l.match(/Half/g) || []).length;
-                return halfCount >= 2 && !l.includes("Full");
-            });
+            displayHist = runner.rawHistory.filter(l => l.includes("Half, Half"));
         } else if (currentFilter !== "all") {
             displayHist = runner.rawHistory.filter(l => l.includes(currentFilter));
         }
@@ -122,7 +137,7 @@
             ${badge ? `<div class="badge">${badge}</div>` : ''}
             <div style="font-weight:700; font-size:1.2rem; color:#222;">${runner.Name}</div>
             <div style="color:#ff5722; font-weight:800; margin:5px 0;">${runner.count} ${runner.label}</div>
-            <div style="font-size:0.8rem; color:#888;">Total Overall: ${overall} Years</div>
+            <div style="font-size:0.8rem; color:#666; font-weight: 600;">Total Overall: ${overall} Years</div>
             <div class="race-history" style="display: block;">
               <strong>${historyTitle}:</strong>
               <div style="margin-top: 5px;">${historyHtml || "No qualifying races found."}</div>
