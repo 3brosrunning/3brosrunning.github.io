@@ -62,7 +62,7 @@
         let count = parseInt(r.Total_Years);
         let label = "Years Participated";
         
-        // Use the numeric columns from your CSV for the challenges
+        // Match specific counts for filters
         if (currentFilter === "Trail") { count = parseInt(r.Trail_Challenges) || 0; label = "Trail Challenges"; }
         else if (currentFilter === "Pelican") { count = parseInt(r.Pelican_Challenges) || 0; label = "Pelican Challenges"; }
         else if (currentFilter !== "all") { 
@@ -79,7 +79,6 @@
       // Sort descending by count. If tied, sort by name.
       processed.sort((a, b) => b.count - a.count || a.Name.localeCompare(b.Name));
       
-      // Get the highest score for the active filter to handle ties
       const catMax = processed.length > 0 ? processed[0].count : 0;
       const globalMax = Math.max(...allRunners.map(r => parseInt(r.Total_Years) || 0));
 
@@ -96,16 +95,17 @@
         if (overall === globalMax) { highlight = "top-leader"; badge = "Overall Legacy Leader"; }
         else if (currentFilter !== 'all' && runner.count === catMax && runner.count > 0) { highlight = "filter-leader"; badge = currentFilter + " Leader"; }
         else if (overall >= 20) { highlight = "legacy-20"; badge = "20+ Year Legend"; }
+        else if (overall >= 15) { highlight = "legacy-15"; badge = "15+ Year Veteran"; }
         else if (overall >= 10) { highlight = "legacy-10"; badge = "10+ Year Legacy"; }
         else if (overall >= 5) { highlight = "legacy-5"; badge = "5+ Year Legacy"; }
 
-        // Determine which history years to show based on the CSV strings
+        // Accurately display just the matching history lines based on the pure text
         let displayHist = runner.rawHistory;
         
         if (currentFilter === "Trail") {
             displayHist = runner.rawHistory.filter(l => l.includes("Full") && l.includes("Half"));
         } else if (currentFilter === "Pelican") {
-            // Must have 2 halves, but NO full marathon in the string
+            // Must have 2 Halves (Half, Half) and NO Full marathon
             displayHist = runner.rawHistory.filter(l => {
                 const halfCount = (l.match(/Half/g) || []).length;
                 return halfCount >= 2 && !l.includes("Full");
@@ -115,8 +115,6 @@
         }
 
         const historyHtml = displayHist.map(h => `<div>• ${h.trim()}</div>`).join('');
-        
-        // Always show the history list box
         const historyTitle = currentFilter === 'all' ? 'All Races' : currentFilter + ' Finishes';
 
         return `
