@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Legacy Seabrook Marathon - Seabrook Lucky Trails</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: #f7f8fa; 
+      margin: 0; 
+      color: #333;
+    }
+    .legacy-header {
+      background: linear-gradient(100deg, #ff5722 0%, #ff8a65 100%);
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+    .legacy-header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .legacy-header h3 {
+      font-size: 1.3rem;
+      margin-top: 10px;
+      font-weight: 400;
+    }
+    .legacy-content {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .content-text {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+      padding: 30px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+    .search-container {
+      text-align: center;
+      margin-bottom: 40px;
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+    }
+    #runnerSearch {
+      width: 90%;
+      max-width: 500px;
+      padding: 15px 25px;
+      font-size: 18px;
+      border: 3px solid #ff8a65;
+      border-radius: 50px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    #runnerSearch:focus {
+      outline: none;
+      border-color: #ff5722;
+      box-shadow: 0 10px 25px rgba(255, 87, 34, 0.2);
+    }
+    #runnerList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .runner-card {
+      position: relative;
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px 20px 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border: 1px solid #eee;
+      transition: transform 0.2s ease;
+    }
+    .runner-card:hover {
+      transform: translateY(-5px);
+    }
+    .runner-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 10px 0 5px;
+      color: #222;
+    }
+    .runner-count {
+      font-weight: 600;
+      color: #ff5722;
+      margin-bottom: 10px;
+    }
+    .race-history {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      font-size: 0.9rem;
+      color: #555;
+      text-align: left;
+      display: none; /* Shown during search */
+    }
+    /* Highlight Badges */
+    .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      white-space: nowrap;
+    }
+    .top-leader { border: 2px solid #d4af37; background: #fffdf0; }
+    .top-leader .badge { background: #d4af37; color: #fff; content: 'Overall Legacy Leader'; }
+    .legacy-20 { border: 2px solid #673ab7; background: #f3e5f5; }
+    .legacy-20 .badge { background: #673ab7; color: #fff; }
+    .legacy-15 { border: 2px solid #3f51b5; background: #e8eaf6; }
+    .legacy-15 .badge { background: #3f51b5; color: #fff; }
+    .legacy-10 { border: 2px solid #007bff; background: #e3f2fd; }
+    .legacy-10 .badge { background: #007bff; color: #fff; }
+    .legacy-5 { border: 2px solid #4caf50; background: #e8f5e9; }
+    .legacy-5 .badge { background: #4caf50; color: #fff; }
+
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ff5722;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    @media (max-width: 600px) {
+        .floating-btn span { display: none; }
+        .legacy-header h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="legacy-header">
+    <h1>Honoring Our Seabrook Legacy Runners</h1>
+    <h3>Celebrating Dedication, Endurance, and Every Single Mile</h3>
+  </div>
+
+  <div class="legacy-content">
+    <div class="content-text">
+      <p>The <strong>Seabrook Legacy</strong> honors those who return to our trails year after year. Whether you've completed 5 years or 20, every step is a testament to your commitment to the running community.</p>
+      <p><em>Search for your name below to see your personalized race history and legacy status.</em></p>
+    </div>
+
+    <div class="search-container">
+      <input type="text" id="runnerSearch" placeholder="Type your name to see your history...">
+    </div>
+
+    <div id="runnerList">Loading our legends...</div>
+  </div>
+
+  <a href="https://seabrookluckytrails.com" class="floating-btn">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+    <span>Back to Race Site</span>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    let allRunners = [];
+    let maxYears = 0;
+
+    function renderRunners(data, searchTerm = "") {
+      const runnerList = document.getElementById("runnerList");
+      const isSearching = searchTerm.length > 0;
+      
+      const filtered = isSearching 
+        ? data.filter(r => r.Name.toLowerCase().includes(searchTerm.toLowerCase()))
+        : data;
+
+      if (filtered.length === 0) {
+        runnerList.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No runners found matching "${searchTerm}".</div>`;
+        return;
+      }
+
+      runnerList.innerHTML = filtered.map(runner => {
+        const years = parseInt(runner.Total_Years);
+        let highlightClass = "";
+        let badgeText = "";
+
+        // Highlight Logic
+        if (years === maxYears) {
+          highlightClass = "top-leader";
+          badgeText = "Overall Legacy Leader";
+        } else if (years >= 20) {
+          highlightClass = "legacy-20";
+          badgeText = "20+ Year Legend";
+        } else if (years >= 15) {
+          highlightClass = "legacy-15";
+          badgeText = "15+ Year Veteran";
+        } else if (years >= 10) {
+          highlightClass = "legacy-10";
+          badgeText = "10+ Year Legacy";
+        } else if (years >= 5) {
+          highlightClass = "legacy-5";
+          badgeText = "5+ Year Legacy";
+        }
+
+        const historyHtml = runner.Detailed_History 
+          ? runner.Detailed_History.split('|').map(h => `<div>• ${h.trim()}</div>`).join('')
+          : "History not available";
+
+        return `
+          <div class="runner-card ${highlightClass}">
+            ${badgeText ? `<div class="badge">${badgeText}</div>` : ''}
+            <div class="runner-name">${runner.Name}</div>
+            <div class="runner-count">${years} Years Participated</div>
+            <div class="race-history" style="display: ${isSearching ? 'block' : 'none'}">
+              <strong>Race History:</strong>
+              <div style="margin-top: 5px;">${historyHtml}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Load CSV
+    Papa.parse("Seabrook_Master_Legacy_List.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        allRunners = results.data;
+        // Calculate the maximum years to find the #1 leader
+        maxYears = Math.max(...allRunners.map(r => parseInt(r.Total_Years) || 0));
+        renderRunners(allRunners);
+      }
+    });
+
+    // Search trigger
+    document.getElementById("runnerSearch").addEventListener("input", function(e) {
+      renderRunners(allRunners, e.target.value);
+    });
+  </script>
+</body>
+</html>
