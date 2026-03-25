@@ -28,7 +28,6 @@
     .race-history { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.9rem; color: #555; text-align: left; }
     .history-item { padding: 2px 0; border-bottom: 1px solid #f9f9f9; }
     
-    /* Milestone Badges */
     .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); white-space: nowrap; z-index: 1; }
     .top-leader { border: 2px solid #d4af37; background: #fffdf0; }
     .top-leader .badge { background: #d4af37; color: #fff; }
@@ -56,11 +55,11 @@
       
       <div class="filter-group" id="raceFilters">
         <button class="filter-btn active" data-filter="all">All Runners</button>
-        <button class="filter-btn" data-filter="Pelican">Pelican Challenge</button>
         <button class="filter-btn" data-filter="Trail">Trail Challenge</button>
+        <button class="filter-btn" data-filter="Pelican">Pelican Challenge</button>
         <button class="filter-btn" data-filter="Full">Marathon</button>
         <button class="filter-btn" data-filter="Half">Half Marathon</button>
-        <button class="filter-btn" data-filter="Quarter">Quarter</button>
+        <button class="filter-btn" data-filter="Quarter">Quarter Marathon</button>
         <button class="filter-btn" data-filter="5K">5K</button>
       </div>
     </div>
@@ -91,12 +90,18 @@
         if (currentFilter === "all") {
             raceMatch = true;
         } else if (currentFilter === "Pelican") {
-            // Check numeric column AND ensure "Half, Half" exists in history string
-            raceMatch = parseInt(r.Pelican_Challenges) > 0 || history.includes("Half, Half");
+            const years = history.split('|');
+            raceMatch = years.some(yr => {
+                const lowerYr = yr.toLowerCase();
+                return lowerYr.includes("half") && 
+                       (lowerYr.split('half').length > 2 || lowerYr.includes("half, half")) && 
+                       !lowerYr.includes("full");
+            });
         } else if (currentFilter === "Trail") {
-            // Check numeric column AND ensure "Full, Half" exists in history string
-            raceMatch = parseInt(r.Trail_Challenges) > 0 || (history.includes("Full") && history.includes("Half"));
+            const years = history.split('|');
+            raceMatch = years.some(yr => yr.includes("Full") && yr.includes("Half"));
         } else {
+            // General match for 5K, Full, Half, or Quarter Marathon
             raceMatch = history.includes(currentFilter);
         }
         
@@ -122,12 +127,13 @@
         const rawHistory = runner.Detailed_History ? runner.Detailed_History.split('|') : [];
         let filteredHistory = rawHistory;
 
-        // Challenge Filtering Logic
         if (currentFilter === "Trail") {
             filteredHistory = rawHistory.filter(line => line.includes("Full") && line.includes("Half"));
         } else if (currentFilter === "Pelican") {
-            // Looking for years with two half marathons
-            filteredHistory = rawHistory.filter(line => line.toLowerCase().split('half').length > 2);
+            filteredHistory = rawHistory.filter(line => {
+                const l = line.toLowerCase();
+                return l.includes("half") && (l.split('half').length > 2 || l.includes("half, half")) && !l.includes("full");
+            });
         } else if (currentFilter !== "all") {
             filteredHistory = rawHistory.filter(line => line.includes(currentFilter));
         }
