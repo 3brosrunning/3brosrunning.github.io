@@ -91,9 +91,11 @@
         if (currentFilter === "all") {
             raceMatch = true;
         } else if (currentFilter === "Pelican") {
-            raceMatch = parseInt(r.Pelican_Challenges) > 0;
+            // Check numeric column AND ensure "Half, Half" exists in history string
+            raceMatch = parseInt(r.Pelican_Challenges) > 0 || history.includes("Half, Half");
         } else if (currentFilter === "Trail") {
-            raceMatch = parseInt(r.Trail_Challenges) > 0;
+            // Check numeric column AND ensure "Full, Half" exists in history string
+            raceMatch = parseInt(r.Trail_Challenges) > 0 || (history.includes("Full") && history.includes("Half"));
         } else {
             raceMatch = history.includes(currentFilter);
         }
@@ -117,19 +119,17 @@
         else if (years >= 10) { highlightClass = "legacy-10"; badgeText = "10+ Year Legacy"; }
         else if (years >= 5) { highlightClass = "legacy-5"; badgeText = "5+ Year Legacy"; }
 
-        // Process History: Filter individual race lines if a filter is active
         const rawHistory = runner.Detailed_History ? runner.Detailed_History.split('|') : [];
         let filteredHistory = rawHistory;
 
-        if (currentFilter !== "all") {
-            filteredHistory = rawHistory.filter(line => {
-                if (currentFilter === "Trail") return line.includes("Full") && line.includes("Half");
-                // For Pelican, we check if they have the Pelican challenge count > 0 
-                // and if the line contains "Half". Since Sat/Sun halves are merged in your string, 
-                // we treat a Half line as a hit if the runner has Pelican challenges.
-                if (currentFilter === "Pelican") return line.includes("Half");
-                return line.includes(currentFilter);
-            });
+        // Challenge Filtering Logic
+        if (currentFilter === "Trail") {
+            filteredHistory = rawHistory.filter(line => line.includes("Full") && line.includes("Half"));
+        } else if (currentFilter === "Pelican") {
+            // Looking for years with two half marathons
+            filteredHistory = rawHistory.filter(line => line.toLowerCase().split('half').length > 2);
+        } else if (currentFilter !== "all") {
+            filteredHistory = rawHistory.filter(line => line.includes(currentFilter));
         }
 
         const historyHtml = filteredHistory.map(h => `<div class="history-item">• ${h.trim()}</div>`).join('');
@@ -142,7 +142,7 @@
             <div class="runner-count">${years} Years Participated</div>
             <div class="race-history" style="display: ${showHistory ? 'block' : 'none'}">
               <strong>${currentFilter === 'all' ? 'Full Race History' : currentFilter + ' History'}:</strong>
-              <div style="margin-top: 5px;">${historyHtml || "No matches for this filter."}</div>
+              <div style="margin-top: 5px;">${historyHtml || "No qualifying races for this filter."}</div>
             </div>
           </div>
         `;
