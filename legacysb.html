@@ -30,7 +30,7 @@
       font-weight: 400;
     }
     .legacy-content {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 30px auto;
       padding: 0 20px;
     }
@@ -43,27 +43,51 @@
       line-height: 1.7;
       margin-bottom: 40px;
     }
-    .search-container {
-      text-align: center;
+    .controls-container {
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
       margin-bottom: 40px;
-      position: sticky;
-      top: 20px;
-      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
     }
     #runnerSearch {
-      width: 90%;
+      width: 100%;
       max-width: 500px;
-      padding: 15px 25px;
-      font-size: 18px;
-      border: 3px solid #ff8a65;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: 2px solid #ddd;
       border-radius: 50px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
       transition: all 0.3s ease;
     }
     #runnerSearch:focus {
       outline: none;
       border-color: #ff5722;
-      box-shadow: 0 10px 25px rgba(255, 87, 34, 0.2);
+      box-shadow: 0 0 10px rgba(255, 87, 34, 0.1);
+    }
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    .filter-btn.active {
+      background: #ff5722;
+      color: #fff;
+      border-color: #ff5722;
     }
     #runnerList {
       display: grid;
@@ -74,7 +98,7 @@
       position: relative;
       background: #fff;
       border-radius: 15px;
-      padding: 30px 20px 20px;
+      padding: 35px 20px 20px;
       text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       border: 1px solid #eee;
@@ -101,9 +125,7 @@
       font-size: 0.9rem;
       color: #555;
       text-align: left;
-      display: none; /* Shown during search */
     }
-    /* Highlight Badges */
     .badge {
       position: absolute;
       top: -12px;
@@ -117,9 +139,10 @@
       letter-spacing: 0.5px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       white-space: nowrap;
+      z-index: 1;
     }
     .top-leader { border: 2px solid #d4af37; background: #fffdf0; }
-    .top-leader .badge { background: #d4af37; color: #fff; content: 'Overall Legacy Leader'; }
+    .top-leader .badge { background: #d4af37; color: #fff; }
     .legacy-20 { border: 2px solid #673ab7; background: #f3e5f5; }
     .legacy-20 .badge { background: #673ab7; color: #fff; }
     .legacy-15 { border: 2px solid #3f51b5; background: #e8eaf6; }
@@ -146,8 +169,8 @@
       gap: 8px;
     }
     @media (max-width: 600px) {
-        .floating-btn span { display: none; }
-        .legacy-header h1 { font-size: 1.8rem; }
+      .floating-btn span { display: none; }
+      .legacy-header h1 { font-size: 1.8rem; }
     }
   </style>
 </head>
@@ -159,12 +182,20 @@
 
   <div class="legacy-content">
     <div class="content-text">
-      <p>The <strong>Seabrook Legacy</strong> honors those who return to our trails year after year. Whether you've completed 5 years or 20, every step is a testament to your commitment to the running community.</p>
-      <p><em>Search for your name below to see your personalized race history and legacy status.</em></p>
+      <p>The <strong>Seabrook Legacy</strong> honors those who return to our trails year after year. Every step is a testament to your commitment to the running community.</p>
     </div>
 
-    <div class="search-container">
-      <input type="text" id="runnerSearch" placeholder="Type your name to see your history...">
+    <div class="controls-container">
+      <input type="text" id="runnerSearch" placeholder="Search by runner name...">
+      
+      <div class="filter-group" id="raceFilters">
+        <button class="filter-btn active" data-filter="all">All Runners</button>
+        <button class="filter-btn" data-filter="Trail">Trail Challenge</button>
+        <button class="filter-btn" data-filter="Full">Marathon</button>
+        <button class="filter-btn" data-filter="Half">Half Marathon</button>
+        <button class="filter-btn" data-filter="Quarter">Quarter Marathon</button>
+        <button class="filter-btn" data-filter="5K">5K</button>
+      </div>
     </div>
 
     <div id="runnerList">Loading our legends...</div>
@@ -179,17 +210,21 @@
   <script>
     let allRunners = [];
     let maxYears = 0;
+    let currentFilter = "all";
+    let currentSearch = "";
 
-    function renderRunners(data, searchTerm = "") {
+    function renderRunners() {
       const runnerList = document.getElementById("runnerList");
-      const isSearching = searchTerm.length > 0;
       
-      const filtered = isSearching 
-        ? data.filter(r => r.Name.toLowerCase().includes(searchTerm.toLowerCase()))
-        : data;
+      const filtered = allRunners.filter(r => {
+        const nameMatch = r.Name.toLowerCase().includes(currentSearch.toLowerCase());
+        const history = r.Detailed_History || "";
+        const raceMatch = (currentFilter === "all") || history.includes(currentFilter);
+        return nameMatch && raceMatch;
+      });
 
       if (filtered.length === 0) {
-        runnerList.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No runners found matching "${searchTerm}".</div>`;
+        runnerList.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No runners found matching your criteria.</div>`;
         return;
       }
 
@@ -198,7 +233,6 @@
         let highlightClass = "";
         let badgeText = "";
 
-        // Highlight Logic
         if (years === maxYears) {
           highlightClass = "top-leader";
           badgeText = "Overall Legacy Leader";
@@ -220,12 +254,15 @@
           ? runner.Detailed_History.split('|').map(h => `<div>• ${h.trim()}</div>`).join('')
           : "History not available";
 
+        // Show history if searching or if a specific race filter is active
+        const showHistory = currentSearch.length > 0 || currentFilter !== "all";
+
         return `
           <div class="runner-card ${highlightClass}">
             ${badgeText ? `<div class="badge">${badgeText}</div>` : ''}
             <div class="runner-name">${runner.Name}</div>
             <div class="runner-count">${years} Years Participated</div>
-            <div class="race-history" style="display: ${isSearching ? 'block' : 'none'}">
+            <div class="race-history" style="display: ${showHistory ? 'block' : 'none'}">
               <strong>Race History:</strong>
               <div style="margin-top: 5px;">${historyHtml}</div>
             </div>
@@ -241,15 +278,25 @@
       skipEmptyLines: true,
       complete: function(results) {
         allRunners = results.data;
-        // Calculate the maximum years to find the #1 leader
         maxYears = Math.max(...allRunners.map(r => parseInt(r.Total_Years) || 0));
-        renderRunners(allRunners);
+        renderRunners();
       }
     });
 
-    // Search trigger
+    // Search input
     document.getElementById("runnerSearch").addEventListener("input", function(e) {
-      renderRunners(allRunners, e.target.value);
+      currentSearch = e.target.value;
+      renderRunners();
+    });
+
+    // Filter buttons
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        currentFilter = this.getAttribute("data-filter");
+        renderRunners();
+      });
     });
   </script>
 </body>
