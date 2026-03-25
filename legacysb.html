@@ -20,23 +20,35 @@
     .filter-btn.active { background: #ff5722; color: #fff; border-color: #ff5722; }
     
     #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-    .runner-card { position: relative; background: #fff; border-radius: 15px; padding: 45px 20px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #eee; transition: transform 0.2s ease; }
+    .runner-card { position: relative; background: #fff; border-radius: 15px; padding: 55px 20px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #eee; transition: transform 0.2s ease; }
     .runner-card:hover { transform: translateY(-5px); }
     .runner-name { font-size: 1.3rem; font-weight: 700; margin: 10px 0 5px; color: #222; }
     .runner-rank { font-size: 0.9rem; color: #ff5722; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
     .runner-count { font-weight: 600; color: #333; margin-bottom: 5px; font-size: 1.1rem; }
-    .overall-years { font-size: 0.85rem; color: #777; margin-bottom: 10px; }
+    .overall-years { font-size: 0.85rem; color: #777; margin-bottom: 5px; }
+    .total-races { font-size: 0.85rem; color: #ff5722; font-weight: 700; }
     
     .race-history { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.9rem; color: #555; text-align: left; }
     .history-item { padding: 2px 0; border-bottom: 1px solid #f9f9f9; }
     
-    .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); white-space: nowrap; z-index: 1; }
+    .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); white-space: nowrap; z-index: 1; }
+    
+    /* Highlight Tiers */
     .top-leader { border: 2px solid #d4af37; background: #fffdf0; }
     .top-leader .badge { background: #d4af37; color: #fff; }
+    
+    .most-races { border: 2px solid #ff5722; background: #fff5f2; }
+    .most-races .badge { background: #ff5722; color: #fff; }
+
     .legacy-20 { border: 2px solid #673ab7; background: #f3e5f5; }
     .legacy-20 .badge { background: #673ab7; color: #fff; }
+
+    .legacy-15 { border: 2px solid #3f51b5; background: #e8eaf6; }
+    .legacy-15 .badge { background: #3f51b5; color: #fff; }
+
     .legacy-10 { border: 2px solid #007bff; background: #e3f2fd; }
     .legacy-10 .badge { background: #007bff; color: #fff; }
+
     .legacy-5 { border: 2px solid #4caf50; background: #e8f5e9; }
     .legacy-5 .badge { background: #4caf50; color: #fff; }
 
@@ -75,11 +87,27 @@
     let allRunners = [];
     let currentFilter = "all";
     let currentSearch = "";
+    let globalMaxYears = 0;
+    let globalMaxRaces = 0;
+
+    function calculateTotalRaces(historyString) {
+        if (!historyString) return 0;
+        // Detailed_History format: 2004 (Full) | 2008 (Full, Half)
+        const parts = historyString.split('|');
+        let count = 0;
+        parts.forEach(p => {
+            const match = p.match(/\((.*?)\)/);
+            if (match && match[1]) {
+                // Split by comma to count individual races in that year
+                count += match[1].split(',').length;
+            }
+        });
+        return count;
+    }
 
     function renderRunners() {
       const runnerList = document.getElementById("runnerList");
       
-      // 1. Calculate specific category counts for every runner
       const processed = allRunners.map(r => {
         const rawHistory = r.Detailed_History ? r.Detailed_History.split('|') : [];
         let catCount = 0;
@@ -99,17 +127,16 @@
             catLabel = currentFilter + " Finishes";
         }
 
-        return { ...r, catCount, catLabel, rawHistory };
+        const totalRaces = calculateTotalRaces(r.Detailed_History);
+        return { ...r, catCount, catLabel, rawHistory, totalRaces };
       });
 
-      // 2. Filter by search and exclude zero-counts if a category is selected
       const filtered = processed.filter(r => {
         const nameMatch = r.Name.toLowerCase().includes(currentSearch.toLowerCase());
         const countMatch = (currentFilter === "all") || r.catCount > 0;
         return nameMatch && countMatch;
       });
 
-      // 3. Sort by category count (Highest first)
       filtered.sort((a, b) => b.catCount - a.catCount || a.Name.localeCompare(b.Name));
 
       if (filtered.length === 0) {
@@ -117,22 +144,34 @@
         return;
       }
 
-      // Determine Global Max for Badge UI
-      const globalMax = Math.max(...allRunners.map(r => parseInt(r.Total_Years)));
-
       runnerList.innerHTML = filtered.map((runner, index) => {
         const overallYears = parseInt(runner.Total_Years);
         const rank = index + 1;
 
-        // Badge based on OVERALL status
+        // Badge Logic Priority
         let highlightClass = "";
         let badgeText = "";
-        if (overallYears === globalMax) { highlightClass = "top-leader"; badgeText = "Overall Legacy Leader"; }
-        else if (overallYears >= 20) { highlightClass = "legacy-20"; badgeText = "20+ Year Legend"; }
-        else if (overallYears >= 10) { highlightClass = "legacy-10"; badgeText = "10+ Year Legacy"; }
-        else if (overallYears >= 5) { highlightClass = "legacy-5"; badgeText = "5+ Year Legacy"; }
+        
+        if (overallYears === globalMaxYears) {
+            highlightClass = "top-leader";
+            badgeText = "Overall Legacy Leader";
+        } else if (runner.totalRaces === globalMaxRaces) {
+            highlightClass = "most-races";
+            badgeText = "Race Volume Champion";
+        } else if (overallYears >= 20) {
+            highlightClass = "legacy-20";
+            badgeText = "20+ Year Legend";
+        } else if (overallYears >= 15) {
+            highlightClass = "legacy-15";
+            badgeText = "15+ Year Veteran";
+        } else if (overallYears >= 10) {
+            highlightClass = "legacy-10";
+            badgeText = "10+ Year Legacy";
+        } else if (overallYears >= 5) {
+            highlightClass = "legacy-5";
+            badgeText = "5+ Year Legacy";
+        }
 
-        // Filter history list items based on selection
         let displayHistory = runner.rawHistory;
         if (currentFilter === "Trail") {
             displayHistory = runner.rawHistory.filter(line => line.includes("Full") && line.includes("Half"));
@@ -151,7 +190,8 @@
             <div class="runner-rank">Rank #${rank}</div>
             <div class="runner-name">${runner.Name}</div>
             <div class="runner-count">${runner.catCount} ${runner.catLabel}</div>
-            <div class="overall-years">Total Overall: ${overallYears} Years</div>
+            <div class="overall-years">Overall History: ${overallYears} Years</div>
+            <div class="total-races">Total Individual Races: ${runner.totalRaces}</div>
             <div class="race-history" style="display: ${showHistory ? 'block' : 'none'}">
               <strong>${currentFilter === 'all' ? 'Full History' : currentFilter + ' History'}:</strong>
               <div style="margin-top: 5px;">${historyHtml || "No qualifying years."}</div>
@@ -167,6 +207,11 @@
       skipEmptyLines: true,
       complete: function(results) {
         allRunners = results.data;
+        
+        // Initial global calculations for highlights
+        globalMaxYears = Math.max(...allRunners.map(r => parseInt(r.Total_Years) || 0));
+        globalMaxRaces = Math.max(...allRunners.map(r => calculateTotalRaces(r.Detailed_History)));
+        
         renderRunners();
       }
     });
