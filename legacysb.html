@@ -2,182 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Legacy Seabrook Marathon - Seabrook Lucky Trails</title>
+  <title>Seabrook Legacy Roster</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7f8fa; margin: 0; color: #333; }
-    .legacy-header { background: linear-gradient(100deg, #ff5722 0%, #ff8a65 100%); color: #fff; padding: 40px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.07); }
-    .legacy-header h1 { font-size: 2.4rem; margin-bottom: 10px; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-    .legacy-header h3 { font-size: 1.3rem; margin-top: 10px; font-weight: 400; }
+    .legacy-header { background: linear-gradient(100deg, #ff5722 0%, #ff8a65 100%); color: #fff; padding: 40px 20px; text-align: center; }
     .legacy-content { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-    
-    .controls-container { background: #fff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center; }
-    #runnerSearch { width: 100%; max-width: 500px; padding: 12px 20px; font-size: 16px; border: 2px solid #ddd; border-radius: 50px; transition: all 0.3s ease; }
-    #runnerSearch:focus { outline: none; border-color: #ff5722; box-shadow: 0 0 10px rgba(255, 87, 34, 0.1); }
-    
-    .filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-    .filter-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease; }
+    .controls-container { background: #fff; padding: 25px; border-radius: 16px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 20px; align-items: center; box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
+    #runnerSearch { width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 50px; border: 2px solid #ddd; font-size: 16px; }
+    .filter-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-weight: 600; margin: 5px; transition: all 0.2s; }
     .filter-btn.active { background: #ff5722; color: #fff; border-color: #ff5722; }
     
     #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-    .runner-card { position: relative; background: #fff; border-radius: 15px; padding: 50px 20px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #eee; transition: transform 0.2s ease; }
-    .runner-card:hover { transform: translateY(-5px); }
-    .runner-name { font-size: 1.3rem; font-weight: 700; margin: 0 0 5px; color: #222; }
-    .runner-rank { font-size: 0.9rem; color: #ff5722; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
-    .runner-count { font-weight: 600; color: #333; margin-bottom: 5px; font-size: 1.1rem; }
-    .overall-years { font-size: 0.85rem; color: #777; margin-bottom: 10px; }
+    .runner-card { position: relative; background: #fff; border-radius: 15px; padding: 50px 20px 20px; text-align: center; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
     
-    .race-history { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.9rem; color: #555; text-align: left; }
-    .history-item { padding: 2px 0; border-bottom: 1px solid #f9f9f9; }
-    
-    .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); white-space: nowrap; z-index: 1; }
-    
-    .top-leader { border: 2.5px solid #d4af37; background: #fffdf0; }
-    .top-leader .badge { background: #d4af37; color: #fff; }
-    .filter-leader { border: 2.5px solid #00acc1; background: #f0fbfc; }
-    .filter-leader .badge { background: #00acc1; color: #fff; }
-    .legacy-20 { border: 2px solid #673ab7; background: #f3e5f5; }
-    .legacy-20 .badge { background: #673ab7; color: #fff; }
-    .legacy-15 { border: 2px solid #3f51b5; background: #e8eaf6; }
-    .legacy-15 .badge { background: #3f51b5; color: #fff; }
-    .legacy-10 { border: 2px solid #007bff; background: #e3f2fd; }
-    .legacy-10 .badge { background: #007bff; color: #fff; }
-    .legacy-5 { border: 2px solid #4caf50; background: #e8f5e9; }
-    .legacy-5 .badge { background: #4caf50; color: #fff; }
+    .badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; white-space: nowrap; }
+    .top-leader { border: 2.5px solid #d4af37; background: #fffdf0; } .top-leader .badge { background: #d4af37; color: #fff; }
+    .filter-leader { border: 2.5px solid #00acc1; background: #f0fbfc; } .filter-leader .badge { background: #00acc1; color: #fff; }
+    .legacy-20 { border: 2px solid #673ab7; } .legacy-20 .badge { background: #673ab7; color: #fff; }
+    .legacy-10 { border: 2px solid #007bff; } .legacy-10 .badge { background: #007bff; color: #fff; }
+    .legacy-5 { border: 2px solid #4caf50; } .legacy-5 .badge { background: #4caf50; color: #fff; }
 
-    .floating-btn { position: fixed; bottom: 20px; right: 20px; background: #ff5722; color: #fff; padding: 12px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; display: flex; align-items: center; gap: 8px; }
+    .race-history { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.85rem; text-align: left; color: #555; }
   </style>
 </head>
 <body>
   <div class="legacy-header">
     <h1>Seabrook Legacy Roster</h1>
-    <h3>Celebrating Dedication, One Mile at a Time</h3>
+    <h3 style="font-weight:400; opacity:0.9;">Celebrating Dedication, One Mile at a Time</h3>
   </div>
 
   <div class="legacy-content">
     <div class="controls-container">
-      <input type="text" id="runnerSearch" placeholder="Search by runner name...">
-      <div class="filter-group" id="raceFilters">
+      <input type="text" id="runnerSearch" placeholder="Search for a name...">
+      <div id="raceFilters">
         <button class="filter-btn active" data-filter="all">All Runners</button>
         <button class="filter-btn" data-filter="Trail">Trail Challenge</button>
         <button class="filter-btn" data-filter="Pelican">Pelican Challenge</button>
         <button class="filter-btn" data-filter="Full">Marathon</button>
         <button class="filter-btn" data-filter="Half">Half Marathon</button>
-        <button class="filter-btn" data-filter="Quarter">Quarter Marathon</button>
+        <button class="filter-btn" data-filter="Quarter">Quarter</button>
         <button class="filter-btn" data-filter="5K">5K</button>
       </div>
     </div>
-    <div id="runnerList">Loading rankings...</div>
+    <div id="runnerList">Loading our legends...</div>
   </div>
-
-  <a href="https://seabrookluckytrails.com" class="floating-btn">
-    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-    <span>Back to Race Site</span>
-  </a>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     let allRunners = [];
     let currentFilter = "all";
     let currentSearch = "";
-    let globalMaxYears = 0;
 
     function renderRunners() {
       const runnerList = document.getElementById("runnerList");
       
       const processed = allRunners.map(r => {
         const rawHistory = r.Detailed_History ? r.Detailed_History.split('|') : [];
-        let catCount = 0;
-        let catLabel = "Years";
-
-        if (currentFilter === "all") {
-            catCount = parseInt(r.Total_Years);
-            catLabel = "Years Participated";
-        } else if (currentFilter === "Trail") {
-            catCount = parseInt(r.Trail_Challenges) || 0;
-            catLabel = "Trail Challenges";
-        } else if (currentFilter === "Pelican") {
-            catCount = parseInt(r.Pelican_Challenges) || 0;
-            catLabel = "Pelican Challenges";
-        } else {
-            catCount = rawHistory.filter(line => line.includes(currentFilter)).length;
-            catLabel = currentFilter + " Finishes";
+        let count = parseInt(r.Total_Years);
+        let label = "Years Participated";
+        
+        if (currentFilter === "Trail") { count = parseInt(r.Trail_Challenges); label = "Trail Challenges"; }
+        else if (currentFilter === "Pelican") { count = parseInt(r.Pelican_Challenges); label = "Pelican Challenges"; }
+        else if (currentFilter !== "all") { 
+            // Count lines containing the distance keyword
+            count = rawHistory.filter(line => line.includes(currentFilter)).length; 
+            label = currentFilter + " Finishes"; 
         }
-
-        return { ...r, catCount, catLabel, rawHistory };
+        return { ...r, count, label, rawHistory };
+      }).filter(r => {
+          const nameMatch = r.Name.toLowerCase().includes(currentSearch.toLowerCase());
+          const hasRaces = currentFilter === "all" || r.count > 0;
+          return nameMatch && hasRaces;
       });
 
-      const filtered = processed.filter(r => {
-        const nameMatch = r.Name.toLowerCase().includes(currentSearch.toLowerCase());
-        const countMatch = (currentFilter === "all") || r.catCount > 0;
-        return nameMatch && countMatch;
-      });
+      // Rank by the active category
+      processed.sort((a, b) => b.count - a.count || a.Name.localeCompare(b.Name));
+      
+      const catMax = processed.length > 0 ? processed[0].count : 0;
+      const globalMax = Math.max(...allRunners.map(r => parseInt(r.Total_Years)));
 
-      filtered.sort((a, b) => b.catCount - a.catCount || a.Name.localeCompare(b.Name));
-      const currentCatMax = filtered.length > 0 ? filtered[0].catCount : 0;
-
-      runnerList.innerHTML = filtered.map((runner) => {
-        const overallYears = parseInt(runner.Total_Years);
+      runnerList.innerHTML = processed.map(runner => {
+        const overall = parseInt(runner.Total_Years);
+        let highlight = ""; let badge = "";
         
-        let highlightClass = "";
-        let badgeText = "";
-        
-        if (overallYears === globalMaxYears) { highlightClass = "top-leader"; badgeText = "Overall Legacy Leader"; }
-        else if (currentFilter !== 'all' && runner.catCount === currentCatMax && runner.catCount > 0) { highlightClass = "filter-leader"; badgeText = currentFilter + " Leader"; }
-        else if (overallYears >= 20) { highlightClass = "legacy-20"; badgeText = "20+ Year Legend"; }
-        else if (overallYears >= 15) { highlightClass = "legacy-15"; badgeText = "15+ Year Veteran"; }
-        else if (overallYears >= 10) { highlightClass = "legacy-10"; badgeText = "10+ Year Legacy"; }
-        else if (overallYears >= 5) { highlightClass = "legacy-5"; badgeText = "5+ Year Legacy"; }
+        if (overall === globalMax) { highlight = "top-leader"; badge = "Overall Legacy Leader"; }
+        else if (currentFilter !== 'all' && runner.count === catMax) { highlight = "filter-leader"; badge = currentFilter + " Leader"; }
+        else if (overall >= 20) { highlight = "legacy-20"; badge = "20+ Year Legend"; }
+        else if (overall >= 10) { highlight = "legacy-10"; badge = "10+ Year Legacy"; }
+        else if (overall >= 5) { highlight = "legacy-5"; badge = "5+ Year Legacy"; }
 
-        // FIX FOR PELICAN YEARS DISPLAY
-        let displayHistory = runner.rawHistory;
-        if (currentFilter === "Trail") {
-            displayHistory = runner.rawHistory.filter(line => line.includes("Full") && line.includes("Half"));
-        } else if (currentFilter === "Pelican") {
-            displayHistory = runner.rawHistory.filter(line => {
-                // Look for lines with at least two "Half" entries OR check if it was a Pelican year
-                // (Using a case-insensitive regex to catch "Half, Half" or similar)
-                const matches = line.match(/Half/gi);
-                return matches && matches.length >= 2;
-            });
-        } else if (currentFilter !== "all") {
-            displayHistory = runner.rawHistory.filter(line => line.includes(currentFilter));
-        }
+        // Determine which history years to show
+        let displayHist = runner.rawHistory;
+        if (currentFilter === "Trail") displayHist = runner.rawHistory.filter(l => l.includes("[Trail Challenge]"));
+        else if (currentFilter === "Pelican") displayHist = runner.rawHistory.filter(l => l.includes("[Pelican Challenge]"));
+        else if (currentFilter !== "all") displayHist = runner.rawHistory.filter(l => l.includes(currentFilter));
 
-        const historyHtml = displayHistory.map(h => `<div class="history-item">• ${h.trim()}</div>`).join('');
-        const showHistory = currentSearch.length > 0 || currentFilter !== "all";
+        const historyHtml = displayHist.map(h => `<div>• ${h.replace(/\[.*?\]/g, '').trim()}</div>`).join('');
 
         return `
-          <div class="runner-card ${highlightClass}">
-            ${badgeText ? `<div class="badge">${badgeText}</div>` : ''}
-            <div class="runner-name">${runner.Name}</div>
-            <div class="runner-count">${runner.catCount} ${runner.catLabel}</div>
-            <div class="overall-years">Total Overall: ${overallYears} Years</div>
-            <div class="race-history" style="display: ${showHistory ? 'block' : 'none'}">
-              <strong>${currentFilter === 'all' ? 'Full History' : currentFilter + ' History'}:</strong>
-              <div style="margin-top: 5px;">${historyHtml || "No individual records found for this category."}</div>
+          <div class="runner-card ${highlight}">
+            ${badge ? `<div class="badge">${badge}</div>` : ''}
+            <div style="font-weight:700; font-size:1.2rem; color:#222;">${runner.Name}</div>
+            <div style="color:#ff5722; font-weight:800; margin:5px 0;">${runner.count} ${runner.label}</div>
+            <div style="font-size:0.8rem; color:#888;">Total Overall: ${overall} Years</div>
+            <div class="race-history" style="display: ${currentSearch || currentFilter !== 'all' ? 'block' : 'none'}">
+              ${historyHtml}
             </div>
-          </div>
-        `;
+          </div>`;
       }).join('');
     }
 
     Papa.parse("Seabrook_Master_Legacy_List.csv", {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: function(results) {
-        allRunners = results.data;
-        globalMaxYears = Math.max(...allRunners.map(r => parseInt(r.Total_Years) || 0));
-        renderRunners();
+      download: true, header: true, skipEmptyLines: true,
+      complete: function(results) { 
+          allRunners = results.data; 
+          renderRunners(); 
       }
     });
 
-    document.getElementById("runnerSearch").addEventListener("input", function(e) {
-      currentSearch = e.target.value;
-      renderRunners();
+    document.getElementById("runnerSearch").addEventListener("input", (e) => { 
+        currentSearch = e.target.value; 
+        renderRunners(); 
     });
-
+    
     document.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", function() {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
