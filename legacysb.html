@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Seabrook Legacy Roster</title>
+  <title>Legacy Seabrook Marathon - Seabrook Lucky Trails</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7f8fa; margin: 0; color: #333; }
@@ -36,7 +36,7 @@
     <div class="controls-container">
       <input type="text" id="runnerSearch" placeholder="Search for a name...">
       <div id="raceFilters">
-        <button class="filter-btn active" data-filter="all">All Runners</button>
+        <button class="filter-btn active" data-filter="all">All Races</button>
         <button class="filter-btn" data-filter="Trail">Trail Challenge</button>
         <button class="filter-btn" data-filter="Pelican">Pelican Challenge</button>
         <button class="filter-btn" data-filter="Full">Marathon</button>
@@ -62,10 +62,10 @@
         let count = parseInt(r.Total_Years);
         let label = "Years Participated";
         
-        if (currentFilter === "Trail") { count = parseInt(r.Trail_Challenges); label = "Trail Challenges"; }
-        else if (currentFilter === "Pelican") { count = parseInt(r.Pelican_Challenges); label = "Pelican Challenges"; }
+        // Use the numeric columns from your CSV for the challenges
+        if (currentFilter === "Trail") { count = parseInt(r.Trail_Challenges) || 0; label = "Trail Challenges"; }
+        else if (currentFilter === "Pelican") { count = parseInt(r.Pelican_Challenges) || 0; label = "Pelican Challenges"; }
         else if (currentFilter !== "all") { 
-            // Count lines containing the distance keyword
             count = rawHistory.filter(line => line.includes(currentFilter)).length; 
             label = currentFilter + " Finishes"; 
         }
@@ -76,29 +76,48 @@
           return nameMatch && hasRaces;
       });
 
-      // Rank by the active category
+      // Sort descending by count. If tied, sort by name.
       processed.sort((a, b) => b.count - a.count || a.Name.localeCompare(b.Name));
       
+      // Get the highest score for the active filter to handle ties
       const catMax = processed.length > 0 ? processed[0].count : 0;
-      const globalMax = Math.max(...allRunners.map(r => parseInt(r.Total_Years)));
+      const globalMax = Math.max(...allRunners.map(r => parseInt(r.Total_Years) || 0));
+
+      if (processed.length === 0) {
+        runnerList.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px;">No runners found.</div>`;
+        return;
+      }
 
       runnerList.innerHTML = processed.map(runner => {
         const overall = parseInt(runner.Total_Years);
         let highlight = ""; let badge = "";
         
+        // Priority logic for Badges (Supports exact ties perfectly)
         if (overall === globalMax) { highlight = "top-leader"; badge = "Overall Legacy Leader"; }
-        else if (currentFilter !== 'all' && runner.count === catMax) { highlight = "filter-leader"; badge = currentFilter + " Leader"; }
+        else if (currentFilter !== 'all' && runner.count === catMax && runner.count > 0) { highlight = "filter-leader"; badge = currentFilter + " Leader"; }
         else if (overall >= 20) { highlight = "legacy-20"; badge = "20+ Year Legend"; }
         else if (overall >= 10) { highlight = "legacy-10"; badge = "10+ Year Legacy"; }
         else if (overall >= 5) { highlight = "legacy-5"; badge = "5+ Year Legacy"; }
 
-        // Determine which history years to show
+        // Determine which history years to show based on the CSV strings
         let displayHist = runner.rawHistory;
-        if (currentFilter === "Trail") displayHist = runner.rawHistory.filter(l => l.includes("[Trail Challenge]"));
-        else if (currentFilter === "Pelican") displayHist = runner.rawHistory.filter(l => l.includes("[Pelican Challenge]"));
-        else if (currentFilter !== "all") displayHist = runner.rawHistory.filter(l => l.includes(currentFilter));
+        
+        if (currentFilter === "Trail") {
+            displayHist = runner.rawHistory.filter(l => l.includes("Full") && l.includes("Half"));
+        } else if (currentFilter === "Pelican") {
+            // Must have 2 halves, but NO full marathon in the string
+            displayHist = runner.rawHistory.filter(l => {
+                const halfCount = (l.match(/Half/g) || []).length;
+                return halfCount >= 2 && !l.includes("Full");
+            });
+        } else if (currentFilter !== "all") {
+            displayHist = runner.rawHistory.filter(l => l.includes(currentFilter));
+        }
 
-        const historyHtml = displayHist.map(h => `<div>• ${h.replace(/\[.*?\]/g, '').trim()}</div>`).join('');
+        const historyHtml = displayHist.map(h => `<div>• ${h.trim()}</div>`).join('');
+        
+        // Always show the history list box
+        const historyTitle = currentFilter === 'all' ? 'All Races' : currentFilter + ' Finishes';
 
         return `
           <div class="runner-card ${highlight}">
@@ -106,8 +125,9 @@
             <div style="font-weight:700; font-size:1.2rem; color:#222;">${runner.Name}</div>
             <div style="color:#ff5722; font-weight:800; margin:5px 0;">${runner.count} ${runner.label}</div>
             <div style="font-size:0.8rem; color:#888;">Total Overall: ${overall} Years</div>
-            <div class="race-history" style="display: ${currentSearch || currentFilter !== 'all' ? 'block' : 'none'}">
-              ${historyHtml}
+            <div class="race-history" style="display: block;">
+              <strong>${historyTitle}:</strong>
+              <div style="margin-top: 5px;">${historyHtml || "No qualifying races found."}</div>
             </div>
           </div>`;
       }).join('');
