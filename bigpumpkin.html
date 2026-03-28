@@ -1,91 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Big Pumpkin Run | Legacy Board</title>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.21/jquery.csv.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Big Pumpkin Run Legacy Board - 3 Bros Running Company</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-    <style>
-        :root { --pumpkin: #ff7518; --charcoal: #2c3e50; }
-        body { font-family: sans-serif; background-color: #fdf2e9; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 10px; border-top: 8px solid var(--pumpkin); shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: var(--pumpkin); }
-        
-        /* Highlighting */
-        .highlight-every-year { background-color: var(--pumpkin) !important; color: white !important; font-weight: bold; }
-        .highlight-3-years { background-color: #fff4d1 !important; font-weight: 600; }
-        
-        /* Make sure the table is visible */
-        #legacyTable { width: 100% !important; margin-top: 20px; }
-    </style>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: #fdf2e9; 
+      margin: 0; 
+      color: #333;
+    }
+    
+    /* Header Section */
+    .legacy-header {
+      background: linear-gradient(100deg, #ff7518 0%, #ff9800 100%);
+      color: #fff;
+      padding: 50px 20px 30px 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .legacy-header h1 {
+      font-size: 2.6rem;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .legacy-header h3 {
+      font-size: 1.3rem;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+    .header-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: white;
+      text-decoration: underline;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* Main Content Container */
+    .legacy-content {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .content-text {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      padding: 30px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      border-top: 5px solid #ff7518;
+    }
+    .intro-text {
+      font-style: italic;
+      color: #d35400;
+      font-weight: 600;
+      margin-bottom: 20px;
+      border-left: 4px solid #ff7518;
+      padding-left: 12px;
+    }
+
+    /* Search Bar Styling */
+    .search-container {
+      text-align: center;
+      margin: 40px 0;
+    }
+    #runnerSearch {
+      width: 100%;
+      max-width: 550px;
+      padding: 16px 25px;
+      font-size: 18px;
+      border: 2px solid #ddd;
+      border-radius: 35px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    #runnerSearch:focus {
+      outline: none;
+      border-color: #ff7518;
+      box-shadow: 0 0 15px rgba(255, 117, 24, 0.2);
+    }
+
+    /* Runner Cards Layout */
+    #runnerList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding-bottom: 100px;
+    }
+    .runner-card {
+      position: relative;
+      border: 1px solid #eee;
+      border-radius: 15px;
+      padding: 30px 15px;
+      background-color: #ffffff;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-basis: calc(33.33% - 30px);
+      box-sizing: border-box;
+      min-width: 280px;
+      margin-top: 15px;
+    }
+    .runner-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .runner-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0;
+    }
+    .runner-count {
+      font-size: 1.05rem;
+      color: #7f8c8d;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    .runner-events {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* Milestone Highlighting (Yellow/Gold) */
+    .highlight-milestone {
+      border: 2.5px solid #f1c40f;
+      background-color: #fffef2;
+    }
+    .highlight-milestone::before {
+      content: '3 Year Milestone';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f1c40f;
+      color: #333;
+      padding: 5px 18px;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    /* Legacy Streak Highlighting (Bright Orange) */
+    .highlight-every-year {
+      border: 3px solid #ff7518;
+      background-color: #fff9f4;
+    }
+    .highlight-every-year::before {
+      content: 'Original Legacy Streak';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ff7518;
+      color: white;
+      padding: 5px 20px;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    /* Floating Back Button */
+    .back-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 2px solid white;
+    }
+    .back-btn:hover {
+      background-color: #ff7518;
+      transform: scale(1.05);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 850px) { .runner-card { flex-basis: calc(50% - 30px); } }
+    @media (max-width: 580px) { 
+        .runner-card { flex-basis: 100%; }
+        .legacy-header h1 { font-size: 2rem; }
+        .back-btn { bottom: 15px; right: 15px; padding: 12px 20px; font-size: 0.9rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🎃 Big Pumpkin Run Legacy Board</h1>
-    <p style="text-align:center">Search for your name to see your race history (2022-2025)</p>
+  <div class="legacy-header">
+    <h1>Big Pumpkin Run Legacy Board</h1>
+    <h3>Honoring Dedication from 2022 to Present</h3>
+    <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="header-link">
+      Register for the 2026 Race in Port Arthur
+    </a>
+  </div>
+
+  <div class="legacy-content">
+    <div class="content-text">
+      <p class="intro-text">
+        Since our first run in 2022, the Big Pumpkin Run has become a staple of the local racing community.
+      </p>
+      <p>
+        The runners below have shown incredible consistency. Whether running in Orange or Port Arthur, these athletes bring the spirit of the Pumpkin Run to life every October.
+      </p>
+      <p style="font-size: 0.9rem; color: #888; border-top: 1px solid #eee; padding-top: 15px; margin-top: 20px;">
+        Data current as of the 2025 Season. For questions or corrections, contact us at <strong>admin@3brosrunning.com</strong>.
+      </p>
+    </div>
+
+    <div class="search-container">
+      <input type="text" id="runnerSearch" placeholder="Search for a name (e.g. John Smith)...">
+    </div>
+
+    <div id="runnerList">Loading our legacy runners...</div>
+  </div>
+
+  <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="back-btn">
+    Back to Race Registration
+  </a>
+
+  <script>
+    let allRunners = [];
     
-    <table id="legacyTable" class="display">
-        <thead>
-            <tr>
-                <th>Runner Name</th>
-                <th>Total Years</th>
-                <th>Events</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+    // LOGIC CONSTANTS
+    const START_YEAR = 2022;
+    const DATA_UP_TO = 2025; 
+    const PERFECT_STREAK_COUNT = (DATA_UP_TO - START_YEAR) + 1; // 4 years
 
-<script>
-$(document).ready(function() {
-    console.log("Page loaded, attempting to fetch CSV...");
+    function renderRunners(data) {
+      const list = document.getElementById("runnerList");
+      
+      if (data.length === 0) {
+        list.innerHTML = "<p style='margin-top:20px;'>No runners found by that name.</p>";
+        return;
+      }
 
-    $.ajax({
-        type: "GET",
-        url: "masterlist.csv", // DOUBLE CHECK: Is your file named exactly this?
-        dataType: "text",
-        success: function(csvData) {
-            console.log("CSV Data received successfully.");
-            try {
-                let data = $.csv.toObjects(csvData);
-                
-                $('#legacyTable').DataTable({
-                    data: data,
-                    columns: [
-                        { data: 'full_name' },
-                        { data: 'years_count' },
-                        { data: 'distances' }
-                    ],
-                    order: [[1, 'desc']],
-                    createdRow: function(row, data, dataIndex) {
-                        let count = parseInt(data.years_count);
-                        if (count >= 4) {
-                            $(row).addClass('highlight-every-year');
-                            $('td', row).eq(0).append(' <span>★ LEGACY</span>');
-                        } else if (count === 3) {
-                            $(row).addClass('highlight-3-years');
-                        }
-                    }
-                });
-            } catch (e) {
-                console.error("Error parsing CSV:", e);
-                alert("Error: The CSV file exists but the data format is wrong.");
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("File load error:", status, error);
-            alert("CANNOT FIND DATA: Ensure 'masterlist.csv' is uploaded to the same GitHub folder as this HTML file.");
+      const html = data.map(runner => {
+        const years = parseInt(runner.years_count);
+        const name = runner.full_name;
+        const events = runner.distances || "Events TBD";
+        
+        let highlightClass = "";
+        let legacyStar = "";
+
+        if (years >= PERFECT_STREAK_COUNT) {
+          highlightClass = "highlight-every-year";
+          legacyStar = " ★";
+        } else if (years === 3) {
+          highlightClass = "highlight-milestone";
         }
-    });
-});
-</script>
 
+        return `
+          <div class="runner-card ${highlightClass}">
+            <p class="runner-name">${name}${legacyStar}</p>
+            <p class="runner-count">${years} Years</p>
+            <p class="runner-events">${events}</p>
+          </div>
+        `;
+      }).join('');
+
+      list.innerHTML = html;
+    }
+
+    // Load CSV using PapaParse
+    Papa.parse("masterlist.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        // Sort: Most years at top, then alphabetical by name
+        allRunners = results.data.sort((a, b) => {
+          if (parseInt(b.years_count) !== parseInt(a.years_count)) {
+            return parseInt(b.years_count) - parseInt(a.years_count);
+          }
+          return a.full_name.localeCompare(b.full_name);
+        });
+        renderRunners(allRunners);
+      },
+      error: function() {
+        document.getElementById("runnerList").innerHTML = "Error: Could not load 'masterlist.csv'. Ensure the file is in the correct GitHub folder.";
+      }
+    });
+
+    // Instant Search Logic
+    document.getElementById("runnerSearch").addEventListener("input", function() {
+      const term = this.value.toLowerCase().trim();
+      const filtered = allRunners.filter(r => 
+        r.full_name.toLowerCase().includes(term)
+      );
+      renderRunners(filtered);
+    });
+  </script>
 </body>
 </html>
