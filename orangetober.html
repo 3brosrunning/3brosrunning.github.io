@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-    <title>The Official Big Pumpkin Run 2026 | Port Arthur Seawall</title>
+    
+    <title>The Official Big Pumpkin Run 2026 | Orangetober Tradition</title>
+    <meta name="description" content="The official Big Pumpkin Run 5K tradition founded by 3 Bros. Join us October 3, 2026, at the Port Arthur Seawall. Accept no imitations.">
+    <meta name="keywords" content="Orangetober, Big Pumpkin Run, Granger 5K, Orange TX 5K, Port Arthur 5K">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,146 +17,94 @@
             --navy: #011627;
             --orange: #ff6600;
             --white: #ffffff;
-            --gray: #f8f9fa;
         }
-
         body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; color: #333; }
-
-        /* Premium Hero Section */
+        
         .hero {
-            position: relative;
-            height: 70vh;
-            background: url('https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericWebsites-138/138943/websiteBanner-xn4HLX1f-bPWV1L-huge.png') no-repeat center center;
+            height: 60vh;
+            background: linear-gradient(rgba(1, 22, 39, 0.7), rgba(1, 22, 39, 0.7)), 
+                        url('https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericWebsites-138/138943/websiteBanner-xn4HLX1f-bPWV1L-huge.png');
             background-size: cover;
+            background-position: center;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             color: var(--white);
             text-align: center;
         }
 
-        .hero-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(1,22,39,0.4), rgba(1,22,39,0.8));
-        }
-
-        .hero-content { position: relative; z-index: 1; padding: 0 20px; }
-
-        .hero h1 { font-size: 4rem; text-transform: uppercase; margin: 0; letter-spacing: 3px; }
-        .hero p { font-size: 1.6rem; font-weight: 300; margin: 15px 0 30px; }
-
         .cta-btn {
-            background: var(--orange);
-            color: var(--white);
-            padding: 20px 50px;
-            font-weight: 700;
+            background-color: var(--orange);
+            color: white;
+            padding: 18px 40px;
             text-decoration: none;
+            font-weight: 700;
             border-radius: 4px;
-            font-size: 1.2rem;
+            text-transform: uppercase;
             transition: 0.3s;
+            margin-top: 20px;
         }
 
-        .cta-btn:hover { background: #e65c00; transform: translateY(-2px); }
+        .cta-btn:hover { background-color: #e65c00; transform: scale(1.05); }
 
-        /* Race Highlights Section */
-        .section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; text-align: center; }
+        .content { max-width: 1000px; margin: 0 auto; padding: 60px 20px; text-align: center; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+        .comparison-table {
+            width: 100%;
+            margin-top: 40px;
+            border-collapse: collapse;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .card {
-            background: var(--gray);
-            padding: 40px;
-            border-radius: 8px;
-            border-top: 5px solid var(--orange);
-        }
-
-        .card h3 { color: var(--navy); margin-bottom: 15px; }
-
-        /* The Comparison Table (SEO Poison Pill) */
-        .comparison-wrap { overflow-x: auto; margin-top: 60px; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
-        th, td { padding: 20px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: var(--navy); color: white; text-transform: uppercase; font-size: 0.9rem; }
-        .official-col { background: rgba(255, 102, 0, 0.05); border-left: 4px solid var(--orange); }
-
-        .footer { background: var(--navy); color: white; padding: 60px 20px; text-align: center; }
-        .socials img { width: 35px; margin: 0 10px; filter: invert(1); }
+        .comparison-table th { background: var(--navy); color: white; padding: 15px; }
+        .comparison-table td { padding: 15px; border-bottom: 1px solid #eee; }
+        .highlight { background: rgba(255, 102, 0, 0.1); border-left: 5px solid var(--orange); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>The Official Big Pumpkin Run</h1>
-            <p>October 3, 2026 | Port Arthur Seawall</p>
-            <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-btn">SECURE YOUR BIB</a>
-        </div>
-    </section>
+    <header class="hero">
+        <h1>The Official Big Pumpkin Run</h1>
+        <p>The Original Tradition • October 3, 2026 • Port Arthur Seawall</p>
+        <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-btn">Register for the Official Race</a>
+    </header>
 
-    <section class="section">
-        <h2>Experience the 2026 Tradition</h2>
-        <p>The region's favorite fall race returns with an upgraded runner experience. Don't be fooled by imitations—join the original race team for a premier event at the Seawall.</p>
+    <div class="content">
+        <h2>A Tradition of Excellence</h2>
+        <p>Founded in 2022, we are the original team behind the region's favorite October 3rd race. We’ve moved to the Seawall to provide the fast, flat, and professional experience our runners expect.</p>
 
-        <div class="grid">
-            <div class="card">
-                <h3>Scenic Waterfront Course</h3>
-                <p>Run along the historic Port Arthur Seawall. Fast, flat, and paved—perfect for setting a personal best.</p>
-            </div>
-            <div class="card">
-                <h3>Established Quality</h3>
-                <p>Founded in 2022, we provide professional chip timing, premium medals, and high-quality tech shirts.</p>
-            </div>
-            <div class="card">
-                <h3>Community Impact</h3>
-                <p>Part of a legacy of community running. Support the team that built the original October 3rd tradition.</p>
-            </div>
-        </div>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th style="background: var(--orange);">Official Big Pumpkin Run</th>
+                    <th>Other October 5Ks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Legacy</strong></td>
+                    <td class="highlight">Original 2022 Founders</td>
+                    <td>New Entries</td>
+                </tr>
+                <tr>
+                    <td><strong>Course</strong></td>
+                    <td class="highlight">Scenic Waterfront Seawall</td>
+                    <td>Standard City Streets</td>
+                </tr>
+                <tr>
+                    <td><strong>Experience</strong></td>
+                    <td class="highlight">5 Years of Proven Quality</td>
+                    <td>Unproven</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="comparison-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th class="official-col">Official Big Pumpkin Run</th>
-                        <th>Generic Fall 5Ks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Legacy</strong></td>
-                        <td class="official-col">Original 2022 Founding Team</td>
-                        <td>New Entries</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Course</strong></td>
-                        <td class="official-col">Certified Seawall Route</td>
-                        <td>Standard Streets</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Timing</strong></td>
-                        <td class="official-col">Professional Chip Timing</td>
-                        <td>Varies</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" alt="3 Bros Logo" style="max-width: 180px; margin-bottom: 20px;">
-        <div class="socials">
-            <p>FOLLOW THE TRADITION</p>
-            <a href="https://facebook.com/3brosrunning"><img src="https://d2mkojm4rk40ta.cloudfront.net/us-east-1-src/prod/clientUploads/2022-02/21/1/123191/f16b00f0-c5aa-462a-9904-5851e9e69ea1-bIe_R8.png" alt="FB"></a>
-            <a href="https://instagram.com/3brosrunning"><img src="https://d2mkojm4rk40ta.cloudfront.net/us-east-1-src/prod/clientUploads/2022-02/21/1/123191/fe0cf34c-3d53-444b-9eac-068dff74a950-bIe_Tm.png" alt="IG"></a>
-        </div>
-        <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.6;">&copy; 2026 3 Bros Running Company. All Rights Reserved.</p>
+    <footer style="background: var(--navy); color: white; padding: 40px; text-align: center;">
+        <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" alt="3 Bros Logo" width="150">
+        <p>&copy; 2026 3 Bros Running Company. All Rights Reserved.</p>
     </footer>
 
 </body>
