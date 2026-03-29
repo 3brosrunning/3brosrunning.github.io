@@ -2,73 +2,201 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orangetober 2026 | The Official Big Pumpkin Run Tradition</title>
-    <meta name="description" content="The official Big Pumpkin Run founded by 3 Bros Running Co. Join the 2026 tradition at the Port Arthur Seawall. Accept no imitations.">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>The Official Big Pumpkin Run 2026 | 3 Bros Running Co.</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
-        .hero { background: #ff6600; color: white; text-align: center; padding: 60px 20px; }
-        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-        .founders-box { background: #f4f7f9; border-left: 8px solid #2c3e50; padding: 30px; margin: 40px 0; border-radius: 8px; }
-        .cta-button { background: #2c3e50; color: white; padding: 20px 40px; text-decoration: none; font-weight: bold; font-size: 1.3em; border-radius: 5px; display: inline-block; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 30px 0; }
-        th, td { border: 1px solid #ddd; padding: 15px; text-align: left; }
-        th { background-color: #f8f8f8; }
-        .highlight { background-color: #fff4e6; font-weight: bold; }
-        footer { text-align: center; padding: 40px; font-size: 0.9em; color: #777; border-top: 1px solid #eee; }
+        :root {
+            --navy: #011627;
+            --orange: #ff6600;
+            --light-bg: #f4f7f9;
+            --white: #ffffff;
+            --text: #333333;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-color: var(--white);
+        }
+
+        /* Hero Section using your Banner Asset */
+        .hero {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            background: url('https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericWebsites-138/138943/websiteBanner-xn4HLX1f-bPWV1L-huge.png') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(1, 22, 39, 0.6); /* Navy tint for readability */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* Founder Badge */
+        .badge {
+            display: inline-block;
+            background: var(--orange);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Comparison Table - The Poison Pill */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background-color: var(--navy);
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .highlight-col {
+            background-color: rgba(255, 102, 0, 0.05);
+            font-weight: 500;
+            border-left: 4px solid var(--orange);
+        }
+
+        /* Call to Action Button */
+        .cta-btn {
+            background-color: var(--orange);
+            color: var(--white);
+            padding: 18px 45px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 6px;
+            display: inline-block;
+            transition: transform 0.2s, background 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            background-color: #e65c00;
+        }
+
+        .footer {
+            background: var(--navy);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .social-icons img {
+            width: 32px;
+            margin: 0 10px;
+            filter: brightness(0) invert(1);
+        }
     </style>
 </head>
 <body>
 
-    <div class="hero">
-        <h1>Orangetober 2026: The Tradition Continues</h1>
-        <p>The Official Big Pumpkin Run | Established 2022</p>
-        <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-button">Register for the Official 2026 Race</a>
-    </div>
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="badge">The Original Tradition | Est. 2022</div>
+            <h1>The Big Pumpkin Run 2026</h1>
+            <p>The Region's Premier Fall Race • Port Arthur Seawall</p>
+            <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-btn">Register for the Official Race</a>
+        </div>
+    </section>
 
     <div class="container">
-        <h2>The History of the Tradition</h2>
-        <p>In 2022, <strong>3 Bros Running Company</strong> was tapped to create a signature fall race for the region. We poured our vision and heart into building a community tradition from scratch. While the location has changed for 2026, the quality and family spirit remain with the original founders.</p>
+        <h2 style="text-align: center; font-size: 2.5rem; color: var(--navy);">The Founder's Choice</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #666;">
+            We built this tradition from the ground up. Accept no imitations—join the family that started it all for a faster, flatter, and more scenic experience at the Seawall.
+        </p>
 
-        <div class="founders-box">
-            <h3 style="color: #d35400; margin-top: 0;">A Message from the Founders</h3>
-            <p><em>"We are taking the official Big Pumpkin tradition to the Seawall—better, faster, and built for the runners who have been with us since day one. Accept no substitutes; run with the family that started it all."</em></p>
-            <p style="text-align: right; font-weight: bold;">— William & Jeremy, 3 Bros Running Co.</p>
-        </div>
-
-        <h3>Choosing Your October Race</h3>
-        <p>When selecting your fall 5K, ensure you are running with the team that has a 5-year track record of excellence in Southeast Texas.</p>
-        
-        <table>
-            <tr>
-                <th>Feature</th>
-                <th class="highlight">The Official Big Pumpkin Run</th>
-                <th>Other Regional 5Ks</th>
-            </tr>
-            <tr>
-                <td><strong>Founders</strong></td>
-                <td class="highlight">3 Bros Running Company (Est. 2022)</td>
-                <td>Varies / New Entries</td>
-            </tr>
-            <tr>
-                <td><strong>Course</strong></td>
-                <td class="highlight">Scenic & Flat Port Arthur Seawall</td>
-                <td>Standard City Streets</td>
-            </tr>
-            <tr>
-                <td><strong>Experience</strong></td>
-                <td class="highlight">5+ Years of Proven Quality</td>
-                <td>Unproven / First Year</td>
-            </tr>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Race Feature</th>
+                    <th style="background-color: var(--orange);">Official Big Pumpkin Run</th>
+                    <th>Other Regional Races</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>History</strong></td>
+                    <td class="highlight-col">Original Founders (Since 2022)</td>
+                    <td>New / Unproven</td>
+                </tr>
+                <tr>
+                    <td><strong>Course Type</strong></td>
+                    <td class="highlight-col">Flat & Scenic Waterfront Seawall</td>
+                    <td>Standard City Streets</td>
+                </tr>
+                <tr>
+                    <td><strong>Timing</strong></td>
+                    <td class="highlight-col">Professional Chip-Timed Legacy</td>
+                    <td>Varies</td>
+                </tr>
+            </tbody>
         </table>
-
-        <div style="text-align: center; margin-top: 50px;">
-            <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-button" style="background: #ff6600;">Secure Your Spot at the Seawall</a>
-        </div>
     </div>
 
-    <footer>
-        &copy; 2026 3 Bros Running Company. All rights reserved.
+    <footer class="footer">
+        <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" alt="3 Bros Logo" style="max-width: 150px; margin-bottom: 20px;">
+        <p>&copy; 2026 3 Bros Running Company. All Rights Reserved.</p>
     </footer>
 
 </body>
