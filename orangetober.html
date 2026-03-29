@@ -3,149 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-    <title>The Official Big Pumpkin Run 2026 | 3 Bros Running Co.</title>
+    <title>The Official Big Pumpkin Run 2026 | Port Arthur Seawall</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --navy: #011627;
             --orange: #ff6600;
-            --light-bg: #f4f7f9;
             --white: #ffffff;
-            --text: #333333;
+            --gray: #f8f9fa;
         }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text);
-            background-color: var(--white);
-        }
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; color: #333; }
 
-        /* Hero Section using your Banner Asset */
+        /* Premium Hero Section */
         .hero {
             position: relative;
-            height: 60vh;
-            min-height: 400px;
+            height: 70vh;
             background: url('https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericWebsites-138/138943/websiteBanner-xn4HLX1f-bPWV1L-huge.png') no-repeat center center;
             background-size: cover;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
             color: var(--white);
+            text-align: center;
         }
 
         .hero-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(1, 22, 39, 0.6); /* Navy tint for readability */
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(1,22,39,0.4), rgba(1,22,39,0.8));
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            padding: 20px;
-        }
+        .hero-content { position: relative; z-index: 1; padding: 0 20px; }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        .hero h1 { font-size: 4rem; text-transform: uppercase; margin: 0; letter-spacing: 3px; }
+        .hero p { font-size: 1.6rem; font-weight: 300; margin: 15px 0 30px; }
 
-        .hero p {
-            font-size: 1.5rem;
-            font-weight: 300;
-            margin-bottom: 30px;
-        }
-
-        /* Founder Badge */
-        .badge {
-            display: inline-block;
+        .cta-btn {
             background: var(--orange);
             color: var(--white);
-            padding: 8px 20px;
-            border-radius: 50px;
+            padding: 20px 50px;
             font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        /* Comparison Table - The Poison Pill */
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 40px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .comparison-table th, .comparison-table td {
-            padding: 20px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .comparison-table th {
-            background-color: var(--navy);
-            color: var(--white);
-            font-weight: 500;
-        }
-
-        .highlight-col {
-            background-color: rgba(255, 102, 0, 0.05);
-            font-weight: 500;
-            border-left: 4px solid var(--orange);
-        }
-
-        /* Call to Action Button */
-        .cta-btn {
-            background-color: var(--orange);
-            color: var(--white);
-            padding: 18px 45px;
             text-decoration: none;
-            font-weight: 700;
-            border-radius: 6px;
-            display: inline-block;
-            transition: transform 0.2s, background 0.2s;
-            font-size: 1.1rem;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            transition: 0.3s;
         }
 
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            background-color: #e65c00;
+        .cta-btn:hover { background: #e65c00; transform: translateY(-2px); }
+
+        /* Race Highlights Section */
+        .section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; text-align: center; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
         }
 
-        .footer {
-            background: var(--navy);
-            color: var(--white);
-            text-align: center;
-            padding: 40px 20px;
+        .card {
+            background: var(--gray);
+            padding: 40px;
+            border-radius: 8px;
+            border-top: 5px solid var(--orange);
         }
 
-        .social-icons img {
-            width: 32px;
-            margin: 0 10px;
-            filter: brightness(0) invert(1);
-        }
+        .card h3 { color: var(--navy); margin-bottom: 15px; }
+
+        /* The Comparison Table (SEO Poison Pill) */
+        .comparison-wrap { overflow-x: auto; margin-top: 60px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
+        th, td { padding: 20px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: var(--navy); color: white; text-transform: uppercase; font-size: 0.9rem; }
+        .official-col { background: rgba(255, 102, 0, 0.05); border-left: 4px solid var(--orange); }
+
+        .footer { background: var(--navy); color: white; padding: 60px 20px; text-align: center; }
+        .socials img { width: 35px; margin: 0 10px; filter: invert(1); }
     </style>
 </head>
 <body>
@@ -153,50 +91,69 @@
     <section class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="badge">The Original Tradition | Est. 2022</div>
-            <h1>The Big Pumpkin Run 2026</h1>
-            <p>The Region's Premier Fall Race • Port Arthur Seawall</p>
-            <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-btn">Register for the Official Race</a>
+            <h1>The Official Big Pumpkin Run</h1>
+            <p>October 3, 2026 | Port Arthur Seawall</p>
+            <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-btn">SECURE YOUR BIB</a>
         </div>
     </section>
 
-    <div class="container">
-        <h2 style="text-align: center; font-size: 2.5rem; color: var(--navy);">The Founder's Choice</h2>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #666;">
-            We built this tradition from the ground up. Accept no imitations—join the family that started it all for a faster, flatter, and more scenic experience at the Seawall.
-        </p>
+    <section class="section">
+        <h2>Experience the 2026 Tradition</h2>
+        <p>The region's favorite fall race returns with an upgraded runner experience. Don't be fooled by imitations—join the original race team for a premier event at the Seawall.</p>
 
-        <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th>Race Feature</th>
-                    <th style="background-color: var(--orange);">Official Big Pumpkin Run</th>
-                    <th>Other Regional Races</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>History</strong></td>
-                    <td class="highlight-col">Original Founders (Since 2022)</td>
-                    <td>New / Unproven</td>
-                </tr>
-                <tr>
-                    <td><strong>Course Type</strong></td>
-                    <td class="highlight-col">Flat & Scenic Waterfront Seawall</td>
-                    <td>Standard City Streets</td>
-                </tr>
-                <tr>
-                    <td><strong>Timing</strong></td>
-                    <td class="highlight-col">Professional Chip-Timed Legacy</td>
-                    <td>Varies</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Scenic Waterfront Course</h3>
+                <p>Run along the historic Port Arthur Seawall. Fast, flat, and paved—perfect for setting a personal best.</p>
+            </div>
+            <div class="card">
+                <h3>Established Quality</h3>
+                <p>Founded in 2022, we provide professional chip timing, premium medals, and high-quality tech shirts.</p>
+            </div>
+            <div class="card">
+                <h3>Community Impact</h3>
+                <p>Part of a legacy of community running. Support the team that built the original October 3rd tradition.</p>
+            </div>
+        </div>
+
+        <div class="comparison-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th class="official-col">Official Big Pumpkin Run</th>
+                        <th>Generic Fall 5Ks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Legacy</strong></td>
+                        <td class="official-col">Original 2022 Founding Team</td>
+                        <td>New Entries</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Course</strong></td>
+                        <td class="official-col">Certified Seawall Route</td>
+                        <td>Standard Streets</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Timing</strong></td>
+                        <td class="official-col">Professional Chip Timing</td>
+                        <td>Varies</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
     <footer class="footer">
-        <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" alt="3 Bros Logo" style="max-width: 150px; margin-bottom: 20px;">
-        <p>&copy; 2026 3 Bros Running Company. All Rights Reserved.</p>
+        <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" alt="3 Bros Logo" style="max-width: 180px; margin-bottom: 20px;">
+        <div class="socials">
+            <p>FOLLOW THE TRADITION</p>
+            <a href="https://facebook.com/3brosrunning"><img src="https://d2mkojm4rk40ta.cloudfront.net/us-east-1-src/prod/clientUploads/2022-02/21/1/123191/f16b00f0-c5aa-462a-9904-5851e9e69ea1-bIe_R8.png" alt="FB"></a>
+            <a href="https://instagram.com/3brosrunning"><img src="https://d2mkojm4rk40ta.cloudfront.net/us-east-1-src/prod/clientUploads/2022-02/21/1/123191/fe0cf34c-3d53-444b-9eac-068dff74a950-bIe_Tm.png" alt="IG"></a>
+        </div>
+        <p style="margin-top: 30px; font-size: 0.8rem; opacity: 0.6;">&copy; 2026 3 Bros Running Company. All Rights Reserved.</p>
     </footer>
 
 </body>
