@@ -60,8 +60,25 @@
         .history-box { text-align: left; background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; max-height: 150px; overflow-y: auto; }
         .history-item { padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
 
-        .share-btn { margin-top: 15px; background: none; border: 1px solid #ddd; padding: 8px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #777; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
-        .share-btn:hover { background: #f0f0f0; border-color: #ccc; color: #333; }
+        /* Updated Share Button with Icon */
+        .share-btn {
+            margin-top: 15px;
+            background: none;
+            border: 1px solid #ddd;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #555;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .share-btn:hover { background: #f0f0f0; border-color: #ccc; color: #222; }
+        .share-icon { width: 14px; height: 14px; }
 
         .floating-register { position: fixed; bottom: 30px; right: 30px; background: var(--sb-orange); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; z-index: 2000; border: 2px solid #fff; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
@@ -129,13 +146,10 @@
             else if (overall >= 20) tClass = "tier-20"; else if (overall >= 15) tClass = "tier-15";
             else if (overall >= 10) tClass = "tier-10"; else if (overall >= 5) tClass = "tier-5";
 
-            // FILTER HISTORY LOGIC
             let hParts = r.Detailed_History.split(' | ');
             if (currentFilter === 'Trail') {
-                // For Trail: Show only years that contain BOTH a Full and a Half
                 hParts = hParts.filter(h => h.includes("Full") && h.includes("Half"));
             } else if (currentFilter === 'Pelican') {
-                // For Pelican: Show only years that contain TWO Halfs (Sat and Sun)
                 hParts = hParts.filter(h => (h.match(/Half/g) || []).length >= 2);
             } else if (currentFilter !== 'All' && r.fKey.length > 0) {
                 hParts = hParts.filter(h => r.fKey.some(key => h.includes(key)));
@@ -149,7 +163,10 @@
                     <div class="sub-label">${r.cLabel}</div>
                     <div style="font-size:0.75rem; color:#666; margin-bottom:12px; font-weight:700;">Lifetime Races: ${r.Total_Finishes}</div>
                     <div class="history-box">${hParts.map(h => `<div class="history-item">${h}</div>`).join('')}</div>
-                    <button class="share-btn" onclick="shareRunner('${r.Name.replace(/'/g, "\\'")}')">Share My Legacy</button>
+                    <button class="share-btn" onclick="shareRunner('${r.Name.replace(/'/g, "\\'")}')">
+                        <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                        Share My Legacy
+                    </button>
                 </div>
             `;
         }).join('');
@@ -159,7 +176,7 @@
         const url = new URL(window.location.href); url.searchParams.set('runner', name);
         const text = `Check out my history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com. See my stats:`;
         if (navigator.share) { navigator.share({ title: 'Seabrook Legacy', text: text, url: url.toString() }); }
-        else { navigator.clipboard.writeText(url.toString()); alert("Link copied! Share it to inspire your friends to race."); }
+        else { navigator.clipboard.writeText(url.toString()); alert("Link copied to clipboard!"); }
     }
 
     Papa.parse("Seabrook_Master_Legacy_List.csv", {
