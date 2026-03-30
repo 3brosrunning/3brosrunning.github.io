@@ -12,36 +12,114 @@
     <meta property="og:description" content="A heartfelt thank you to the runners who make this tradition possible. Join us in Port Arthur!">
     <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" />
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
     <style>
-        :root { --rsu-teal: #004d61; --rsu-orange: #ff6e40; --gold: #FFD700; --rsu-bg: #f4f7f6; }
-        body { font-family: sans-serif; margin: 0; background-color: var(--rsu-bg); color: #333; }
-        .rsu-header-mock { background: #fff; padding: 10px 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; height: 50px; }
-        .rsu-logo { height: 40px; margin-right: 15px; }
-        .site-title { font-weight: 700; color: var(--rsu-teal); text-transform: uppercase; font-size: 1.1rem; }
-        .rsu-banner { background-color: var(--rsu-teal); color: white; padding: 40px 20px; text-align: center; border-bottom: 5px solid var(--rsu-orange); }
-        .rsu-banner h1 { font-size: 2.2rem; margin: 0 0 10px; font-weight: 900; text-transform: uppercase; }
-        .heartfelt-msg { max-width: 800px; margin: 0 auto; line-height: 1.4; font-size: 1rem; opacity: 0.9; }
+        :root {
+            --rsu-teal: #004d61;
+            --rsu-orange: #ff6e40;
+            --gold: #FFD700;
+            --rsu-bg: #f4f7f6; 
+        }
+
+        body { font-family: "Roboto", sans-serif; margin: 0; background-color: var(--rsu-bg); color: #333; }
+
+        .rsu-header-mock { 
+            background: #fff; padding: 15px 20px; border-bottom: 1px solid #ddd; 
+            display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; 
+        }
+        .rsu-logo { height: 45px; margin-right: 15px; }
+        .site-title { font-weight: 700; color: var(--rsu-teal); margin-left: 15px; font-size: 1.2rem; text-decoration: none; }
+
+        .rsu-banner { 
+            background-color: var(--rsu-teal); color: white; padding: 60px 20px; 
+            text-align: center; border-bottom: 5px solid var(--rsu-orange); 
+        }
+        .rsu-banner h1 { font-size: 2.5rem; margin: 0 0 10px 0; font-weight: 900; text-transform: uppercase; }
+        .heartfelt-msg { max-width: 800px; margin: 0 auto; line-height: 1.6; font-size: 1.1rem; opacity: 0.95; }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .toolbar { background: white; padding: 20px; border-radius: 12px; margin-top: -30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; position: relative; z-index: 10; }
-        .toolbar-logo { height: 50px; margin: 0 auto 10px; display: block; }
-        #runnerSearch { width: 100%; max-width: 450px; padding: 12px 20px; border-radius: 50px; border: 2px solid #eee; font-size: 1rem; outline: none; }
-        #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin: 30px 0; }
-        .runner-card { background: white; border-radius: 12px; padding: 35px 20px 20px; text-align: center; position: relative; border: 1px solid #eee; min-height: 250px; contain: layout; }
-        .tier-gold { background: #fffdf0 !important; border: 2px solid var(--gold) !important; }
-        .tier-standard { border-top: 4px solid var(--rsu-orange); }
-        .badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); padding: 4px 12px; font-size: 0.7rem; font-weight: 900; border-radius: 4px; text-transform: uppercase; }
+
+        .toolbar { 
+            background: white; padding: 30px; border-radius: 12px; margin-top: -40px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; position: relative; z-index: 10; 
+        }
+        /* Toolbar Logo Fix */
+        .toolbar-logo { height: 60px; width: auto; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto; }
+        
+        #runnerSearch { 
+            width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px; 
+            border: 2px solid #eee; font-size: 1rem; outline: none; margin-bottom: 15px;
+        }
+
+        .impact-summary { font-size: 0.9rem; color: #666; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        #runnerList { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 25px; margin: 40px 0; 
+        }
+
+        .runner-card { 
+            background: white; border-radius: 12px; padding: 40px 20px 25px; 
+            text-align: center; position: relative; border: 1px solid #eee; transition: 0.3s; 
+            display: flex; flex-direction: column;
+        }
+        
+        .tier-gold { background: #fffdf0 !important; border: 3px solid var(--gold) !important; }
+        .tier-standard { border-top: 5px solid var(--rsu-orange); }
+
+        .badge { 
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%); 
+            padding: 5px 15px; font-size: 0.75rem; font-weight: 900; border-radius: 4px; 
+            text-transform: uppercase; white-space: nowrap; 
+        }
         .badge-gold { background: var(--gold); color: #000; }
         .badge-standard { background: #333; color: #fff; }
-        .name { font-weight: 900; font-size: 1.3rem; margin-bottom: 5px; }
-        .main-stat { font-size: 2.8rem; font-weight: 900; color: var(--rsu-orange); margin: 0; }
-        .sub-label { font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 10px; }
-        .history-box { background: rgba(0,0,0,0.03); padding: 10px; border-radius: 6px; font-size: 0.8rem; margin-bottom: 15px; min-height: 35px; }
-        .share-btn { background: #fff; border: 1.5px solid #d3d9db; padding: 8px 16px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; color: #555; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-transform: uppercase; }
-        .share-btn svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.5; fill: none; }
-        .floating-register { position: fixed; bottom: 20px; right: 20px; background: var(--rsu-orange); color: white; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: 900; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 1000; font-size: 0.8rem; text-transform: uppercase; }
-    </style>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap" media="print" onload="this.media='all'">
+        .name { font-weight: 900; font-size: 1.4rem; color: #111; margin-bottom: 5px; }
+        .main-stat { font-size: 3rem; font-weight: 900; color: var(--rsu-orange); margin: 5px 0; line-height: 1; }
+        .sub-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 15px; }
+
+        .history-box { background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 15px; font-weight: 500; min-height: 40px; }
+
+        /* Share Button Fixes */
+        .share-btn {
+            margin-top: auto;
+            background: #ffffff;
+            border: 1.5px solid #d3d9db;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #555555;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+        .share-btn:hover { background: #f9f9f9; border-color: var(--rsu-teal); color: var(--rsu-teal); }
+        
+        /* Direct SVG Styling for Visibility */
+        .share-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            display: inline-block;
+        }
+
+        .floating-register { 
+            position: fixed; bottom: 30px; right: 30px; background: var(--rsu-orange); 
+            color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; 
+            font-weight: 900; box-shadow: 0 5px 15px rgba(255,110,64,0.4); z-index: 1000; 
+            border: 2px solid #fff; text-transform: uppercase; 
+        }
+    </style>
 </head>
 <body>
 
@@ -53,54 +131,36 @@
 </div>
 
 <header class="rsu-banner">
-    <h1>Legacy Runners</h1>
-    <p class="heartfelt-msg">Without these runners, we couldn't keep hosting these races. It is through your dedication that we keep this tradition alive.</p>
+    <h1>Big Pumpkin Run Legacy Runners</h1>
+    <p class="heartfelt-msg">Without these runners, we couldn't keep hosting these races. It is through your dedication that we keep this tradition alive. We appreciate each and every one of you.</p>
 </header>
 
 <div class="container">
     <div class="toolbar">
         <img src="favicon.ico" class="toolbar-logo" alt="Logo">
-        <input type="text" id="runnerSearch" placeholder="Search for your name...">
-        <div style="font-size:0.8rem; font-weight:700; color:#666; margin-top:10px; text-transform:uppercase;">
-            <span id="legacyCount">0</span> Runners | <span id="yearsCombined">0</span> Combined Years
+        <input type="text" id="runnerSearch" placeholder="Search for your name to share your legacy...">
+        <div class="impact-summary">
+            <span id="legacyCount">0</span> Legacy Runners | <span id="yearsCombined">0</span> Combined Years Ran
         </div>
     </div>
     
-    <div id="runnerList">Searching...</div>
+    <div id="runnerList">Searching for legends...</div>
 </div>
 
 <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="floating-register">Register Now</a>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
     let allRunners = [];
-    const listEl = document.getElementById("runnerList");
 
-    function createCard(r) {
-        const count = parseInt(r.years_count) || 0;
-        const tierClass = count >= 4 ? "tier-gold" : "tier-standard";
-        const badgeClass = count >= 4 ? "badge-gold" : "badge-standard";
-        const badgeText = count >= 4 ? "4-Year Legend" : (count === 3 ? "3-Year Milestone" : "Legacy Runner");
-
-        return `
-            <div class="runner-card ${tierClass}">
-                <div class="badge ${badgeClass}">${badgeText}</div>
-                <div class="name">${r.full_name}</div>
-                <div class="main-stat">${count}</div>
-                <div class="sub-label">Years</div>
-                <div class="history-box">${r.clean_distances}</div>
-                <button class="share-btn" onclick="shareRunner('${r.full_name.replace(/'/g, "\\'")}', ${count})">
-                    <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                    Share
-                </button>
-            </div>`;
-    }
-
-    // Chunked rendering to prevent browser freeze
     function render(data) {
-        listEl.innerHTML = "";
-        if (data.length === 0) { listEl.innerHTML = "<p>No results found.</p>"; return; }
-        
+        const list = document.getElementById("runnerList");
+        list.innerHTML = "";
+        if (data.length === 0) {
+            list.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No matching legacy runners found.</p>";
+            return;
+        }
+
+        // Chunking the render for speed
         const chunk = 20;
         let index = 0;
 
@@ -108,9 +168,37 @@
             const end = Math.min(index + chunk, data.length);
             let html = "";
             for (let i = index; i < end; i++) {
-                html += createCard(data[i]);
+                const r = data[i];
+                const count = parseInt(r.years_count) || 0;
+                let tierClass = "tier-standard", badgeText = "Legacy Runner", badgeClass = "badge-standard";
+
+                if (count >= 4) {
+                    tierClass = "tier-gold"; badgeClass = "badge-gold"; badgeText = "4-Year Legend";
+                } else if (count === 3) {
+                    badgeText = "3-Year Milestone";
+                }
+
+                html += `
+                    <div class="runner-card ${tierClass}">
+                        <div class="badge ${badgeClass}">${badgeText}</div>
+                        <div class="name">${r.full_name}</div>
+                        <div class="main-stat">${count}</div>
+                        <div class="sub-label">Years Completed</div>
+                        <div class="history-box">${r.clean_distances}</div>
+                        <button class="share-btn" onclick="shareRunner('${r.full_name.replace(/'/g, "\\'")}', ${count})">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                            Share My Legacy
+                        </button>
+                    </div>
+                `;
             }
-            listEl.insertAdjacentHTML('beforeend', html);
+            list.insertAdjacentHTML('beforeend', html);
             index = end;
             if (index < data.length) requestAnimationFrame(doRender);
         }
@@ -118,26 +206,35 @@
     }
 
     function shareRunner(name, years) {
+        const signupLink = "https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun";
         const url = new URL(window.location.href);
         url.searchParams.set('runner', name);
-        const text = `I've completed ${years} years at the Big Pumpkin Run! Join me in Port Arthur: https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun`;
-        if (navigator.share) { navigator.share({ title: 'Legacy', text: text, url: url.toString() }); }
-        else { navigator.clipboard.writeText(text + " " + url.toString()); alert("Copied!"); }
+        const shareUrl = url.toString();
+        const shareText = `I have completed ${years} years at the Big Pumpkin Run! Join me in Port Arthur for this tradition: ${signupLink}`;
+
+        if (navigator.share) {
+            navigator.share({ title: 'Big Pumpkin Run Legacy', text: shareText, url: shareUrl });
+        } else {
+            navigator.clipboard.writeText(`${shareText}\n\nView my legacy: ${shareUrl}`);
+            alert("Information copied to clipboard!");
+        }
     }
 
     Papa.parse("masterlist.csv", {
         download: true, header: true, skipEmptyLines: true,
         complete: function(results) {
-            let totalYears = 0;
+            let totalYearsRan = 0;
             allRunners = results.data.map(r => {
-                const c = parseInt(r.years_count) || 0;
-                totalYears += c;
-                r.clean_distances = (r.distances || "").replace(/The Big Pumpkin Run 5k 2023|The Big Pumpkin Run Kids K 2023/gi, '').split(',').map(s => s.trim()).filter(s => s).join(', ');
+                const countVal = parseInt(r.years_count) || 0;
+                totalYearsRan += countVal;
+                r.clean_distances = (r.distances || "")
+                    .replace(/The Big Pumpkin Run 5k 2023|The Big Pumpkin Run Kids K 2023/gi, '')
+                    .split(',').map(s => s.trim()).filter(s => s).join(', ');
                 return r;
             }).sort((a, b) => parseInt(b.years_count) - parseInt(a.years_count) || a.full_name.localeCompare(b.full_name));
 
             document.getElementById('legacyCount').innerText = allRunners.length;
-            document.getElementById('yearsCombined').innerText = totalYears;
+            document.getElementById('yearsCombined').innerText = totalYearsRan;
 
             const urlParams = new URLSearchParams(window.location.search);
             const runnerParam = urlParams.get('runner');
@@ -148,12 +245,11 @@
         }
     });
 
-    // Debounced search
-    let timeout;
+    let searchTimeout;
     document.getElementById("runnerSearch").addEventListener("input", function() {
-        clearTimeout(timeout);
+        clearTimeout(searchTimeout);
         const term = this.value.toLowerCase().trim();
-        timeout = setTimeout(() => {
+        searchTimeout = setTimeout(() => {
             render(allRunners.filter(r => r.full_name.toLowerCase().includes(term)));
         }, 150);
     });
