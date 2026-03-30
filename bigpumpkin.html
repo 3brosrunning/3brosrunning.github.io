@@ -55,11 +55,36 @@
 
         .history-box { background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; margin-bottom: 15px; flex-grow: 1; font-weight: 500; }
 
-        .share-btn { margin-top: 10px; background: white; border: 1.5px solid #d3d9db; padding: 10px 18px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; color: #555; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; transition: 0.2s; }
-        .share-btn:hover { background: #f9f9f9; border-color: var(--rsu-teal); color: var(--rsu-teal); }
-        .share-icon { width: 14px; height: 14px; stroke: currentColor; fill: none; display: block; }
+        /* EXACT SEABROOK SHARE BUTTON STYLE */
+        .share-btn { 
+            margin-top: 15px; 
+            background: none; 
+            border: 1px solid #ddd; 
+            padding: 10px 16px; 
+            border-radius: 8px; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            color: #555; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            transition: 0.2s;
+            text-transform: none; /* Reference image is Mixed Case */
+        }
+        .share-btn:hover { background: #f0f0f0; border-color: #bbb; color: #333; }
+        
+        /* EXACT SEABROOK SVG ICON */
+        .share-icon { 
+            width: 14px; 
+            height: 14px; 
+            stroke: currentColor; 
+            fill: none; 
+            display: block; 
+        }
 
-        #sentinel { height: 50px; width: 100%; } /* Intersection Observer Target */
+        #sentinel { height: 50px; width: 100%; }
 
         .floating-register { position: fixed; bottom: 30px; right: 30px; background: var(--rsu-orange); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; z-index: 2000; border: 2px solid #fff; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
@@ -97,7 +122,6 @@
     let allRunners = [];
     let filteredRunners = [];
     const increment = 50;
-    
     let searchTerm = '';
     const listElement = document.getElementById("runnerList");
 
@@ -116,7 +140,13 @@
                 <div class="sub-label">Years Completed</div>
                 <div class="history-box">${r.clean_distances}</div>
                 <button class="share-btn" onclick="shareRunner('${r.full_name.replace(/'/g, "\\'")}', ${count})">
-                    <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
                     Share My Legacy
                 </button>
             </div>
@@ -154,7 +184,7 @@
     function shareRunner(name, years) {
         const signupLink = "https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun";
         const url = new URL(window.location.href); url.searchParams.set('runner', name);
-        const text = `I have completed ${years} years at the Big Pumpkin Run! This race continues because of our dedication. Join me in Port Arthur: ${signupLink}`;
+        const text = `I have completed ${years} years at the Big Pumpkin Run! Join the tradition in Port Arthur: ${signupLink}`;
         if (navigator.share) { navigator.share({ title: 'Big Pumpkin Legacy', text: text, url: url.toString() }); }
         else { navigator.clipboard.writeText(`${text} ${url.toString()}`); alert("Link copied!"); }
     }
