@@ -4,58 +4,46 @@
     <meta charset="UTF-8">
     <title>Legacy Board | Seabrook Lucky Trails</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    
+    <link rel="icon" href="pelican.ico" type="image/x-icon">
 
-    <meta name="title" content="Seabrook Lucky Trails Legacy Board">
-    <meta name="description" content="Celebrating the legends and long-term loyalty of the Seabrook Lucky Trails since 2004. Check out my race history!">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://3brosrunning.github.io/legacysb.html"> <meta property="og:title" content="Seabrook Lucky Trails Legacy & Legends">
-    <meta property="og:description" content="A tradition of excellence since 2004. See the runners who make Seabrook special.">
+    <meta property="og:title" content="Seabrook Lucky Trails Legacy Board">
+    <meta property="og:description" content="Check out my race history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com.">
     <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png">
-
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Seabrook Lucky Trails Legacy Board">
-    <meta property="twitter:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png">
+    <meta property="og:url" content="https://seabrookluckytrails.com">
+    <meta property="og:type" content="website">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" />
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
         :root {
-            --sb-green: #2e7d32;
-            --sb-orange: #ff5722;
-            --gold: #FFD700;
-            --tier-20: #faf5ff;
-            --tier-15: #fffde7;
-            --tier-10: #f0f7ff;
-            --tier-5: #f1fcf1;
+            --sb-green: #2e7d32; --sb-orange: #ff5722; --gold: #FFD700;
+            --tier-20: #faf5ff; --tier-15: #fffde7; --tier-10: #f0f7ff; --tier-5: #f1fcf1;
             --sb-bg: #f4f7f6;
         }
 
         body { font-family: "Roboto", sans-serif; margin: 0; background-color: var(--sb-bg); color: #333; }
 
-        /* Header & Banner */
         .rsu-header-mock { background: #fff; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .rsu-logo { height: 45px; margin-right: 15px; }
-        .site-title { font-weight: 700; color: var(--sb-green); text-transform: uppercase; }
+        .site-title { font-weight: 700; color: var(--sb-green); text-transform: uppercase; letter-spacing: 0.5px; }
 
         .rsu-banner { background-color: var(--sb-green); color: white; padding: 60px 20px; text-align: center; border-bottom: 5px solid var(--sb-orange); }
-        .rsu-banner h1 { font-size: 2.5rem; margin: 0; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        .rsu-banner h1 { font-size: 2.5rem; margin: 0; font-weight: 900; text-transform: uppercase; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-        /* Toolbar */
         .toolbar { background: white; padding: 30px; border-radius: 12px; margin-top: -40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; position: relative; z-index: 10; }
         #runnerSearch { width: 100%; max-width: 500px; padding: 15px 20px; border-radius: 50px; border: 2px solid #eee; font-size: 1rem; margin-bottom: 20px; outline: none; }
         .filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
         .btn { padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; cursor: pointer; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; transition: 0.3s; }
         .btn.active { background: var(--sb-orange); color: white; border-color: var(--sb-orange); }
 
-        /* Grid & Cards */
         #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin: 40px 0; }
-        .runner-card { background: white; border-radius: 12px; padding: 40px 20px 20px; text-align: center; position: relative; border: 1px solid #eee; transition: 0.3s; }
+        .runner-card { background: white; border-radius: 12px; padding: 45px 20px 25px; text-align: center; position: relative; border: 1px solid #eee; transition: 0.3s; }
         
-        .tier-gold { background: #fffdf0 !important; border: 3px solid var(--gold) !important; box-shadow: 0 10px 20px rgba(212,175,55,0.25); }
+        .tier-gold { background: #fffdf0 !important; border: 3px solid var(--gold) !important; box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
         .tier-20 { background: var(--tier-20); border-top: 5px solid #9c27b0; }
         .tier-15 { background: var(--tier-15); border-top: 5px solid #fbc02d; }
         .tier-10 { background: var(--tier-10); border-top: 5px solid #1976d2; }
@@ -65,32 +53,17 @@
         .badge-gold { background: var(--gold); color: #000; }
         .badge-standard { background: #333; color: #fff; }
 
-        .name { font-weight: 900; font-size: 1.4rem; color: #111; margin-bottom: 5px; }
+        .name { font-weight: 900; font-size: 1.45rem; color: #111; margin-bottom: 5px; }
         .main-stat { font-size: 2.2rem; font-weight: 900; color: var(--sb-orange); margin: 5px 0; }
         .sub-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 15px; }
 
-        .history-box { text-align: left; background: rgba(255,255,255,0.6); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; max-height: 150px; overflow-y: auto; }
+        .history-box { text-align: left; background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; max-height: 150px; overflow-y: auto; }
         .history-item { padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
 
-        /* Share Button */
-        .share-btn {
-            margin-top: 15px;
-            background: none;
-            border: 1px solid #ddd;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #666;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .share-btn:hover { background: #f0f0f0; border-color: #bbb; color: #333; }
+        .share-btn { margin-top: 15px; background: none; border: 1px solid #ddd; padding: 8px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #777; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+        .share-btn:hover { background: #f0f0f0; border-color: #ccc; color: #333; }
 
-        .floating-register { position: fixed; bottom: 30px; right: 30px; background: var(--sb-orange); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; box-shadow: 0 5px 15px rgba(255,87,34,0.4); z-index: 1000; border: 2px solid #fff; text-transform: uppercase; }
+        .floating-register { position: fixed; bottom: 30px; right: 30px; background: var(--sb-orange); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; z-index: 2000; border: 2px solid #fff; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -102,7 +75,7 @@
 
 <header class="rsu-banner">
     <h1>Legacy & Champions</h1>
-    <p>A Tradition of Excellence since 2004</p>
+    <p>Celebrating the Most Spirited Trail Race in Texas since 2004</p>
 </header>
 
 <div class="container">
@@ -118,10 +91,10 @@
             <button class="btn" data-filter="5k">5k</button>
         </div>
     </div>
-    <div id="runnerList">Loading Legends...</div>
+    <div id="runnerList">Loading our trail legends...</div>
 </div>
 
-<a href="https://runsignup.com/Race/TX/Seabrook/SeabrookLuckyTrails" class="floating-register">Back to Race Page</a>
+<a href="https://seabrookluckytrails.com" class="floating-register">Register Now</a>
 
 <script>
     let allRunners = [];
@@ -131,83 +104,76 @@
     function render() {
         const list = document.getElementById("runnerList");
         let processed = allRunners.map(r => {
-            let val = 0, label = "", title = "", filterKey = "";
-            if (currentFilter === 'All') {
-                val = parseInt(r.Legacy_Years); label = "Years Participated"; title = "Seabrook Legend";
-            } else if (currentFilter === 'Trail') {
-                val = parseInt(r.Trail_Count); label = "Trail Challenges"; title = "Trail Legend"; filterKey = "Full";
-            } else if (currentFilter === 'Pelican') {
-                val = parseInt(r.Pelican_Count); label = "Pelican Challenges"; title = "Pelican Legend"; filterKey = "Half"; 
+            let val = 0, label = "", title = "", fKey = [];
+            if (currentFilter === 'All') { 
+                val = parseInt(r.Legacy_Years); label = "Years Participated"; title = "Seabrook Legend"; 
+            } else if (currentFilter === 'Trail') { 
+                val = parseInt(r.Trail_Count); label = "Trail Challenges"; title = "Trail Legend"; fKey = ["Full", "Half"]; 
+            } else if (currentFilter === 'Pelican') { 
+                val = parseInt(r.Pelican_Count); label = "Pelican Challenges"; title = "Pelican Legend"; fKey = ["Half"]; 
             } else {
-                const colMap = {'Full': 'Full_Years', 'Half': 'Half_Years', 'Quarter': 'Quarter_Years', '5k': 'FiveK_Years'};
-                val = parseInt(r[colMap[currentFilter]] || 0); label = currentFilter + " Years"; title = "Top " + currentFilter; filterKey = currentFilter;
+                const map = {'Full': 'Full_Years', 'Half': 'Half_Years', 'Quarter': 'Quarter_Years', '5k': 'FiveK_Years'};
+                val = parseInt(r[map[currentFilter]] || 0); label = currentFilter + " Years"; title = "Top " + currentFilter; fKey = [currentFilter];
             }
-            return { ...r, currentVal: val, currentLabel: label, currentTitle: title, filterKey: filterKey };
-        }).filter(r => {
-            const nameMatch = r.Name.toLowerCase().includes(searchTerm.toLowerCase());
-            return nameMatch && r.currentVal > 0;
-        });
+            return { ...r, cVal: val, cLabel: label, cTitle: title, fKey: fKey };
+        }).filter(r => r.Name.toLowerCase().includes(searchTerm.toLowerCase()) && r.cVal > 0);
 
-        processed.sort((a, b) => b.currentVal - a.currentVal || a.Name.localeCompare(b.Name));
-        const maxVal = processed.length > 0 ? processed[0].currentVal : 0;
+        processed.sort((a, b) => b.cVal - a.cVal || a.Name.localeCompare(b.Name));
+        const maxVal = processed.length > 0 ? processed[0].cVal : 0;
 
         list.innerHTML = processed.map(r => {
-            const overallYears = parseInt(r.Legacy_Years);
-            let tierClass = "", badgeText = r.currentTitle, badgeClass = "badge-standard";
+            const overall = parseInt(r.Legacy_Years);
+            let tClass = "", bText = r.cTitle, bClass = "badge-standard";
 
-            if (r.currentVal === maxVal && maxVal > 0) { tierClass = "tier-gold"; badgeClass = "badge-gold"; badgeText = currentFilter + " Leader"; }
-            else if (overallYears >= 20) tierClass = "tier-20";
-            else if (overallYears >= 15) tierClass = "tier-15";
-            else if (overallYears >= 10) tierClass = "tier-10";
-            else if (overallYears >= 5) tierClass = "tier-5";
+            if (r.cVal === maxVal && maxVal > 0) { tClass = "tier-gold"; bClass = "badge-gold"; bText = currentFilter + " Leader"; }
+            else if (overall >= 20) tClass = "tier-20"; else if (overall >= 15) tClass = "tier-15";
+            else if (overall >= 10) tClass = "tier-10"; else if (overall >= 5) tClass = "tier-5";
 
-            let historyParts = r.Detailed_History.split(' | ');
-            if (r.filterKey) historyParts = historyParts.filter(h => h.includes(r.filterKey));
+            // FILTER HISTORY LOGIC
+            let hParts = r.Detailed_History.split(' | ');
+            if (currentFilter === 'Trail') {
+                // For Trail: Show only years that contain BOTH a Full and a Half
+                hParts = hParts.filter(h => h.includes("Full") && h.includes("Half"));
+            } else if (currentFilter === 'Pelican') {
+                // For Pelican: Show only years that contain TWO Halfs (Sat and Sun)
+                hParts = hParts.filter(h => (h.match(/Half/g) || []).length >= 2);
+            } else if (currentFilter !== 'All' && r.fKey.length > 0) {
+                hParts = hParts.filter(h => r.fKey.some(key => h.includes(key)));
+            }
 
             return `
-                <div class="runner-card ${tierClass}">
-                    <div class="badge ${badgeClass}">${badgeText}</div>
+                <div class="runner-card ${tClass}" id="runner-${r.Name.replace(/\s+/g, '-')}">
+                    <div class="badge ${bClass}">${bText}</div>
                     <div class="name">${r.Name}</div>
-                    <div class="main-stat">${r.currentVal}</div>
-                    <div class="sub-label">${r.currentLabel}</div>
-                    <div style="font-size:0.75rem; color:#666; margin-bottom:15px; font-weight:700;">Lifetime Races: ${r.Total_Finishes}</div>
-                    <div class="history-box">${historyParts.map(h => `<div class="history-item">${h}</div>`).join('')}</div>
-                    <button class="share-btn" onclick="shareRunner('${r.Name.replace(/'/g, "\\'")}')">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                        Share My Legacy
-                    </button>
+                    <div class="main-stat">${r.cVal}</div>
+                    <div class="sub-label">${r.cLabel}</div>
+                    <div style="font-size:0.75rem; color:#666; margin-bottom:12px; font-weight:700;">Lifetime Races: ${r.Total_Finishes}</div>
+                    <div class="history-box">${hParts.map(h => `<div class="history-item">${h}</div>`).join('')}</div>
+                    <button class="share-btn" onclick="shareRunner('${r.Name.replace(/'/g, "\\'")}')">Share My Legacy</button>
                 </div>
             `;
         }).join('');
     }
 
-    // Dynamic Share Logic
     function shareRunner(name) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('runner', name);
-        const shareUrl = url.toString();
-        const shareText = `Check out my legacy at Seabrook Lucky Trails! I've been running since the early days. Join the tradition: https://runsignup.com/Race/TX/Seabrook/SeabrookLuckyTrails`;
-
-        if (navigator.share) {
-            navigator.share({ title: 'Seabrook Lucky Trails Legacy', text: shareText, url: shareUrl });
-        } else {
-            navigator.clipboard.writeText(shareUrl);
-            alert("Link copied to clipboard! Share it with your friends.");
-        }
+        const url = new URL(window.location.href); url.searchParams.set('runner', name);
+        const text = `Check out my history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com. See my stats:`;
+        if (navigator.share) { navigator.share({ title: 'Seabrook Legacy', text: text, url: url.toString() }); }
+        else { navigator.clipboard.writeText(url.toString()); alert("Link copied! Share it to inspire your friends to race."); }
     }
 
     Papa.parse("Seabrook_Master_Legacy_List.csv", {
         download: true, header: true, skipEmptyLines: true,
         complete: function(results) {
             allRunners = results.data;
-            // Check for deep link on load
             const urlParams = new URLSearchParams(window.location.search);
-            const runnerParam = urlParams.get('runner');
-            if (runnerParam) {
-                document.getElementById('runnerSearch').value = runnerParam;
-                searchTerm = runnerParam;
-            }
+            const rParam = urlParams.get('runner');
+            if (rParam) { document.getElementById('runnerSearch').value = rParam; searchTerm = rParam; }
             render();
+            if (rParam) {
+                const element = document.getElementById(`runner-${rParam.replace(/\s+/g, '-')}`);
+                if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     });
 
@@ -215,9 +181,7 @@
     document.querySelectorAll(".btn").forEach(btn => {
         btn.addEventListener("click", function() {
             document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
-            this.classList.add("active");
-            currentFilter = this.getAttribute("data-filter");
-            render();
+            this.classList.add("active"); currentFilter = this.getAttribute("data-filter"); render();
         });
     });
 </script>
