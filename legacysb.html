@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <title>Legacy Board | Seabrook Lucky Trails</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-    
     <link rel="icon" href="pelican.ico" type="image/x-icon">
 
     <meta property="og:title" content="Seabrook Lucky Trails Legacy Board">
     <meta property="og:description" content="Check out my race history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com.">
     <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png">
     <meta property="og:url" content="https://seabrookluckytrails.com">
-    <meta property="og:type" content="website">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" />
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -23,7 +21,7 @@
             --sb-bg: #f4f7f6;
         }
 
-        body { font-family: "Roboto", sans-serif; margin: 0; background-color: var(--sb-bg); color: #333; }
+        body { font-family: "Roboto", sans-serif; margin: 0; background-color: var(--sb-bg); color: #333; overflow-y: scroll; }
 
         .rsu-header-mock { background: #fff; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .rsu-logo { height: 45px; margin-right: 15px; }
@@ -36,13 +34,14 @@
 
         .toolbar { background: white; padding: 30px; border-radius: 12px; margin-top: -40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; position: relative; z-index: 10; }
         #runnerSearch { width: 100%; max-width: 500px; padding: 15px 20px; border-radius: 50px; border: 2px solid #eee; font-size: 1rem; margin-bottom: 20px; outline: none; }
+        
         .filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .btn { padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; cursor: pointer; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; transition: 0.3s; }
+        .btn { padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; cursor: pointer; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; }
         .btn.active { background: var(--sb-orange); color: white; border-color: var(--sb-orange); }
 
-        #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin: 40px 0; }
-        .runner-card { background: white; border-radius: 12px; padding: 45px 20px 25px; text-align: center; position: relative; border: 1px solid #eee; transition: 0.3s; }
+        #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin: 40px 0; min-height: 400px; }
         
+        .runner-card { background: white; border-radius: 12px; padding: 40px 20px 25px; text-align: center; position: relative; border: 1px solid #eee; height: fit-content; }
         .tier-gold { background: #fffdf0 !important; border: 3px solid var(--gold) !important; box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
         .tier-20 { background: var(--tier-20); border-top: 5px solid #9c27b0; }
         .tier-15 { background: var(--tier-15); border-top: 5px solid #fbc02d; }
@@ -60,25 +59,10 @@
         .history-box { text-align: left; background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; max-height: 150px; overflow-y: auto; }
         .history-item { padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
 
-        /* Updated Share Button with Icon */
-        .share-btn {
-            margin-top: 15px;
-            background: none;
-            border: 1px solid #ddd;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #555;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        .share-btn:hover { background: #f0f0f0; border-color: #ccc; color: #222; }
+        .share-btn { margin-top: 15px; background: none; border: 1px solid #ddd; padding: 10px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #555; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
         .share-icon { width: 14px; height: 14px; }
+
+        #sentinel { height: 50px; width: 100%; } /* Intersection Observer Target */
 
         .floating-register { position: fixed; bottom: 30px; right: 30px; background: var(--sb-orange); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; z-index: 2000; border: 2px solid #fff; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
@@ -108,75 +92,113 @@
             <button class="btn" data-filter="5k">5k</button>
         </div>
     </div>
-    <div id="runnerList">Loading our trail legends...</div>
-</div>
+    <div id="runnerList"></div>
+    <div id="sentinel"></div> </div>
 
 <a href="https://seabrookluckytrails.com" class="floating-register">Register Now</a>
 
 <script>
     let allRunners = [];
+    let filteredRunners = [];
+    let displayedCount = 50;
+    const increment = 50;
+    
     let currentFilter = 'All';
     let searchTerm = '';
+    let maxVal = 0;
 
-    function render() {
-        const list = document.getElementById("runnerList");
-        let processed = allRunners.map(r => {
+    const listElement = document.getElementById("runnerList");
+
+    // Optimized Card HTML Generator
+    function createCardHTML(r) {
+        const overall = parseInt(r.Legacy_Years);
+        let tClass = "", bText = r.cTitle, bClass = "badge-standard";
+
+        if (r.cVal === maxVal && maxVal > 0) { tClass = "tier-gold"; bClass = "badge-gold"; bText = currentFilter + " Leader"; }
+        else if (overall >= 20) tClass = "tier-20"; 
+        else if (overall >= 15) tClass = "tier-15";
+        else if (overall >= 10) tClass = "tier-10"; 
+        else if (overall >= 5) tClass = "tier-5";
+
+        let hParts = r.Detailed_History.split(' | ');
+        if (currentFilter === 'Trail') hParts = hParts.filter(h => h.includes("Full") && h.includes("Half"));
+        else if (currentFilter === 'Pelican') hParts = hParts.filter(h => (h.match(/Half/g) || []).length >= 2);
+        else if (currentFilter !== 'All' && r.fKey.length > 0) hParts = hParts.filter(h => r.fKey.some(key => h.includes(key)));
+
+        return `
+            <div class="runner-card ${tClass}" id="runner-${r.Name.replace(/\s+/g, '-')}">
+                <div class="badge ${bClass}">${bText}</div>
+                <div class="name">${r.Name}</div>
+                <div class="main-stat">${r.cVal}</div>
+                <div class="sub-label">${r.cLabel}</div>
+                <div style="font-size:0.75rem; color:#666; margin-bottom:12px; font-weight:700;">Lifetime Races: ${r.Total_Finishes}</div>
+                <div class="history-box">${hParts.map(h => `<div class="history-item">${h}</div>`).join('')}</div>
+                <button class="share-btn" onclick="shareRunner('${r.Name.replace(/'/g, "\\'")}')">
+                    <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    Share My Legacy
+                </button>
+            </div>
+        `;
+    }
+
+    function processAndFilter() {
+        filteredRunners = allRunners.map(r => {
             let val = 0, label = "", title = "", fKey = [];
-            if (currentFilter === 'All') { 
-                val = parseInt(r.Legacy_Years); label = "Years Participated"; title = "Seabrook Legend"; 
-            } else if (currentFilter === 'Trail') { 
-                val = parseInt(r.Trail_Count); label = "Trail Challenges"; title = "Trail Legend"; fKey = ["Full", "Half"]; 
-            } else if (currentFilter === 'Pelican') { 
-                val = parseInt(r.Pelican_Count); label = "Pelican Challenges"; title = "Pelican Legend"; fKey = ["Half"]; 
-            } else {
+            if (currentFilter === 'All') { val = parseInt(r.Legacy_Years); label = "Years Participated"; title = "Seabrook Legend"; }
+            else if (currentFilter === 'Trail') { val = parseInt(r.Trail_Count); label = "Trail Challenges"; title = "Trail Legend"; fKey = ["Full", "Half"]; }
+            else if (currentFilter === 'Pelican') { val = parseInt(r.Pelican_Count); label = "Pelican Challenges"; title = "Pelican Legend"; fKey = ["Half"]; }
+            else {
                 const map = {'Full': 'Full_Years', 'Half': 'Half_Years', 'Quarter': 'Quarter_Years', '5k': 'FiveK_Years'};
                 val = parseInt(r[map[currentFilter]] || 0); label = currentFilter + " Years"; title = "Top " + currentFilter; fKey = [currentFilter];
             }
             return { ...r, cVal: val, cLabel: label, cTitle: title, fKey: fKey };
         }).filter(r => r.Name.toLowerCase().includes(searchTerm.toLowerCase()) && r.cVal > 0);
 
-        processed.sort((a, b) => b.cVal - a.cVal || a.Name.localeCompare(b.Name));
-        const maxVal = processed.length > 0 ? processed[0].cVal : 0;
-
-        list.innerHTML = processed.map(r => {
-            const overall = parseInt(r.Legacy_Years);
-            let tClass = "", bText = r.cTitle, bClass = "badge-standard";
-
-            if (r.cVal === maxVal && maxVal > 0) { tClass = "tier-gold"; bClass = "badge-gold"; bText = currentFilter + " Leader"; }
-            else if (overall >= 20) tClass = "tier-20"; else if (overall >= 15) tClass = "tier-15";
-            else if (overall >= 10) tClass = "tier-10"; else if (overall >= 5) tClass = "tier-5";
-
-            let hParts = r.Detailed_History.split(' | ');
-            if (currentFilter === 'Trail') {
-                hParts = hParts.filter(h => h.includes("Full") && h.includes("Half"));
-            } else if (currentFilter === 'Pelican') {
-                hParts = hParts.filter(h => (h.match(/Half/g) || []).length >= 2);
-            } else if (currentFilter !== 'All' && r.fKey.length > 0) {
-                hParts = hParts.filter(h => r.fKey.some(key => h.includes(key)));
-            }
-
-            return `
-                <div class="runner-card ${tClass}" id="runner-${r.Name.replace(/\s+/g, '-')}">
-                    <div class="badge ${bClass}">${bText}</div>
-                    <div class="name">${r.Name}</div>
-                    <div class="main-stat">${r.cVal}</div>
-                    <div class="sub-label">${r.cLabel}</div>
-                    <div style="font-size:0.75rem; color:#666; margin-bottom:12px; font-weight:700;">Lifetime Races: ${r.Total_Finishes}</div>
-                    <div class="history-box">${hParts.map(h => `<div class="history-item">${h}</div>`).join('')}</div>
-                    <button class="share-btn" onclick="shareRunner('${r.Name.replace(/'/g, "\\'")}')">
-                        <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                        Share My Legacy
-                    </button>
-                </div>
-            `;
-        }).join('');
+        filteredRunners.sort((a, b) => b.cVal - a.cVal || a.Name.localeCompare(b.Name));
+        maxVal = filteredRunners.length > 0 ? filteredRunners[0].cVal : 0;
+        
+        displayedCount = 50;
+        renderList(true);
     }
+
+    function renderList(reset = false) {
+        if (reset) listElement.innerHTML = "";
+        
+        const nextBatch = filteredRunners.slice(listElement.children.length, listElement.children.length + increment);
+        const htmlString = nextBatch.map(r => createCardHTML(r)).join('');
+        listElement.insertAdjacentHTML('beforeend', htmlString);
+    }
+
+    // Lazy Loading Trigger
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
+            renderList();
+        }
+    }, { threshold: 1.0 });
+    observer.observe(document.getElementById('sentinel'));
+
+    // Debounced Search (Stops lag while typing)
+    let searchTimeout;
+    document.getElementById("runnerSearch").addEventListener("input", function() {
+        clearTimeout(searchTimeout);
+        searchTerm = this.value;
+        searchTimeout = setTimeout(processAndFilter, 300);
+    });
+
+    document.querySelectorAll(".btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            currentFilter = this.getAttribute("data-filter");
+            processAndFilter();
+        });
+    });
 
     function shareRunner(name) {
         const url = new URL(window.location.href); url.searchParams.set('runner', name);
         const text = `Check out my history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com. See my stats:`;
         if (navigator.share) { navigator.share({ title: 'Seabrook Legacy', text: text, url: url.toString() }); }
-        else { navigator.clipboard.writeText(url.toString()); alert("Link copied to clipboard!"); }
+        else { navigator.clipboard.writeText(url.toString()); alert("Link copied!"); }
     }
 
     Papa.parse("Seabrook_Master_Legacy_List.csv", {
@@ -185,21 +207,12 @@
             allRunners = results.data;
             const urlParams = new URLSearchParams(window.location.search);
             const rParam = urlParams.get('runner');
-            if (rParam) { document.getElementById('runnerSearch').value = rParam; searchTerm = rParam; }
-            render();
-            if (rParam) {
-                const element = document.getElementById(`runner-${rParam.replace(/\s+/g, '-')}`);
-                if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (rParam) { 
+                document.getElementById('runnerSearch').value = rParam; 
+                searchTerm = rParam; 
             }
+            processAndFilter();
         }
-    });
-
-    document.getElementById("runnerSearch").addEventListener("input", function() { searchTerm = this.value; render(); });
-    document.querySelectorAll(".btn").forEach(btn => {
-        btn.addEventListener("click", function() {
-            document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
-            this.classList.add("active"); currentFilter = this.getAttribute("data-filter"); render();
-        });
     });
 </script>
 </body>
