@@ -78,7 +78,7 @@
             color: #555; border: 1px solid #f0f0f0; margin-bottom: 20px; flex-grow: 1; font-weight: 500;
         }
 
-        /* Standardized Share Button Style */
+        /* Standarized Share Button Style */
         .share-btn {
             background: var(--rsu-teal); 
             border: none; 
@@ -99,11 +99,11 @@
         }
         .share-btn:hover { background: var(--teal-dark); transform: scale(1.03); }
 
-        /* The SVG Share Icon */
+        /* The Share Icon SVG (Matches standard share symbols) */
         .share-icon {
             width: 16px;
             height: 16px;
-            fill: currentColor; /* Matches text color (white) */
+            fill: currentColor; /* Inherits white from parent button text */
         }
 
         .badge {
@@ -191,7 +191,7 @@
             if (navigator.share) {
                 navigator.share(shareData);
             } else {
-                // Desktop fallback (copy information to clipboard)
+                // Desktop fallback (copy details to clipboard)
                 const fallbackText = `${shareData.text}\n${sharedUrl}`;
                 navigator.clipboard.writeText(fallbackText);
                 alert("Information and link copied to clipboard.");
