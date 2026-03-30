@@ -5,6 +5,7 @@
     <title>Big Pumpkin Run Legacy Runners</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="theme-color" content="#004d61">
 
@@ -38,12 +39,12 @@
         
         #runnerSearch { width: 100%; max-width: 500px; padding: 15px 20px; border-radius: 50px; border: 2px solid #eee; font-size: 1rem; margin-bottom: 20px; outline: none; }
         
-        .impact-summary { font-size: 0.9rem; color: #666; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: center; gap: 20px; }
+        .impact-summary { font-size: 0.9rem; color: #666; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
         .impact-summary span { color: var(--rsu-orange); font-size: 1.1rem; }
 
         #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin: 40px 0; min-height: 400px; }
         
-        .runner-card { background: white; border-radius: 12px; padding: 40px 20px 25px; text-align: center; position: relative; border: 1px solid #eee; height: fit-content; transition: 0.3s; }
+        .runner-card { background: white; border-radius: 12px; padding: 40px 20px 25px; text-align: center; position: relative; border: 1px solid #eee; height: auto; transition: 0.3s; display: flex; flex-direction: column; }
         .tier-gold { background: #fffdf0 !important; border: 3px solid var(--gold) !important; box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
         .tier-standard { border-top: 5px solid var(--rsu-orange); }
 
@@ -52,11 +53,13 @@
         .badge-standard { background: #333; color: #fff; }
 
         .name { font-weight: 900; font-size: 1.45rem; color: #111; margin-bottom: 5px; }
-        .main-stat { font-size: 4rem; font-weight: 900; color: var(--rsu-orange); margin: 5px 0; line-height: 1; }
-        .sub-label { font-size: 0.85rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 20px; }
+        .main-stat { font-size: 3rem; font-weight: 900; color: var(--rsu-orange); margin: 5px 0; line-height: 1; }
+        .sub-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 15px; }
+
+        .history-box { background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; margin-bottom: 15px; flex-grow: 1; font-weight: 500; text-align: center; }
 
         .share-btn { 
-            margin-top: 15px; background: none; border: 1.5px solid #ddd; padding: 10px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #555; 
+            margin-top: 10px; background: none; border: 1.5px solid #ddd; padding: 10px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #555; 
             cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; 
         }
         .share-btn:hover { background: #f0f0f0; border-color: #bbb; color: #333; }
@@ -117,7 +120,7 @@
                 <div class="name">${r.full_name}</div>
                 <div class="main-stat">${count}</div>
                 <div class="sub-label">Years Completed</div>
-                
+                <div class="history-box">${r.clean_distances}</div>
                 <button class="share-btn" onclick="shareRunner('${r.full_name.replace(/'/g, "\\'")}', ${count})">
                     <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="18" cy="5" r="3"></circle>
@@ -162,17 +165,15 @@
 
     function shareRunner(name, years) {
         const signupLink = "https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun";
-        const url = new URL(window.location.href); 
-        url.searchParams.set('runner', name);
+        const url = new URL(window.location.href); url.searchParams.set('runner', name);
         const shareUrl = url.toString();
-        
         const shareText = `I'm officially a Legacy Runner! 🎃 Join me for the Big Pumpkin Run in Port Arthur—it's a family tradition we can't let fade. Register now at: ${signupLink} and come run with me!`;
 
         if (navigator.share) {
             navigator.share({ title: 'Join me at the Big Pumpkin Run!', text: shareText, url: shareUrl });
         } else {
             navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-            alert("Registration link and legacy info copied!");
+            alert("Information copied to clipboard!");
         }
     }
 
@@ -181,14 +182,28 @@
         complete: function(results) {
             let totalMiles = 0;
             allRunners = results.data.map(r => {
-                const countVal = parseInt(r.years_count) || 0;
-                // Calculate miles based on 3.1 per year (5k)
-                totalMiles += (countVal * 3.1);
+                const historyStr = r.distances || "";
+                
+                // MATH LOGIC: Check each entry in history
+                const races = historyStr.split(',').map(s => s.trim());
+                races.forEach(race => {
+                    if (race.toLowerCase().includes("kids k")) {
+                        totalMiles += 0.62; // 1K is ~0.62 miles
+                    } else if (race.length > 2) {
+                        totalMiles += 3.1; // Default 5K
+                    }
+                });
+
+                // Clean display history: Remove 2023 specifically
+                r.clean_distances = historyStr
+                    .replace(/The Big Pumpkin Run 5k 2023|The Big Pumpkin Run Kids K 2023/gi, '')
+                    .split(',').map(s => s.trim()).filter(s => s).join(', ');
+                
                 return r;
             }).sort((a, b) => parseInt(b.years_count) - parseInt(a.years_count) || a.full_name.localeCompare(b.full_name));
 
             document.getElementById('legacyCount').innerText = allRunners.length;
-            document.getElementById('milesCombined').innerText = totalMiles.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            document.getElementById('milesCombined').innerText = Math.round(totalMiles).toLocaleString();
 
             const urlParams = new URLSearchParams(window.location.search);
             const rParam = urlParams.get('runner');
