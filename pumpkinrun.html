@@ -24,13 +24,12 @@
             border-bottom: 1px solid #ddd;
             display: flex;
             align-items: center;
-            justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
         .rsu-logo { height: 45px; }
-        .site-title { font-weight: 500; color: var(--rsu-teal); margin-left: 15px; text-decoration: none; }
+        .site-title { font-weight: 700; color: var(--rsu-teal); margin-left: 15px; font-size: 1.2rem; }
 
         .rsu-banner {
             background-color: var(--rsu-teal);
@@ -63,53 +62,49 @@
 
         .runner-card {
             background: white;
-            border-radius: 12px;
-            padding: 40px 20px 25px;
+            border-radius: 15px;
+            padding: 45px 20px 30px;
             text-align: center;
             position: relative;
             border: 1px solid #eee;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
         }
         
-        .tier-leader { 
-            background: #fffdf0 !important; 
-            border: 3px solid var(--gold) !important; 
-        }
+        .tier-4 { background: #fffdf0 !important; border: 3px solid var(--gold) !important; }
+        .tier-3 { border: 3px solid var(--rsu-orange) !important; }
 
-        .runner-name { font-weight: 900; font-size: 1.4rem; color: var(--rsu-teal); margin-bottom: 5px; }
-        .runner-count { color: var(--rsu-orange); font-weight: 900; font-size: 3rem; margin: 0; }
-        .sub-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 15px; }
+        .runner-name { font-weight: 900; font-size: 1.5rem; color: var(--rsu-teal); margin-bottom: 5px; }
+        .runner-count { color: var(--rsu-orange); font-weight: 900; font-size: 4rem; margin: 0; line-height: 1; }
+        .sub-label { font-size: 0.85rem; font-weight: 700; color: #777; text-transform: uppercase; margin-bottom: 15px; }
 
         .history-box {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #555;
             background: #f9f9f9;
             padding: 12px;
             border-radius: 8px;
+            font-size: 0.85rem;
+            color: #555;
             border: 1px solid #eee;
+            text-align: center;
             line-height: 1.4;
-            text-align: left;
+            font-weight: 500;
         }
-
-        .history-item { border-bottom: 1px solid #eee; padding: 4px 0; }
-        .history-item:last-child { border-bottom: none; }
-        .hist-year { color: var(--rsu-teal); font-weight: 900; margin-right: 8px; }
 
         .badge {
             position: absolute;
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 6px 16px;
+            padding: 6px 18px;
             font-size: 0.75rem;
             font-weight: 900;
             border-radius: 50px;
             text-transform: uppercase;
             white-space: nowrap;
         }
-        .badge-leader { background: var(--gold); color: #000; }
-        .badge-milestone { background: #ffc107; color: #000; }
+        .badge-4 { background: var(--gold); color: #000; }
+        .badge-3 { background: var(--rsu-orange); color: white; }
 
         .floating-register {
             position: fixed;
@@ -117,35 +112,33 @@
             right: 30px;
             background-color: var(--rsu-orange);
             color: white;
-            padding: 16px 28px;
+            padding: 16px 30px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 900;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             z-index: 2000;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
     <div class="rsu-header-mock">
-        <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="rsu-logo-link" style="display:flex; align-items:center; text-decoration:none;">
-            <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" class="rsu-logo" alt="Logo">
-            <div class="site-title">The Big Pumpkin Run</div>
-        </a>
+        <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" class="rsu-logo" alt="Logo">
+        <div class="site-title">The Big Pumpkin Run</div>
     </div>
 
     <header class="rsu-banner">
         <h1>Legacy Runners</h1>
-        <p>A tradition built by you, since 2022.</p>
+        <p>A tradition built by you, year after year.</p>
     </header>
 
     <div class="container">
         <div class="search-area">
             <input type="text" id="runnerSearch" placeholder="Search for your name...">
         </div>
-
-        <div id="runnerList">Loading legends...</div>
+        <div id="runnerList">Loading the legends...</div>
     </div>
 
     <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="floating-register">Register for 2026</a>
@@ -160,32 +153,27 @@
                 return;
             }
 
-            const maxYears = Math.max(...allRunners.map(r => r.actual_count));
-
             list.innerHTML = data.map(r => {
                 let badge = "";
                 let tierClass = "";
+                const count = parseInt(r.years_count) || 0;
 
-                if (r.actual_count === maxYears && maxYears > 1) {
-                    badge = '<span class="badge badge-leader">Overall Leader</span>';
-                    tierClass = "tier-leader";
-                } else if (r.actual_count >= 3) {
-                    badge = '<span class="badge badge-milestone">Multi-Year Champion</span>';
+                if (count >= 4) {
+                    badge = '<span class="badge badge-4">4-Year Legacy</span>';
+                    tierClass = "tier-4";
+                } else if (count === 3) {
+                    badge = '<span class="badge badge-3">3-Year Milestone</span>';
+                    tierClass = "tier-3";
                 }
-
-                // Create HTML for the history lines
-                const historyHtml = r.clean_history.map(item => 
-                    `<div class="history-item"><span class="hist-year">${item.year}</span> ${item.event}</div>`
-                ).join('');
 
                 return `
                     <div class="runner-card ${tierClass}">
                         ${badge}
                         <div class="runner-name">${r.full_name}</div>
-                        <div class="runner-count">${r.actual_count}</div>
+                        <div class="runner-count">${count}</div>
                         <div class="sub-label">Years Completed</div>
                         <div class="history-box">
-                            ${historyHtml}
+                            ${r.clean_distances}
                         </div>
                     </div>
                 `;
@@ -198,37 +186,23 @@
             skipEmptyLines: true,
             complete: function(results) {
                 allRunners = results.data.map(r => {
-                    // split the comma-separated list of races
-                    const rawEvents = r.distances.split(',').map(s => s.trim());
-                    
-                    let history = [];
-                    let foundYears = new Set();
-
-                    rawEvents.forEach(eventStr => {
-                        // 1. Extract the year (4 digits)
-                        const yearMatch = eventStr.match(/\d{4}/);
-                        const year = yearMatch ? yearMatch[0] : "Unknown";
-                        
-                        // 2. Clean the string: Remove the year and extra spaces
-                        // This turns "The Big Pumpkin Run 5k 2023" -> "The Big Pumpkin Run 5k"
-                        let cleanEvent = eventStr.replace(/\d{4}/g, '').replace(/\s+/g, ' ').trim();
-                        
-                        // Standardize the name to "The Big Pumpkin Run" if it's missing "The"
-                        if (cleanEvent.startsWith("Big Pumpkin")) {
-                            cleanEvent = "The " + cleanEvent;
-                        }
-
-                        history.push({ year: year, event: cleanEvent });
-                        if (yearMatch) foundYears.add(year);
-                    });
-
-                    // Sort history by year
-                    history.sort((a, b) => a.year - b.year);
-
-                    r.clean_history = history;
-                    r.actual_count = foundYears.size;
+                    // CLEANUP LOGIC: 
+                    // Remove "The Big Pumpkin Run 5k 2023" specifically 
+                    // and any similar year-stamped generic titles
+                    if (r.distances) {
+                        r.clean_distances = r.distances
+                            .replace(/The Big Pumpkin Run 5k 2023/gi, '') // Remove the specific string
+                            .replace(/The Big Pumpkin Run Kids K 2023/gi, '') // Remove the kids version if present
+                            .split(',') // Split by comma
+                            .map(item => item.trim()) // Trim spaces
+                            .filter(item => item.length > 0) // Remove empty results
+                            .join(', '); // Put back together
+                    } else {
+                        r.clean_distances = "Legendary Participant";
+                    }
                     return r;
-                }).sort((a, b) => b.actual_count - a.actual_count || a.full_name.localeCompare(b.full_name));
+                })
+                .sort((a, b) => (parseInt(b.years_count) - parseInt(a.years_count)) || a.full_name.localeCompare(b.full_name));
 
                 render(allRunners);
             }
