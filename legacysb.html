@@ -1,32 +1,227 @@
-function createCardHTML(r) {
-    const overall = parseInt(r.Legacy_Years);
-    let tClass = "", bText = "", bClass = "badge-standard";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Legacy Board | Seabrook Lucky Trails</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <link rel="icon" href="pelican.ico" type="image/x-icon">
 
-    // 1. Determine Title and Tier Class based on milestones
-    if (overall >= 25) {
-        tClass = "tier-25";
-        bText = "Seabrook Immortal"; // 25+ Years
-    } else if (overall >= 20) {
-        tClass = "tier-20";
-        bText = "Seabrook Icon";     // 20-24 Years
-    } else if (overall >= 15) {
-        tClass = "tier-15";
-        bText = "Seabrook Elite";    // 15-19 Years
-    } else if (overall >= 10) {
-        tClass = "tier-10";
-        bText = "Seabrook Veteran";  // 10-14 Years
-    } else if (overall >= 5) {
-        tClass = "tier-5";
-        bText = "Seabrook Faithful"; // 5-9 Years
-    } else {
-        bText = "Seabrook Runner";   // < 5 Years
+    <meta property="og:title" content="Seabrook Lucky Trails Legacy Board">
+    <meta property="og:description" content="Check out my race history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com.">
+    <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png">
+    <meta property="og:url" content="https://seabrookluckytrails.com">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" />
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+    <style>
+        :root {
+            --sb-green: #2e7d32; --sb-orange: #ff5722; --gold: #FFD700;
+            --tier-25: #fff0f5; --tier-20: #faf5ff; --tier-15: #fffde7; --tier-10: #f0f7ff; --tier-5: #f1fcf1;
+            --sb-bg: #f4f7f6;
+        }
+
+        body { font-family: "Roboto", sans-serif; margin: 0; background-color: var(--sb-bg); color: #333; overflow-y: scroll; }
+
+        .rsu-header-mock { background: #fff; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .rsu-logo { height: 45px; margin-right: 15px; }
+        .site-title { font-weight: 700; color: var(--sb-green); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .rsu-banner { background-color: var(--sb-green); color: white; padding: 60px 20px; text-align: center; border-bottom: 5px solid var(--sb-orange); }
+        .rsu-banner h1 { font-size: 2.5rem; margin: 0; font-weight: 900; text-transform: uppercase; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        .toolbar { background: white; padding: 30px; border-radius: 12px; margin-top: -40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; position: relative; z-index: 10; }
+        #runnerSearch { width: 100%; max-width: 500px; padding: 15px 20px; border-radius: 50px; border: 2px solid #eee; font-size: 1rem; margin-bottom: 20px; outline: none; }
+        
+        .filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+        .btn { padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; cursor: pointer; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; }
+        .btn.active { background: var(--sb-orange); color: white; border-color: var(--sb-orange); }
+
+        #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin: 40px 0; min-height: 400px; }
+        
+        .runner-card { background: white; border-radius: 12px; padding: 40px 20px 25px; text-align: center; position: relative; border: 1px solid #eee; height: fit-content; transition: transform 0.2s; }
+        .runner-card:hover { transform: translateY(-5px); }
+
+        .tier-gold { background: #fffdf0 !important; border: 3px solid var(--gold) !important; box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
+        .tier-25 { background: var(--tier-25); border-top: 5px solid #d81b60; box-shadow: 0 8px 20px rgba(216, 27, 96, 0.1); }
+        .tier-20 { background: var(--tier-20); border-top: 5px solid #9c27b0; }
+        .tier-15 { background: var(--tier-15); border-top: 5px solid #fbc02d; }
+        .tier-10 { background: var(--tier-10); border-top: 5px solid #1976d2; }
+        .tier-5 { background: var(--tier-5); border-top: 5px solid #43a047; }
+
+        .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); padding: 5px 15px; font-size: 0.75rem; font-weight: 900; border-radius: 4px; text-transform: uppercase; white-space: nowrap; }
+        .badge-gold { background: var(--gold); color: #000; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .badge-standard { background: #333; color: #fff; }
+
+        .name { font-weight: 900; font-size: 1.45rem; color: #111; margin-bottom: 5px; }
+        .main-stat { font-size: 2.2rem; font-weight: 900; color: var(--sb-orange); margin: 5px 0; }
+        .sub-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 15px; }
+
+        .history-box { text-align: left; background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; max-height: 150px; overflow-y: auto; }
+        .history-item { padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
+
+        .share-btn { margin-top: 15px; background: none; border: 1px solid #ddd; padding: 10px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #555; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .share-icon { width: 14px; height: 14px; }
+
+        #sentinel { height: 50px; width: 100%; }
+        .floating-register { position: fixed; bottom: 30px; right: 30px; background: var(--sb-orange); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; z-index: 2000; border: 2px solid #fff; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+<div class="rsu-header-mock">
+    <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png" class="rsu-logo">
+    <div class="site-title">Seabrook Lucky Trails Legacy</div>
+</div>
+
+<header class="rsu-banner">
+    <h1>Legacy Runners</h1>
+    <p>Celebrating the Most Spirited Trail Race in Texas since 2004</p>
+</header>
+
+<div class="container">
+    <div class="toolbar">
+        <input type="text" id="runnerSearch" placeholder="Search for a legend by name...">
+        <div class="filter-group">
+            <button class="btn active" data-filter="All">All Races</button>
+            <button class="btn" data-filter="Trail">Trail Challenge</button>
+            <button class="btn" data-filter="Pelican">Pelican Challenge</button>
+            <button class="btn" data-filter="Full">Full</button>
+            <button class="btn" data-filter="Half">Half</button>
+            <button class="btn" data-filter="Quarter">Quarter</button>
+            <button class="btn" data-filter="5k">5k</button>
+        </div>
+    </div>
+    <div id="runnerList"></div>
+    <div id="sentinel"></div> 
+</div>
+
+<a href="https://seabrookluckytrails.com" class="floating-register">Register Now</a>
+
+<script>
+    let allRunners = [];
+    let filteredRunners = [];
+    let displayedCount = 50;
+    const increment = 50;
+    
+    let currentFilter = 'All';
+    let searchTerm = '';
+    let maxVal = 0;
+
+    const listElement = document.getElementById("runnerList");
+
+    function createCardHTML(r) {
+        const overall = parseInt(r.Legacy_Years);
+        let tClass = "", bText = "", bClass = "badge-standard";
+
+        // Milestone Logic
+        if (overall >= 25) { tClass = "tier-25"; bText = "Seabrook Immortal"; }
+        else if (overall >= 20) { tClass = "tier-20"; bText = "Seabrook Icon"; }
+        else if (overall >= 15) { tClass = "tier-15"; bText = "Seabrook Elite"; }
+        else if (overall >= 10) { tClass = "tier-10"; bText = "Seabrook Veteran"; }
+        else if (overall >= 5) { tClass = "tier-5"; bText = "Seabrook Faithful"; }
+        else { bText = "Seabrook Runner"; }
+
+        // Leader Override
+        if (r.cVal === maxVal && maxVal > 0) { 
+            tClass = "tier-gold"; 
+            bClass = "badge-gold"; 
+            bText = currentFilter + " Leader"; 
+        }
+
+        let hParts = r.Detailed_History.split(' | ');
+        if (currentFilter === 'Trail') hParts = hParts.filter(h => h.includes("Full") && h.includes("Half"));
+        else if (currentFilter === 'Pelican') hParts = hParts.filter(h => (h.match(/Half/g) || []).length >= 2);
+        else if (currentFilter !== 'All' && r.fKey.length > 0) hParts = hParts.filter(h => r.fKey.some(key => h.includes(key)));
+
+        return `
+            <div class="runner-card ${tClass}" id="runner-${r.Name.replace(/\s+/g, '-')}">
+                <div class="badge ${bClass}">${bText}</div>
+                <div class="name">${r.Name}</div>
+                <div class="main-stat">${r.cVal}</div>
+                <div class="sub-label">${r.cLabel}</div>
+                <div style="font-size:0.75rem; color:#666; margin-bottom:12px; font-weight:700;">Lifetime Races: ${r.Total_Finishes}</div>
+                <div class="history-box">${hParts.map(h => `<div class="history-item">${h}</div>`).join('')}</div>
+                <button class="share-btn" onclick="shareRunner('${r.Name.replace(/'/g, "\\'")}')">
+                    <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    Share My Legacy
+                </button>
+            </div>
+        `;
     }
 
-    // 2. Override for Gold Tier (Leader of the current filter)
-    if (r.cVal === maxVal && maxVal > 0) { 
-        tClass = "tier-gold"; 
-        bClass = "badge-gold"; 
-        bText = currentFilter + " Leader"; 
+    function processAndFilter() {
+        filteredRunners = allRunners.map(r => {
+            let val = 0, label = "", title = "", fKey = [];
+            if (currentFilter === 'All') { val = parseInt(r.Legacy_Years); label = "Years Participated"; fKey = []; }
+            else if (currentFilter === 'Trail') { val = parseInt(r.Trail_Count); label = "Trail Challenges"; fKey = ["Full", "Half"]; }
+            else if (currentFilter === 'Pelican') { val = parseInt(r.Pelican_Count); label = "Pelican Challenges"; fKey = ["Half"]; }
+            else {
+                const map = {'Full': 'Full_Years', 'Half': 'Half_Years', 'Quarter': 'Quarter_Years', '5k': 'FiveK_Years'};
+                val = parseInt(r[map[currentFilter]] || 0); label = currentFilter + " Years"; fKey = [currentFilter];
+            }
+            return { ...r, cVal: val, cLabel: label, fKey: fKey };
+        }).filter(r => r.Name.toLowerCase().includes(searchTerm.toLowerCase()) && r.cVal > 0);
+
+        filteredRunners.sort((a, b) => b.cVal - a.cVal || a.Name.localeCompare(b.Name));
+        maxVal = filteredRunners.length > 0 ? filteredRunners[0].cVal : 0;
+        
+        renderList(true);
     }
 
-    // ... rest of your history filtering and return statement ...
+    function renderList(reset = false) {
+        if (reset) listElement.innerHTML = "";
+        const start = listElement.children.length;
+        const nextBatch = filteredRunners.slice(start, start + increment);
+        const htmlString = nextBatch.map(r => createCardHTML(r)).join('');
+        listElement.insertAdjacentHTML('beforeend', htmlString);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
+            renderList();
+        }
+    }, { threshold: 0.1 });
+    observer.observe(document.getElementById('sentinel'));
+
+    let searchTimeout;
+    document.getElementById("runnerSearch").addEventListener("input", function() {
+        clearTimeout(searchTimeout);
+        searchTerm = this.value;
+        searchTimeout = setTimeout(processAndFilter, 300);
+    });
+
+    document.querySelectorAll(".btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            currentFilter = this.getAttribute("data-filter");
+            processAndFilter();
+        });
+    });
+
+    function shareRunner(name) {
+        const url = new URL(window.location.href); url.searchParams.set('runner', name);
+        const text = `Check out my history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com. See my stats:`;
+        if (navigator.share) { navigator.share({ title: 'Seabrook Legacy', text: text, url: url.toString() }); }
+        else { navigator.clipboard.writeText(url.toString()); alert("Link copied!"); }
+    }
+
+    Papa.parse("Seabrook_Master_Legacy_List.csv", {
+        download: true, header: true, skipEmptyLines: true,
+        complete: function(results) {
+            allRunners = results.data;
+            const urlParams = new URLSearchParams(window.location.search);
+            const rParam = urlParams.get('runner');
+            if (rParam) { 
+                document.getElementById('runnerSearch').value = rParam; 
+                searchTerm = rParam; 
+            }
+            processAndFilter();
+        }
+    });
+</script>
+</body>
+</html>
