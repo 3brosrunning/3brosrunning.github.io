@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Legacy Board | Seabrook Lucky Trails</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    
     <link rel="icon" href="pelican.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="pelican.ico" type="image/x-icon">
 
     <meta property="og:title" content="Seabrook Lucky Trails Legacy Board">
     <meta property="og:description" content="Check out my race history at the Most Spirited Trail Race in Texas! Join the tradition at seabrookluckytrails.com.">
-    <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png">
+    <meta property="og:image" content="pelican.ico"> 
     <meta property="og:url" content="https://seabrookluckytrails.com">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" />
@@ -103,7 +105,6 @@
 <script>
     let allRunners = [];
     let filteredRunners = [];
-    let displayedCount = 50;
     const increment = 50;
     
     let currentFilter = 'All';
@@ -116,7 +117,7 @@
         const overall = parseInt(r.Legacy_Years);
         let tClass = "", bText = "", bClass = "badge-standard";
 
-        // Milestone Logic
+        // Milestone Titles & Tiers
         if (overall >= 25) { tClass = "tier-25"; bText = "Seabrook Immortal"; }
         else if (overall >= 20) { tClass = "tier-20"; bText = "Seabrook Icon"; }
         else if (overall >= 15) { tClass = "tier-15"; bText = "Seabrook Elite"; }
@@ -124,7 +125,7 @@
         else if (overall >= 5) { tClass = "tier-5"; bText = "Seabrook Faithful"; }
         else { bText = "Seabrook Runner"; }
 
-        // Leader Override
+        // Leader Badge Override
         if (r.cVal === maxVal && maxVal > 0) { 
             tClass = "tier-gold"; 
             bClass = "badge-gold"; 
@@ -154,7 +155,7 @@
 
     function processAndFilter() {
         filteredRunners = allRunners.map(r => {
-            let val = 0, label = "", title = "", fKey = [];
+            let val = 0, label = "", fKey = [];
             if (currentFilter === 'All') { val = parseInt(r.Legacy_Years); label = "Years Participated"; fKey = []; }
             else if (currentFilter === 'Trail') { val = parseInt(r.Trail_Count); label = "Trail Challenges"; fKey = ["Full", "Half"]; }
             else if (currentFilter === 'Pelican') { val = parseInt(r.Pelican_Count); label = "Pelican Challenges"; fKey = ["Half"]; }
