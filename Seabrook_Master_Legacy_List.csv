@@ -1,7 +1,7 @@
 Name,Legacy_Years,Total_Finishes,First_Year,Last_Year,Pelican_Count,Trail_Count,Full_Years,Half_Years,FiveK_Years,Quarter_Years,Detailed_History
 Carlos Reyes,22,37,2004,2026,8,15,22,15,0,0,"2004 (Full) | 2005 (Full) | 2006 (Full) | 2007 (Full Sun) | 2008 (Full Sun, Half Sat) | 2009 (Full Sun, Half Sat) | 2010 (Full Sun, Half Sat) | 2011 (Full Sun, Half Sat) | 2012 (Full Sun, Half Sat) | 2013 (Full Sun, Half Sat) | 2014 (Full Sun) | 2015 (Full Sun) | 2016 (Full Sun, Half Sat) | 2017 (Full Sat, Half Sun) | 2018 (Full Sat, Half Sun) | 2019 (Full Sat, Half Sun) | 2021 (Full Sat, Half Sun) | 2022 (Full Sat, Half Sun) | 2023 (Full Sat, Half Sun) | 2024 (Full Sat) | 2025 (Full Sat, Half Sun) | 2026 (Full Sat, Half Sun)"
-Ron Berglund*,19,21,2006,2026,1,2,16,5,0,0,"2006 (Full) | 2007 (Full Sun) | 2008 (Full Sun) | 2009 (Full Sun) | 2010 (Full Sun, Half Sat) | 2012 (Full Sun) | 2013 (Full Sun) | 2014 (Full Sun) | 2015 (Full Sun) | 2016 (Full Sun) | 2017 (Full Sat) | 2018 (Full Sat, Half Sun) | 2019 (Full Sat) | 2020 (Virtual Full) | 2021 (Full Sat) | 2022 (Full Sat) | 2024 (Half Sat) | 2025 (Half Sat) | 2026 (Half Sat)"
-Karen Berglund*,19,20,2006,2026,0,1,16,4,0,0,"2006 (Full) | 2008 (Full Sun) | 2009 (Full Sun) | 2010 (Full Sun, Half Sat) | 2011 (Full Sun) | 2012 (Full Sun) | 2013 (Full Sun) | 2014 (Full Sun) | 2015 (Full Sun) | 2016 (Full Sun) | 2017 (Full Sat) | 2018 (Full Sat) | 2019 (Full Sat) | 2020 (Virtual Full) | 2021 (Full Sat) | 2022 (Full Sat) | 2024 (Half Sat) | 2025 (Half Sat) | 2026 (Half Sat)"
+Ron Berglund,19,21,2006,2026,1,2,16,5,0,0,"2006 (Full) | 2007 (Full Sun) | 2008 (Full Sun) | 2009 (Full Sun) | 2010 (Full Sun, Half Sat) | 2012 (Full Sun) | 2013 (Full Sun) | 2014 (Full Sun) | 2015 (Full Sun) | 2016 (Full Sun) | 2017 (Full Sat) | 2018 (Full Sat, Half Sun) | 2019 (Full Sat) | 2020 (Virtual Full) | 2021 (Full Sat) | 2022 (Full Sat) | 2024 (Half Sat) | 2025 (Half Sat) | 2026 (Half Sat)"
+Karen Berglund,19,20,2006,2026,0,1,16,4,0,0,"2006 (Full) | 2008 (Full Sun) | 2009 (Full Sun) | 2010 (Full Sun, Half Sat) | 2011 (Full Sun) | 2012 (Full Sun) | 2013 (Full Sun) | 2014 (Full Sun) | 2015 (Full Sun) | 2016 (Full Sun) | 2017 (Full Sat) | 2018 (Full Sat) | 2019 (Full Sat) | 2020 (Virtual Full) | 2021 (Full Sat) | 2022 (Full Sat) | 2024 (Half Sat) | 2025 (Half Sat) | 2026 (Half Sat)"
 Paula Boone,19,19,2004,2026,0,0,17,2,0,0,2004 (Full) | 2006 (Full) | 2007 (Full Sun) | 2008 (Full Sun) | 2009 (Full Sun) | 2010 (Full Sun) | 2011 (Full Sun) | 2013 (Full Sun) | 2015 (Full Sun) | 2016 (Full Sun) | 2017 (Full Sat) | 2018 (Full Sat) | 2019 (Full Sat) | 2020 (Virtual Full) | 2021 (Half Sat) | 2022 (Half Sat) | 2023 (Full Sat) | 2024 (Full Sat) | 2026 (Full Sat)
 Margot Campos,18,28,2009,2026,8,3,8,13,0,0,"2009 (Full Sun) | 2010 (Full Sun) | 2011 (Full Sun) | 2012 (Full Sun) | 2013 (Full Sun) | 2014 (Full Sun, Half Sat) | 2015 (Half Sun) | 2016 (Full Sun, Half Sat) | 2017 (Full Sat, Half Sun) | 2018 (Half Sat, Half Sun) | 2019 (Half Sat, Half Sun) | 2020 (Virtual Half Sat, Virtual Half Sun) | 2021 (Half Sat, Half Sun) | 2022 (Half Sat, Half Sun) | 2023 (Half Sat, Half Sun) | 2024 (Half Sat, Half Sun) | 2025 (Half Sun) | 2026 (Half Sun)"
 Don Womble,17,30,2007,2025,10,2,2,17,0,1,"2007 (Half Sun) | 2008 (Half Sat, Half Sun) | 2009 (Half Sat, Half Sun) | 2010 (Half Sat, Half Sun) | 2011 (Half Sat, Half Sun) | 2012 (Half Sat, Half Sun) | 2013 (Half Sat, Half Sun) | 2014 (Full Sun, Half Sat) | 2015 (Full Sun, Half Sat) | 2016 (Half Sat, Half Sun) | 2017 (Half Sat, Half Sun, Quarter) | 2018 (Half Sat, Half Sun) | 2019 (Half Sat, Half Sun) | 2021 (Half Sat) | 2022 (Half Sat) | 2024 (Half Sat) | 2025 (Half Sat)"
@@ -83,13 +83,13 @@ Joseph Leon Guerrero,10,18,2007,2017,4,4,6,8,0,0,"2007 (Full Sun) | 2008 (Full S
 Rachel Lowell,10,17,2010,2024,5,4,5,8,3,0,"2010 (Half Sun) | 2012 (Half Sun) | 2013 (Half Sun) | 2016 (Full Sun) | 2017 (Half Sat, Half Sun) | 2018 (5k Fri) | 2019 (5k Fri, Full Sat, Half Sun) | 2020 (Virtual 5k Fri, Virtual Full, Virtual Half Sun) | 2022 (Full Sat, Half Sun) | 2024 (Full Sat, Half Sun)"
 Eric Raschke,10,16,2007,2023,2,5,7,8,0,0,"2007 (Full Sun) | 2009 (Full Sun) | 2010 (Full Sun, Half Sat) | 2011 (Half Sat) | 2012 (Full Sun, Half Sat) | 2013 (Half Sat) | 2015 (Full Sun, Half Sat) | 2016 (Full Sun, Half Sat) | 2017 (Full Sat, Half Sun) | 2023 (Half Sat, Half Sun)"
 Robert Mount.,10,14,2008,2023,3,0,0,9,1,1,"2008 (Half Sun) | 2010 (Half Sat, Half Sun) | 2014 (Half Sat, Half Sun) | 2015 (Half Sat, Half Sun) | 2017 (Half Sun) | 2018 (Half Sat) | 2019 (Half Sun) | 2020 (Virtual 5k Fri, Virtual Half Sat) | 2022 (Quarter Sun) | 2023 (Half Sat)"
-Michelle Demoss*,10,13,2015,2026,0,0,4,4,2,2,"2015 (Half Sat) | 2016 (Half Sat) | 2017 (Full Sat) | 2018 (Full Sat) | 2019 (5k Fri, Quarter Sun) | 2020 (Virtual 5k Fri, Virtual 5k Sun, Virtual Full) | 2023 (Full Sat) | 2024 (Quarter Sun) | 2025 (Half Sat) | 2026 (Half Sat)"
+Michelle Demoss,10,13,2015,2026,0,0,4,4,2,2,"2015 (Half Sat) | 2016 (Half Sat) | 2017 (Full Sat) | 2018 (Full Sat) | 2019 (5k Fri, Quarter Sun) | 2020 (Virtual 5k Fri, Virtual 5k Sun, Virtual Full) | 2023 (Full Sat) | 2024 (Quarter Sun) | 2025 (Half Sat) | 2026 (Half Sat)"
 Catherine Martin,10,12,2009,2024,1,0,0,5,2,0,"2009 (Half Sat) | 2010 (Half Sat) | 2011 (Half Sat, Half Sun) | 2014 (Half Sat) | 2015 (Relay Sat) | 2016 (Half Sat) | 2017 (Relay Sat) | 2018 (5k Sat) | 2019 (Relay Sat, Relay Sun) | 2024 (5k Fri)"
-Becky Bethscheider*,10,11,2016,2026,0,0,1,1,9,0,"2016 (5k Fri) | 2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual Full) | 2021 (5k Fri) | 2022 (5k Sun) | 2023 (5k Sun) | 2024 (5k Sun, Half Sat) | 2025 (5k Sun) | 2026 (5k Sun)"
+Becky Bethscheider,10,11,2016,2026,0,0,1,1,9,0,"2016 (5k Fri) | 2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual Full) | 2021 (5k Fri) | 2022 (5k Sun) | 2023 (5k Sun) | 2024 (5k Sun, Half Sat) | 2025 (5k Sun) | 2026 (5k Sun)"
 David Raines,10,11,2008,2018,0,0,0,10,0,0,"2008 (Half Sat) | 2009 (Half Sat) | 2010 (Half Sat) | 2012 (Half Sat) | 2013 (Half Sun) | 2014 (Half Sat) | 2015 (Half Sat) | 2016 (Half Sun) | 2017 (Half Sun, Relay Sat) | 2018 (Half Sun)"
 Holly Rake,10,11,2006,2018,0,0,0,5,1,0,"2006 (Half) | 2007 (Half Sun) | 2008 (Half Sun) | 2009 (Relay Sun) | 2010 (Half Sat) | 2012 (Half Sat) | 2014 (Relay Sun) | 2016 (Relay Sat, Relay Sun) | 2017 (Relay Sun) | 2018 (5k Sat)"
 John Ellis,10,11,2009,2024,1,0,0,9,0,0,"2009 (Half Sat) | 2010 (Half Sat) | 2011 (Relay Sat) | 2012 (Half Sun) | 2013 (Half Sat, Half Sun) | 2014 (Half Sat) | 2015 (Half Sat) | 2016 (Half Sat) | 2023 (Half Sun) | 2024 (Half Sun)"
-Brian Bethscheider*,10,10,2016,2026,0,0,1,0,9,0,2016 (5k Fri) | 2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual Full) | 2021 (5k Fri) | 2022 (5k Sun) | 2023 (5k Sun) | 2024 (5k Sun) | 2025 (5k Sun) | 2026 (5k Sun)
+Brian Bethscheider,10,10,2016,2026,0,0,1,0,9,0,2016 (5k Fri) | 2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual Full) | 2021 (5k Fri) | 2022 (5k Sun) | 2023 (5k Sun) | 2024 (5k Sun) | 2025 (5k Sun) | 2026 (5k Sun)
 Charlise Gunderson,10,10,2011,2025,0,0,0,2,1,2,2011 (Relay Sun) | 2012 (Relay Sun) | 2013 (Relay Sat) | 2014 (Relay Sat) | 2015 (Relay Sat) | 2016 (5k Fri) | 2018 (Quarter Sun) | 2019 (Quarter Sun) | 2020 (Virtual Half Sat) | 2025 (Half Sat)
 Debbie Casey,10,10,2010,2024,0,0,0,1,8,0,2010 (Half Sat) | 2013 (Relay Sun) | 2015 (5k Sat) | 2018 (5k Fri) | 2019 (5k Sun) | 2020 (Virtual 5k Fri) | 2021 (5k Fri) | 2022 (5k Fri) | 2023 (5k Fri) | 2024 (5k Fri)
 Kari Henry,10,10,2009,2021,0,0,8,2,0,0,2009 (Full Sun) | 2010 (Full Sun) | 2011 (Full Sun) | 2013 (Half Sat) | 2014 (Full Sun) | 2015 (Half Sun) | 2017 (Full Sat) | 2018 (Full Sat) | 2019 (Full Sat) | 2021 (Full Sat)
@@ -100,7 +100,7 @@ Parvaneh Moayedi,10,10,2006,2017,0,0,10,0,0,0,2006 (Full) | 2007 (Full Sun) | 20
 Skip Teel,10,10,2012,2026,0,0,0,10,0,0,2012 (Half Sat) | 2014 (Half Sat) | 2015 (Half Sat) | 2017 (Half Sat) | 2019 (Half Sat) | 2021 (Half Sat) | 2022 (Half Sat) | 2023 (Half Sun) | 2024 (Half Sun) | 2026 (Half Sun)
 Kelsey Eason,9,20,2014,2026,6,0,0,9,5,0,"2014 (Half Sat) | 2019 (Half Sun) | 2020 (Virtual Half Sat, Virtual Half Sun) | 2021 (5k Fri, Half Sun) | 2022 (5k Fri, Half Sat, Half Sun) | 2023 (Half Sat, Half Sun) | 2024 (5k Fri, Half Sat, Half Sun) | 2025 (5k Fri, Half Sat, Half Sun) | 2026 (5k Fri, Half Sat, Half Sun)"
 Misty Johns,9,19,2015,2025,4,0,0,5,6,4,"2015 (Half Sat, Half Sun) | 2016 (Half Sat, Half Sun) | 2017 (5k Fri, Half Sat, Half Sun) | 2018 (5k Fri, Half Sat, Half Sun) | 2019 (5k Fri, Half Sat) | 2022 (Quarter Sun) | 2023 (5k Fri, Quarter Sun) | 2024 (5k Fri, Quarter Sun) | 2025 (5k Fri, Quarter Sun)"
-Tammy Hodges*,9,19,2017,2026,7,0,0,9,3,0,"2017 (Half Sun) | 2018 (Half Sat, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual Half Sat) | 2022 (5k Fri, Half Sat, Half Sun) | 2023 (Half Sat, Half Sun) | 2024 (Half Sat, Half Sun) | 2025 (Half Sat, Half Sun) | 2026 (5k Fri, Half Sat, Half Sun)"
+Tammy Hodges,9,19,2017,2026,7,0,0,9,3,0,"2017 (Half Sun) | 2018 (Half Sat, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual Half Sat) | 2022 (5k Fri, Half Sat, Half Sun) | 2023 (Half Sat, Half Sun) | 2024 (Half Sat, Half Sun) | 2025 (Half Sat, Half Sun) | 2026 (5k Fri, Half Sat, Half Sun)"
 Bob Myers,9,18,2011,2019,3,9,9,9,0,0,"2011 (Full Sun, Half Sat) | 2012 (Full Sun, Half Sat) | 2013 (Full Sun, Half Sat) | 2014 (Full Sun, Half Sat) | 2015 (Full Sun, Half Sat) | 2016 (Full Sun, Half Sat) | 2017 (Full Sat, Half Sun) | 2018 (Full Sat, Half Sun) | 2019 (Full Sat, Half Sun)"
 Michael Purvey,9,18,2007,2016,9,0,0,9,0,0,"2007 (Half Sat, Half Sun) | 2008 (Half Sat, Half Sun) | 2009 (Half Sat, Half Sun) | 2010 (Half Sat, Half Sun) | 2011 (Half Sat, Half Sun) | 2013 (Half Sat, Half Sun) | 2014 (Half Sat, Half Sun) | 2015 (Half Sat, Half Sun) | 2016 (Half Sat, Half Sun)"
 Lorinda Smith,9,16,2010,2019,4,0,0,7,0,3,"2010 (Half Sun) | 2012 (Half Sun) | 2013 (Half Sat, Half Sun) | 2014 (Half Sat, Half Sun) | 2015 (Half Sat, Half Sun) | 2016 (Half Sat, Half Sun) | 2017 (Half Sun, Quarter, Relay Sat) | 2018 (Quarter Sun, Relay Sat) | 2019 (Quarter Sun)"
@@ -141,7 +141,7 @@ Nicole Cloutier,9,9,2009,2019,0,0,0,0,0,0,2009 (Relay Sun) | 2010 (Relay Sun) | 
 Trevor Martin,9,9,2008,2026,0,0,0,7,0,0,2008 (Half Sat) | 2014 (Half Sat) | 2018 (Half Sat) | 2019 (Relay Sat) | 2022 (Relay Sat) | 2023 (Half Sat) | 2024 (Half Sat) | 2025 (Half Sat) | 2026 (Half Sat)
 Vickie Rickman,9,9,2009,2026,0,0,0,6,0,3,2009 (Half Sat) | 2012 (Half Sat) | 2013 (Half Sat) | 2014 (Half Sat) | 2015 (Half Sat) | 2016 (Half Sat) | 2023 (Quarter Sun) | 2025 (Quarter Sun) | 2026 (Quarter Sun)
 Cheryl Eason,8,20,2019,2026,1,0,0,6,8,2,"2019 (5k Fri, Half Sun) | 2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun) | 2021 (5k Fri, Half Sun) | 2022 (5k Fri, Half Sat, Quarter Sun) | 2023 (5k Fri, Half Sat, Quarter Sun) | 2024 (5k Fri, 5k Sun) | 2025 (5k Fri, 5k Sun) | 2026 (5k Fri, 5k Sun, Half Sat)"
-Emma Dromgoole*,8,18,2013,2025,3,1,2,7,4,1,"2013 (Half Sun) | 2014 (Half Sat, Half Sun) | 2015 (Half Sat, Half Sun) | 2016 (Full Sun, Half Sat) | 2018 (5k Fri, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual 5k Fri, Virtual 5k Sun, Virtual Full) | 2025 (5k Fri, Half Sat, Quarter Sun)"
+Emma Dromgoole,8,18,2013,2025,3,1,2,7,4,1,"2013 (Half Sun) | 2014 (Half Sat, Half Sun) | 2015 (Half Sat, Half Sun) | 2016 (Full Sun, Half Sat) | 2018 (5k Fri, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual 5k Fri, Virtual 5k Sun, Virtual Full) | 2025 (5k Fri, Half Sat, Quarter Sun)"
 Beverly Scott,8,17,2012,2020,7,0,1,7,2,0,"2012 (Half Sat, Half Sun) | 2013 (Half Sat, Half Sun) | 2014 (Half Sat, Half Sun) | 2016 (Half Sat, Half Sun) | 2017 (Half Sat, Half Sun) | 2018 (5k Fri, Half Sat, Half Sun) | 2019 (Half Sat, Half Sun) | 2020 (Virtual 5k Sun, Virtual Full)"
 Jeanann Carter,8,16,2015,2023,8,0,0,8,0,0,"2015 (Half Sat, Half Sun) | 2016 (Half Sat, Half Sun) | 2018 (Half Sat, Half Sun) | 2019 (Half Sat, Half Sun) | 2020 (Virtual Half Sat, Virtual Half Sun) | 2021 (Half Sat, Half Sun) | 2022 (Half Sat, Half Sun) | 2023 (Half Sat, Half Sun)"
 Tracy Cormier,8,16,2017,2025,8,0,0,8,0,0,"2017 (Half Sat, Half Sun) | 2018 (Half Sat, Half Sun) | 2019 (Half Sat, Half Sun) | 2020 (Virtual Half Sat, Virtual Half Sun) | 2022 (Half Sat, Half Sun) | 2023 (Half Sat, Half Sun) | 2024 (Half Sat, Half Sun) | 2025 (Half Sat, Half Sun)"
@@ -234,7 +234,7 @@ Anna Luckenbach,7,9,2009,2019,1,1,1,2,2,0,"2009 (Half Sat, Half Sun) | 2010 (Rel
 David Blake,7,9,2010,2023,0,0,0,2,0,1,"2010 (Half Sat) | 2013 (Half Sun, Relay Sat) | 2015 (Relay Sat) | 2016 (Relay Sat, Relay Sun) | 2017 (Relay Sun) | 2018 (Relay Sun) | 2023 (Quarter Sun)"
 Elizabeth Wondergem,7,9,2005,2018,2,1,1,7,0,0,"2005 (Half) | 2007 (Half Sun) | 2008 (Half Sun) | 2010 (Half Sun) | 2015 (Half Sun) | 2016 (Half Sat, Half Sun) | 2018 (Full Sat, Half Sun)"
 Heather Remark,7,9,2009,2018,1,1,1,6,0,0,"2009 (Half Sat, Half Sun) | 2011 (Full Sun, Half Sat) | 2012 (Relay Sun) | 2013 (Half Sun) | 2014 (Half Sun) | 2015 (Half Sat) | 2018 (Half Sat)"
-Jhordan Plasencia*,7,9,2018,2026,0,0,1,0,7,0,"2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual 5k Fri, Virtual 5k Sun, Virtual Full) | 2021 (5k Fri) | 2024 (5k Sun) | 2025 (5k Sun) | 2026 (5k Sun)"
+Jhordan Plasencia,7,9,2018,2026,0,0,1,0,7,0,"2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual 5k Fri, Virtual 5k Sun, Virtual Full) | 2021 (5k Fri) | 2024 (5k Sun) | 2025 (5k Sun) | 2026 (5k Sun)"
 Kasey Martin,7,9,2018,2026,0,0,0,5,1,1,"2018 (Half Sat) | 2019 (Relay Sat) | 2022 (Relay Sat) | 2023 (Half Sat) | 2024 (Half Sat) | 2025 (5k Fri, Half Sat, Quarter Sun) | 2026 (Half Sat)"
 Mark Metz,7,9,2014,2020,0,0,0,1,0,3,"2014 (Half Sat, Relay Sun) | 2015 (Relay Sat) | 2016 (Relay Sat, Relay Sun) | 2017 (Relay Sun) | 2018 (Quarter Sun) | 2019 (Quarter Sun) | 2020 (Virtual Quarter Sun)"
 Omar Lozano,7,9,2018,2025,0,0,0,1,3,0,"2018 (Relay Sat) | 2019 (Relay Sat) | 2021 (Half Sat) | 2022 (Relay Sat) | 2023 (5k Fri, Relay Sat) | 2024 (5k Fri, Relay Sat) | 2025 (5k Fri)"
@@ -323,7 +323,7 @@ Michelle Harrold,6,10,2017,2024,0,0,0,0,5,4,"2017 (Quarter) | 2019 (5k Fri, Quar
 Stephanie Reimondo,6,10,2018,2024,1,0,0,1,5,3,"2018 (Quarter Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual 5k Sun) | 2021 (5k Fri, Quarter Sun) | 2023 (5k Fri, Quarter Sun) | 2024 (5k Sun)"
 Adam Eiler,6,9,2019,2026,0,0,0,4,0,5,"2019 (Half Sat, Quarter Sun) | 2020 (Virtual Half Sat, Virtual Quarter Sun) | 2021 (Half Sat, Quarter Sun) | 2022 (Quarter Sun) | 2025 (Quarter Sun) | 2026 (Half Sun)"
 Giovannina Caminade,6,9,2014,2025,3,0,2,4,0,0,"2014 (Half Sun) | 2015 (Half Sat, Half Sun) | 2016 (Half Sat, Half Sun) | 2017 (Full Sat) | 2022 (Full Sat) | 2025 (Half Sat, Half Sun)"
-Krista Stutz*,6,9,2020,2026,1,0,0,6,2,0,"2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun) | 2021 (Half Sat) | 2022 (Half Sat) | 2024 (Half Sat) | 2025 (Half Sat) | 2026 (5k Sun, Half Sat)"
+Krista Stutz,6,9,2020,2026,1,0,0,6,2,0,"2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun) | 2021 (Half Sat) | 2022 (Half Sat) | 2024 (Half Sat) | 2025 (Half Sat) | 2026 (5k Sun, Half Sat)"
 Margaret Mcphail,6,9,2016,2024,0,0,0,0,6,0,"2016 (5k Fri, 5k Sat, Relay Sun) | 2017 (5k Fri, 5k Sat) | 2020 (Virtual 5k Sun) | 2021 (5k Fri) | 2022 (5k Fri) | 2024 (5k Fri)"
 Michael Mcdougal,6,9,2010,2026,2,2,3,4,1,1,"2010 (Half Sat) | 2012 (Full Sun) | 2023 (Half Sun) | 2024 (Full Sat, Half Sun) | 2025 (5k Fri, Full Sat, Half Sun) | 2026 (Quarter Sun)"
 Peter Everesley,6,9,2007,2015,3,0,2,4,0,0,"2007 (Half Sun) | 2009 (Half Sat, Half Sun) | 2010 (Full Sun) | 2011 (Full Sun) | 2012 (Half Sat, Half Sun) | 2015 (Half Sat, Half Sun)"
@@ -404,7 +404,7 @@ Kelly Curtis,6,6,2009,2017,0,0,0,0,0,0,2009 (Relay Sun) | 2010 (Relay Sun) | 201
 Kevin Troller,6,6,2013,2026,0,0,0,0,0,5,2013 (Relay Sat) | 2018 (Quarter Sun) | 2019 (Quarter Sun) | 2021 (Quarter Sun) | 2022 (Quarter Sun) | 2026 (Quarter Sun)
 Krisa Vandegrift,6,6,2021,2026,0,0,0,0,5,1,2021 (Quarter Sun) | 2022 (5k Sun) | 2023 (5k Fri) | 2024 (5k Fri) | 2025 (5k Fri) | 2026 (5k Fri)
 Kristina Maduzia,6,6,2014,2026,0,0,0,2,4,0,2014 (Half Sun) | 2015 (Half Sun) | 2019 (5k Sun) | 2020 (Virtual 5k Sun) | 2023 (5k Sun) | 2026 (5k Sun)
-Landon Lusby*,6,6,2020,2026,0,0,0,0,5,0,2020 (Virtual Kids K) | 2022 (5k Fri) | 2023 (5k Fri) | 2024 (5k Fri) | 2025 (5k Fri) | 2026 (5k Fri)
+Landon Lusby,6,6,2020,2026,0,0,0,0,5,0,2020 (Virtual Kids K) | 2022 (5k Fri) | 2023 (5k Fri) | 2024 (5k Fri) | 2025 (5k Fri) | 2026 (5k Fri)
 Laura Blowey,6,6,2012,2022,0,0,0,3,0,2,2012 (Half Sun) | 2013 (Half Sun) | 2015 (Half Sat) | 2017 (Relay Sat) | 2018 (Quarter Sun) | 2022 (Quarter Sun)
 Laura Gustafson,6,6,2014,2025,0,0,0,6,0,0,2014 (Half Sun) | 2016 (Half Sun) | 2017 (Half Sun) | 2018 (Half Sun) | 2019 (Half Sun) | 2025 (Half Sun)
 Leslie Bateman,6,6,2014,2021,0,0,0,4,0,0,2014 (Half Sat) | 2015 (Half Sat) | 2016 (Half Sun) | 2018 (Relay Sat) | 2020 (Virtual Relay Sat) | 2021 (Half Sat)
@@ -417,7 +417,7 @@ Mary Ruth Greenwell,6,6,2018,2025,0,0,0,0,6,0,2018 (5k Sat) | 2020 (Virtual 5k F
 Megan Renfro,6,6,2010,2022,0,0,3,3,0,0,2010 (Half Sat) | 2011 (Full Sun) | 2016 (Half Sat) | 2019 (Full Sat) | 2021 (Full Sat) | 2022 (Half Sat)
 Michael Burell,6,6,2007,2023,0,0,2,2,2,0,2007 (Full Sun) | 2008 (Half Sun) | 2010 (Half Sat) | 2011 (Full Sun) | 2022 (5k Fri) | 2023 (5k Fri)
 Michael Pentland,6,6,2005,2013,0,0,6,0,0,0,2005 (Full) | 2006 (Full) | 2007 (Full Sun) | 2009 (Full Sun) | 2011 (Full Sun) | 2013 (Full Sun)
-Olga Somers*,6,6,2015,2025,0,0,1,1,4,0,2015 (5k Sat) | 2016 (Half Sun) | 2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual Full) | 2025 (5k Sun)
+Olga Somers,6,6,2015,2025,0,0,1,1,4,0,2015 (5k Sat) | 2016 (Half Sun) | 2018 (5k Sat) | 2019 (5k Sun) | 2020 (Virtual Full) | 2025 (5k Sun)
 Q. Olivia Rivers,6,6,2016,2024,0,0,0,0,6,0,2016 (5k Fri) | 2019 (5k Sun) | 2021 (5k Fri) | 2022 (5k Sun) | 2023 (5k Sun) | 2024 (5k Sun)
 Ray Boytim,6,6,2007,2014,0,0,6,0,0,0,2007 (Full Sun) | 2008 (Full Sun) | 2009 (Full Sun) | 2010 (Full Sun) | 2011 (Full Sun) | 2014 (Full Sun)
 Robert Chain,6,6,2011,2025,0,0,1,4,0,1,2011 (Full Sun) | 2020 (Virtual Quarter Sun) | 2022 (Half Sat) | 2023 (Half Sat) | 2024 (Half Sat) | 2025 (Half Sat)
@@ -432,7 +432,7 @@ Vincent Valloppillil,6,6,2021,2026,0,0,0,0,6,0,2021 (5k Fri) | 2022 (5k Sun) | 2
 Wendy Hammerman,6,6,2010,2025,0,0,0,6,0,0,2010 (Half Sat) | 2011 (Half Sat) | 2013 (Half Sat) | 2014 (Half Sat) | 2023 (Half Sat) | 2025 (Half Sun)
 William Schneider,6,6,2011,2017,0,0,6,0,0,0,2011 (Full Sun) | 2012 (Full Sun) | 2013 (Full Sun) | 2014 (Full Sun) | 2016 (Full Sun) | 2017 (Full Sat)
 Amber Clark,5,13,2016,2020,4,1,1,5,4,0,"2016 (Half Sat) | 2017 (5k Fri, Half Sat, Half Sun) | 2018 (5k Fri, Full Sat, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun)"
-Kevin Billings*,5,13,2017,2021,5,0,0,5,3,0,"2017 (5k Fri, Half Sat, Half Sun) | 2018 (5k Fri, Half Sat, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual Half Sat, Virtual Half Sun) | 2021 (Half Sat, Half Sun)"
+Kevin Billings,5,13,2017,2021,5,0,0,5,3,0,"2017 (5k Fri, Half Sat, Half Sun) | 2018 (5k Fri, Half Sat, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun) | 2020 (Virtual Half Sat, Virtual Half Sun) | 2021 (Half Sat, Half Sun)"
 Jennifer Jamison,5,12,2022,2026,5,4,4,5,2,0,"2022 (Half Sat, Half Sun) | 2023 (5k Fri, Full Sat, Half Sun) | 2024 (5k Fri, Full Sat, Half Sun) | 2025 (Full Sat, Half Sun) | 2026 (Full Sat, Half Sun)"
 Lachandra Richardson,5,12,2014,2019,4,1,1,5,2,0,"2014 (Half Sat, Half Sun) | 2015 (Half Sat, Half Sun) | 2016 (Full Sun, Half Sat) | 2018 (5k Fri, Half Sat, Half Sun) | 2019 (5k Fri, Half Sat, Half Sun)"
 Vicky Netterville,5,12,2018,2026,0,0,0,4,4,1,"2018 (5k Sat, Quarter Sun) | 2019 (Half Sat) | 2024 (5k Fri, 5k Sun, Half Sat) | 2025 (5k Fri, 5k Sun, Half Sat) | 2026 (5k Fri, 5k Sun, Half Sat)"
@@ -1834,7 +1834,7 @@ Victoria Netterville,2,6,2022,2023,0,0,0,2,2,0,"2022 (5k Fri, 5k Sun, Half Sat) 
 Alexa Ramby,2,5,2015,2017,0,0,0,2,2,0,"2015 (5k Sat, Half Sun) | 2017 (5k Fri, 5k Sat, Half Sun)"
 Amanda Kelly,2,5,2019,2020,2,0,0,2,1,0,"2019 (Half Sat, Half Sun) | 2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun)"
 Amy Grundy,2,5,2018,2024,1,0,1,1,1,1,"2018 (5k Fri, Full, Quarter Sun) | 2024 (Half Sat, Half Sun)"
-Barbara Bussey*,2,5,2014,2020,2,0,0,2,1,0,"2014 (Half Sat, Half Sun) | 2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun)"
+Barbara Bussey,2,5,2014,2020,2,0,0,2,1,0,"2014 (Half Sat, Half Sun) | 2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun)"
 Cody Hensley,2,5,2025,2026,1,0,0,2,2,0,"2025 (5k Fri, Half Sun) | 2026 (5k Fri, Half Sat, Half Sun)"
 Dawn Burris,2,5,2015,2016,0,2,2,2,1,0,"2015 (Full Sun, Half Sat) | 2016 (5k Fri, Full Sun, Half Sat)"
 Greg Berry,2,5,2016,2019,1,1,1,1,2,0,"2016 (5k Fri, 5k Sat) | 2019 (5k Fri, Full Sat, Half Sun)"
@@ -3879,7 +3879,7 @@ Zhao (Annabel) Yu (Dixon),2,2,2011,2012,0,0,2,0,0,0,2011 (Full Sun) | 2012 (Full
 Zoey Scott,2,2,2022,2023,0,0,0,0,2,0,2022 (5k Fri) | 2023 (5k Fri)
 Zona Brown,2,2,2018,2019,0,0,0,0,2,0,2018 (5k Sat) | 2019 (5k Sun)
 Zuylen Handler,2,2,2017,2018,0,0,0,0,0,0,2017 (Relay Sat) | 2018 (Relay Sat)
-Brittany Bussey*,1,3,2020,2020,1,0,0,1,1,0,"2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun)"
+Brittany Bussey,1,3,2020,2020,1,0,0,1,1,0,"2020 (Virtual 5k Fri, Virtual Half Sat, Virtual Half Sun)"
 Clarissa Mireles,1,3,2019,2019,0,0,0,1,1,0,"2019 (5k Fri, 5k Sun, Half Sat)"
 Dalia Bryan,1,3,2025,2025,0,0,0,1,1,1,"2025 (5k Fri, Half Sat, Quarter Sun)"
 Dan Lichter,1,3,2019,2019,1,0,0,1,1,0,"2019 (5k Fri, Half Sat, Half Sun)"
@@ -5809,7 +5809,7 @@ Brianna Babcock,1,1,2026,2026,0,0,0,0,1,0,2026 (5k Fri)
 Brianna Rosales,1,1,2025,2025,0,0,0,0,0,1,2025 (Quarter Sun)
 Brice Hovard,1,1,2017,2017,0,0,0,0,0,0,2017 (Relay Sat)
 Bridget Angel,1,1,2010,2010,0,0,0,1,0,0,2010 (Half Sat)
-Bridget Baker*,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
+Bridget Baker,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
 Bridget Montgomery,1,1,2013,2013,0,0,0,0,0,0,2013 (Relay Sun)
 Bridget Roberts,1,1,2009,2009,0,0,0,1,0,0,2009 (Half Sat)
 Bridget Winstead,1,1,2012,2012,0,0,0,1,0,0,2012 (Half Sat)
@@ -7204,7 +7204,7 @@ Eliana Arias,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Kids K)
 Elias Baier,1,1,2018,2018,0,0,1,0,0,0,2018 (Full Sat)
 Elias Sarkis,1,1,2009,2009,0,0,0,1,0,0,2009 (Half Sun)
 Elida Martã­Nez,1,1,2013,2013,0,0,1,0,0,0,2013 (Full Sun)
-Elijah Baker*,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
+Elijah Baker,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
 Elijah Smith,1,1,2025,2025,0,0,0,0,1,0,2025 (5k Sun)
 Elisa Fisher,1,1,2017,2017,0,0,0,1,0,0,2017 (Half Sun)
 Elisa Sharp,1,1,2010,2010,0,0,0,0,0,0,2010 (Relay Sat)
@@ -7962,7 +7962,7 @@ Isabella Caparus,1,1,2023,2023,0,0,0,0,1,0,2023 (5k Fri)
 Isabella Leach,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Kids K)
 Isabella Morris,1,1,2016,2016,0,0,0,0,1,0,2016 (5k Sat)
 Isabella Pregozen,1,1,2019,2019,0,0,0,1,0,0,2019 (Half Sun)
-Isadora Baker*,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
+Isadora Baker,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
 Isaiah Remington,1,1,2021,2021,0,0,0,1,0,0,2021 (Half Sat)
 Isaiah Sendejas,1,1,2017,2017,0,0,0,0,0,0,2017 (Relay Sun)
 Isaiah Tonge,1,1,2024,2024,0,0,0,1,0,0,2024 (Half Sat)
@@ -9425,7 +9425,7 @@ Kent Snow,1,1,2009,2009,0,0,1,0,0,0,2009 (Full Sun)
 Kera Schilling,1,1,2025,2025,0,0,0,0,1,0,2025 (5k Fri)
 Keren Mazanec,1,1,2012,2012,0,0,0,1,0,0,2012 (Half Sat)
 Keri Allred,1,1,2012,2012,0,0,0,1,0,0,2012 (Half Sat)
-Keri Blakinger*,1,1,2020,2020,0,0,1,0,0,0,2020 (Virtual Full)
+Keri Blakinger,1,1,2020,2020,0,0,1,0,0,0,2020 (Virtual Full)
 Keri Lenard,1,1,2016,2016,0,0,0,1,0,0,2016 (Half Sat)
 Kerim Davis,1,1,2010,2010,0,0,0,1,0,0,2010 (Half Sat)
 Kerri Canales,1,1,2015,2015,0,0,0,0,1,0,2015 (5k Sat)
@@ -13234,7 +13234,7 @@ Wesley Willoughby,1,1,2009,2009,0,0,0,0,0,0,2009 (Relay Sun)
 Wesley Wood,1,1,2009,2009,0,0,0,0,0,0,2009 (Relay Sun)
 Weston Trosclair,1,1,2025,2025,0,0,0,0,1,0,2025 (5k Fri)
 Whitley Mack-Kokojan,1,1,2020,2020,0,0,0,1,0,0,2020 (Virtual Half Sat)
-Whitney Baker*,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
+Whitney Baker,1,1,2020,2020,0,0,0,0,0,0,2020 (Virtual Relay Sat)
 Whitney Chicco,1,1,2009,2009,0,0,0,0,0,0,2009 (Relay Sat)
 Whitney Pacanowski,1,1,2025,2025,0,0,0,0,0,1,2025 (Quarter Sun)
 Whitney Smith,1,1,2021,2021,0,0,0,1,0,0,2021 (Half Sat)
@@ -13293,7 +13293,7 @@ Winston Delome,1,1,2022,2022,0,0,1,0,0,0,2022 (Full Sat)
 Winston Pullin,1,1,2025,2025,0,0,0,1,0,0,2025 (Half Sat)
 Winston Zaleski,1,1,2008,2008,0,0,0,1,0,0,2008 (Half Sat)
 Wonedwossen Goshu,1,1,2007,2007,0,0,0,1,0,0,2007 (Half Sun)
-Woody Quinn*,1,1,2020,2020,0,0,0,0,1,0,2020 (Virtual 5k Sun)
+Woody Quinn,1,1,2020,2020,0,0,0,0,1,0,2020 (Virtual 5k Sun)
 Work In Progress,1,1,2005,2005,0,0,0,0,0,0,2005 (Relay)
 Wyatt Bright,1,1,2022,2022,0,0,0,0,1,0,2022 (5k Fri)
 Wyatt Harvie,1,1,2026,2026,0,0,0,0,1,0,2026 (5k Fri)
