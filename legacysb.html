@@ -29,8 +29,10 @@
 
         body { font-family: "Roboto", sans-serif; margin: 0; background-color: var(--sb-bg); color: #333; overflow-y: scroll; }
 
+        /* Header Styling */
         .rsu-header-mock { background: #fff; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .rsu-logo { height: 45px; margin-right: 15px; }
+        .header-link { display: flex; align-items: center; text-decoration: none; }
+        .rsu-logo { height: 45px; margin-right: 15px; border: none; }
         .site-title { font-weight: 700; color: var(--sb-green); text-transform: uppercase; letter-spacing: 0.5px; }
 
         .rsu-banner { background-color: var(--sb-green); color: white; padding: 60px 20px; text-align: center; border-bottom: 5px solid var(--sb-orange); }
@@ -78,8 +80,10 @@
 <body>
 
 <div class="rsu-header-mock">
-    <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png" class="rsu-logo">
-    <div class="site-title">Seabrook Lucky Trails Legacy</div>
+    <a href="https://seabrookluckytrails.com" class="header-link">
+        <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-234296-1735155295.3698-0.bNBf5F.png" class="rsu-logo" alt="Seabrook Lucky Trails Logo">
+        <div class="site-title">Seabrook Lucky Trails Legacy</div>
+    </a>
 </div>
 
 <header class="rsu-banner">
