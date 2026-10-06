@@ -184,3 +184,142 @@
                 const response = await fetch('BP_MASTER_LIST.csv');
                 if (!response.ok) throw new Error("CSV file not found.");
                 const csvText = await response.text();
+                
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                const headers = lines[0].split(',').map(h => h.trim());
+                
+                // Identify columns dynamically based on header names
+                const yearIdx = headers.indexOf('Year');
+                const fNameIdx = headers.indexOf('First Name');
+                const lNameIdx = headers.indexOf('Last Name');
+                const eventIdx = headers.indexOf('Event');
+                
+                const runnersObj = {};
+                const allYears = new Set();
+                
+                // Parse rows
+                for (let i = 1; i < lines.length; i++) {
+                    // Regex handles basic CSV commas without breaking inside quotes
+                    const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(item => item.replace(/(^"\vert{}"$)/g, '').trim());
+                    
+                    if (row.length < headers.length) continue;
+                    
+                    const year = row[yearIdx];
+                    const firstName = row[fNameIdx];
+                    const lastName = row[lNameIdx];
+                    const event = row[eventIdx];
+                    
+                    if (!year || !firstName || !lastName) continue;
+                    
+                    allYears.add(year);
+                    
+                    const rawFullName = `${firstName} ${lastName}`;
+                    const searchKey = rawFullName.toLowerCase();
+                    
+                    if (!runnersObj[searchKey]) {
+                        runnersObj[searchKey] = {
+                            name: toTitleCase(rawFullName),
+                            yearsSet: new Set(),
+                            eventsByYear: {}
+                        };
+                    }
+                    
+                    runnersObj[searchKey].yearsSet.add(year);
+                    
+                    if (!runnersObj[searchKey].eventsByYear[year]) {
+                        runnersObj[searchKey].eventsByYear[year] = [];
+                    }
+                    if (!runnersObj[searchKey].eventsByYear[year].includes(event)) {
+                        runnersObj[searchKey].eventsByYear[year].push(event);
+                    }
+                }
+                
+                const maxYearsPossible = allYears.size;
+                
+                globalRunners = Object.values(runnersObj).map(r => {
+                    return {
+                        name: r.name,
+                        yearCount: r.yearsSet.size,
+                        eventsByYear: r.eventsByYear,
+                        maxYearsPossible: maxYearsPossible
+                    };
+                });
+                
+                // Sort by Year Count (Highest First), then Alphabetically
+                globalRunners.sort((a, b) => {
+                    if (b.yearCount !== a.yearCount) return b.yearCount - a.yearCount;
+                    return a.name.localeCompare(b.name);
+                });
+                
+                renderRunners(globalRunners);
+                
+            } catch (error) {
+                document.getElementById('runner-container').innerHTML = 
+                    '<p style="color:red;">Error loading database. Ensure <strong>BP_MASTER_LIST.csv</strong> is uploaded to the same folder as this page.</p>';
+                console.error(error);
+            }
+        }
+
+        function renderRunners(runnersArray) {
+            const container = document.getElementById('runner-container');
+            container.innerHTML = '';
+            
+            if (runnersArray.length === 0) {
+                container.innerHTML = '<p>No runners found.</p>';
+                return;
+            }
+
+            runnersArray.forEach(runner => {
+                let milestoneClass = 'milestone-basic';
+                let milestoneText = `${runner.yearCount} Years`;
+                
+                // Milestone Highlight Logic
+                if (runner.yearCount === runner.maxYearsPossible) {
+                    milestoneClass = 'milestone-perfect';
+                    milestoneText = `🏆 Perfect Streak (${runner.yearCount} Yrs)`;
+                } else if (runner.yearCount >= 10) {
+                    const tier = Math.floor(runner.yearCount / 5) * 5; // Yields 10, 15, 20...
+                    milestoneClass = 'milestone-high';
+                    milestoneText = `🌟 ${tier}+ Year Club`;
+                } else if (runner.yearCount >= 5) {
+                    milestoneClass = 'milestone-5';
+                    milestoneText = '🔥 5+ Years';
+                } else if (runner.yearCount >= 3) {
+                    milestoneClass = 'milestone-3';
+                    milestoneText = '🏃 3+ Years';
+                }
+
+                // Format Event History List
+                const sortedYears = Object.keys(runner.eventsByYear).sort((a, b) => b - a);
+                const eventHtml = sortedYears.map(yr => {
+                    const eventsStr = runner.eventsByYear[yr].join(', ');
+                    return `<span><strong>${yr}:</strong> ${eventsStr}</span>`;
+                }).join('');
+
+                const card = document.createElement('div');
+                card.className = `runner-card ${milestoneClass}`;
+                card.innerHTML = `
+                    <div class="runner-header">
+                        <h3>${runner.name}</h3>
+                        <span class="badge">${milestoneText}</span>
+                    </div>
+                    <div class="runner-events">
+                        ${eventHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Live Search Filter
+        function filterRunners() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const filtered = globalRunners.filter(r => r.name.toLowerCase().includes(query));
+            renderRunners(filtered);
+        }
+
+        // Initialize script on load
+        window.onload = loadRunners;
+    </script>
+</body>
+</html>
