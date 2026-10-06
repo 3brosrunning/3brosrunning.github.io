@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
     
-    <title>The Big Pumpkin Run 2026 | Legacy Database</title>
+    <title>The Big Pumpkin Run 2026 | Formerly Orangetober Tradition</title>
     <meta name="description" content="Looking for the Granger 5K or Orangetober race? The official Big Pumpkin Run has moved! Join the 2026 tradition on Oct 3rd at the Port Arthur Seawall.">
+    <meta name="keywords" content="Granger 5K, Orangetober 5K, Orange TX 5K, Big Pumpkin Run, Granger Memorial Run, Port Arthur 5K">
     
+    <link rel="canonical" href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" />
     <link rel="icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-138943-1774339167.6858-0.bPWKrF.png" type="image/png" />
+
+    <meta property="og:title" content="The Big Pumpkin Run 2026 | The Official Tradition">
+    <meta property="og:description" content="Started at Orangetober, now finishing at the Seawall. Don't miss the 2026 race!">
+    <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/races/race132374-social1200x630.bI0GNQ.jpg">
+    <meta property="og:url" content="https://orangetober.com">
+    <meta property="og:type" content="website">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,20 +26,19 @@
             --midnight: #011627;
             --pumpkin: #ff6600;
             --white: #ffffff;
-            --light-gray: #f9f9f9;
         }
         body { 
             font-family: 'Roboto', sans-serif; 
             margin: 0; 
             padding: 0; 
             color: #222; 
-            background: var(--light-gray); 
+            background: var(--white); 
             -webkit-font-smoothing: antialiased;
         }
         
         .hero {
-            height: 50vh;
-            background: linear-gradient(rgba(1, 22, 39, 0.7), rgba(1, 22, 39, 0.9)), 
+            height: 75vh;
+            background: linear-gradient(rgba(1, 22, 39, 0.5), rgba(1, 22, 39, 0.8)), 
                         url('https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericWebsites-138/138943/websiteBanner-xn4HLX1f-bPWV1L-huge.png');
             background-size: cover;
             background-position: center;
@@ -44,102 +51,42 @@
             padding: 0 20px;
         }
 
-        .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; margin: 0; letter-spacing: 3px; font-weight: 700; line-height: 1.2; }
-        .hero p { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; margin: 15px 0 0; letter-spacing: 1px; max-width: 800px; color: var(--pumpkin); }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); text-transform: uppercase; margin: 0; letter-spacing: 3px; font-weight: 700; line-height: 1.2; }
+        .hero p { font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 300; margin: 25px 0 40px; letter-spacing: 1px; max-width: 800px; }
 
-        .content { max-width: 1200px; margin: 0 auto; padding: 60px 20px; text-align: center; }
-        .content h2 { font-size: 2.2rem; color: var(--midnight); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
-        .content > p { font-size: 1.1rem; line-height: 1.8; color: #555; font-weight: 300; margin-bottom: 40px; }
-
-        /* Legacy Database Styles */
-        #search-bar {
-            width: 100%;
-            max-width: 500px;
-            padding: 15px;
-            font-size: 1.1rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            font-family: inherit;
-        }
-        
-        #runner-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-            text-align: left;
-        }
-
-        .runner-card {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .runner-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .runner-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-        .runner-header h3 {
-            margin: 0;
-            font-size: 1.3rem;
-            color: var(--midnight);
+        .cta-btn {
+            background-color: var(--pumpkin);
+            color: white;
+            padding: 20px 50px;
+            text-decoration: none;
             font-weight: 700;
-        }
-
-        .badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
+            border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
-            margin-left: 10px;
+            transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .runner-events {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #444;
-        }
-        .runner-events span {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .runner-events strong {
-            color: var(--midnight);
+        .cta-btn:hover { 
+            background-color: #e65c00; 
+            transform: translateY(-3px); 
+            box-shadow: 0 7px 14px rgba(0,0,0,0.2);
         }
 
-        /* Dynamic Milestone Highlights */
-        .milestone-perfect {
-            background: linear-gradient(145deg, #fffcf0, #ffffff);
-            border: 2px solid #ffcc00;
-            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2);
+        .content { max-width: 850px; margin: 0 auto; padding: 100px 20px; text-align: center; }
+        .content h2 { font-size: 2.2rem; color: var(--midnight); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
+        .content p { font-size: 1.2rem; line-height: 1.8; color: #444; font-weight: 300; }
+
+        /* Style to make text completely transparent (Invisible to humans, scannable by Google) */
+        .invisible-seo {
+            color: transparent;
+            font-size: 1px;
+            user-select: none; /* Prevents accidental selection */
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            pointer-events: none; /* Prevents interaction */
         }
-        .milestone-perfect .badge { background: #ffcc00; color: #000; box-shadow: 0 2px 5px rgba(255,204,0,0.4); }
-
-        .milestone-high { border-left: 5px solid var(--midnight); }
-        .milestone-high .badge { background: var(--midnight); color: var(--white); }
-
-        .milestone-5 { border-left: 5px solid var(--pumpkin); }
-        .milestone-5 .badge { background: var(--pumpkin); color: var(--white); }
-
-        .milestone-3 { border-left: 5px solid #888; }
-        .milestone-3 .badge { background: #888; color: var(--white); }
-
-        .milestone-basic .badge { background: #eee; color: #666; }
 
         footer { background: var(--midnight); color: white; padding: 60px 20px; text-align: center; }
         .footer-logo { max-width: 160px; margin-bottom: 30px; opacity: 0.9; }
@@ -148,18 +95,19 @@
 <body>
 
     <header class="hero">
-        <h1>Legacy Runner Database</h1>
-        <p>The Big Pumpkin Run Official History</p>
+        <h1>The Big Pumpkin Run 2026</h1>
+        <p>Started at Orangetober, now finishing at the stunning Port Arthur Seawall. The tradition you love, in a location you'll never forget.</p>
+        <a href="https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun" class="cta-btn">Register for the 2026 Race</a>
     </header>
 
     <section class="content">
-        <h2>Runner Milestones</h2>
-        <p>Celebrating the dedication of our 3 Bros community. Search for your name to view your official event history and milestone status.</p>
+        <h2>A Growing Tradition</h2>
+        <p>For years, the Big Pumpkin Run has been the heart of fall in Southeast Texas. For the 2026 season, we are moving the finish line to the <strong>Port Arthur Seawall</strong>. Expect the same high-energy atmosphere, the same official 3 Bros quality, and a brand new waterfront course designed for runners.</p>
         
-        <input type="text" id="search-bar" placeholder="Search by first or last name..." onkeyup="filterRunners()">
+        <p style="margin-top: 30px; font-style: italic; color: #888;">Saturday, October 3, 2026 • Port Arthur, Texas</p>
 
-        <div id="runner-container">
-            <p>Loading compilation from BP_MASTER_LIST.csv...</p>
+        <div class="invisible-seo">
+            Searching for the Granger 5K or Granger Memorial Run in Orange, Texas? If you are looking for the original Orangetober 5K race, join the Big Pumpkin Run—Southeast Texas's premier fall running tradition, now finishing at the Port Arthur Seawall. run with the original founders. 3 Bros Running Company.
         </div>
     </section>
 
@@ -168,158 +116,5 @@
         <p style="font-size: 0.85rem; opacity: 0.5; letter-spacing: 1px;">&copy; 2026 3 BROS RUNNING COMPANY • ORANGETOBER.COM</p>
     </footer>
 
-    <script>
-        let globalRunners = [];
-
-        // Helper to format names nicely
-        function toTitleCase(str) {
-            return str.replace(/\w\S*/g, function(txt) { 
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); 
-            });
-        }
-
-        async function loadRunners() {
-            try {
-                // Fetch the raw uncompiled CSV
-                const response = await fetch('BP_MASTER_LIST.csv');
-                if (!response.ok) throw new Error("CSV file not found.");
-                const csvText = await response.text();
-                
-                const lines = csvText.split('\n').filter(line => line.trim() !== '');
-                const headers = lines[0].split(',').map(h => h.trim());
-                
-                // Identify columns dynamically based on header names
-                const yearIdx = headers.indexOf('Year');
-                const fNameIdx = headers.indexOf('First Name');
-                const lNameIdx = headers.indexOf('Last Name');
-                const eventIdx = headers.indexOf('Event');
-                
-                const runnersObj = {};
-                const allYears = new Set();
-                
-                // Parse rows
-                for (let i = 1; i < lines.length; i++) {
-                    // Regex handles basic CSV commas without breaking inside quotes
-                    const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(item => item.replace(/(^"\vert{}"$)/g, '').trim());
-                    
-                    if (row.length < headers.length) continue;
-                    
-                    const year = row[yearIdx];
-                    const firstName = row[fNameIdx];
-                    const lastName = row[lNameIdx];
-                    const event = row[eventIdx];
-                    
-                    if (!year || !firstName || !lastName) continue;
-                    
-                    allYears.add(year);
-                    
-                    const rawFullName = `${firstName} ${lastName}`;
-                    const searchKey = rawFullName.toLowerCase();
-                    
-                    if (!runnersObj[searchKey]) {
-                        runnersObj[searchKey] = {
-                            name: toTitleCase(rawFullName),
-                            yearsSet: new Set(),
-                            eventsByYear: {}
-                        };
-                    }
-                    
-                    runnersObj[searchKey].yearsSet.add(year);
-                    
-                    if (!runnersObj[searchKey].eventsByYear[year]) {
-                        runnersObj[searchKey].eventsByYear[year] = [];
-                    }
-                    if (!runnersObj[searchKey].eventsByYear[year].includes(event)) {
-                        runnersObj[searchKey].eventsByYear[year].push(event);
-                    }
-                }
-                
-                const maxYearsPossible = allYears.size;
-                
-                globalRunners = Object.values(runnersObj).map(r => {
-                    return {
-                        name: r.name,
-                        yearCount: r.yearsSet.size,
-                        eventsByYear: r.eventsByYear,
-                        maxYearsPossible: maxYearsPossible
-                    };
-                });
-                
-                // Sort by Year Count (Highest First), then Alphabetically
-                globalRunners.sort((a, b) => {
-                    if (b.yearCount !== a.yearCount) return b.yearCount - a.yearCount;
-                    return a.name.localeCompare(b.name);
-                });
-                
-                renderRunners(globalRunners);
-                
-            } catch (error) {
-                document.getElementById('runner-container').innerHTML = 
-                    '<p style="color:red;">Error loading database. Ensure <strong>BP_MASTER_LIST.csv</strong> is uploaded to the same folder as this page.</p>';
-                console.error(error);
-            }
-        }
-
-        function renderRunners(runnersArray) {
-            const container = document.getElementById('runner-container');
-            container.innerHTML = '';
-            
-            if (runnersArray.length === 0) {
-                container.innerHTML = '<p>No runners found.</p>';
-                return;
-            }
-
-            runnersArray.forEach(runner => {
-                let milestoneClass = 'milestone-basic';
-                let milestoneText = `${runner.yearCount} Years`;
-                
-                // Milestone Highlight Logic
-                if (runner.yearCount === runner.maxYearsPossible) {
-                    milestoneClass = 'milestone-perfect';
-                    milestoneText = `🏆 Perfect Streak (${runner.yearCount} Yrs)`;
-                } else if (runner.yearCount >= 10) {
-                    const tier = Math.floor(runner.yearCount / 5) * 5; // Yields 10, 15, 20...
-                    milestoneClass = 'milestone-high';
-                    milestoneText = `🌟 ${tier}+ Year Club`;
-                } else if (runner.yearCount >= 5) {
-                    milestoneClass = 'milestone-5';
-                    milestoneText = '🔥 5+ Years';
-                } else if (runner.yearCount >= 3) {
-                    milestoneClass = 'milestone-3';
-                    milestoneText = '🏃 3+ Years';
-                }
-
-                // Format Event History List
-                const sortedYears = Object.keys(runner.eventsByYear).sort((a, b) => b - a);
-                const eventHtml = sortedYears.map(yr => {
-                    const eventsStr = runner.eventsByYear[yr].join(', ');
-                    return `<span><strong>${yr}:</strong> ${eventsStr}</span>`;
-                }).join('');
-
-                const card = document.createElement('div');
-                card.className = `runner-card ${milestoneClass}`;
-                card.innerHTML = `
-                    <div class="runner-header">
-                        <h3>${runner.name}</h3>
-                        <span class="badge">${milestoneText}</span>
-                    </div>
-                    <div class="runner-events">
-                        ${eventHtml}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // Live Search Filter
-        function filterRunners() {
-            const query = document.getElementById('search-bar').value.toLowerCase();
-            const filtered = globalRunners.filter(r => r.name.toLowerCase().includes(query));
-            renderRunners(filtered);
-        }
-
-        // Initialize script on load
-        window.onload = loadRunners;
-    </script>
 </body>
 </html>
