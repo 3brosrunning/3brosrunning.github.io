@@ -45,18 +45,28 @@
         #runnerList { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin: 40px 0; min-height: 400px; }
         
         .runner-card { background: white; border-radius: 12px; padding: 40px 20px 25px; text-align: center; position: relative; border: 1px solid #eee; height: auto; transition: 0.3s; display: flex; flex-direction: column; }
-        .tier-gold { background: #fffdf0 !important; border: 3px solid var(--gold) !important; box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
+        
+        /* MILESTONE CARD STYLING */
+        .tier-perfect { background: #fffdf0 !important; border: 3px solid var(--gold) !important; box-shadow: 0 10px 25px rgba(212,175,55,0.3); }
+        .tier-10 { border-top: 5px solid #111; }
+        .tier-5 { border-top: 5px solid var(--rsu-teal); }
+        .tier-3 { border-top: 5px solid #888; }
         .tier-standard { border-top: 5px solid var(--rsu-orange); }
 
         .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); padding: 5px 15px; font-size: 0.75rem; font-weight: 900; border-radius: 4px; text-transform: uppercase; white-space: nowrap; }
-        .badge-gold { background: var(--gold); color: #000; }
+        
+        /* MILESTONE BADGE STYLING */
+        .badge-perfect { background: var(--gold); color: #000; box-shadow: 0 2px 5px rgba(255,215,0,0.5);}
+        .badge-10 { background: #111; color: #fff; }
+        .badge-5 { background: var(--rsu-teal); color: #fff; }
+        .badge-3 { background: #888; color: #fff; }
         .badge-standard { background: #333; color: #fff; }
 
         .name { font-weight: 900; font-size: 1.45rem; color: #111; margin-bottom: 5px; }
         .main-stat { font-size: 3rem; font-weight: 900; color: var(--rsu-orange); margin: 5px 0; line-height: 1; }
         .sub-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 15px; }
 
-        .history-box { background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; margin-bottom: 15px; flex-grow: 1; font-weight: 500; text-align: center; }
+        .history-box { background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); font-size: 0.85rem; margin-bottom: 15px; flex-grow: 1; font-weight: 500; text-align: center; line-height: 1.5; }
 
         .share-btn { 
             margin-top: 10px; background: none; border: 1.5px solid #ddd; padding: 10px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #555; 
@@ -107,12 +117,33 @@
     let searchTerm = '';
     const listElement = document.getElementById("runnerList");
 
+    // Title Case Helper
+    function toTitleCase(str) {
+        return str.replace(/\w\S*/g, function(txt) { 
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); 
+        });
+    }
+
     function createCardHTML(r) {
-        const count = parseInt(r.years_count) || 0;
+        const count = r.years_count;
+        const maxYears = r.max_years;
+        
         let tClass = "tier-standard", bText = "Legacy Runner", bClass = "badge-standard";
 
-        if (count >= 4) { tClass = "tier-gold"; bClass = "badge-gold"; bText = "4-Year Legend"; }
-        else if (count === 3) { bText = "3-Year Milestone"; }
+        // Milestone Logic
+        if (count === maxYears && maxYears > 0) { 
+            tClass = "tier-perfect"; bClass = "badge-perfect"; bText = `🏆 Perfect Streak (${count} Yrs)`; 
+        } else if (count >= 10) { 
+            let tier = Math.floor(count / 5) * 5; 
+            tClass = "tier-10"; bClass = "badge-10"; bText = `🌟 ${tier}+ Year Club`; 
+        } else if (count >= 5) { 
+            tClass = "tier-5"; bClass = "badge-5"; bText = "🔥 5+ Year Milestone"; 
+        } else if (count >= 3) { 
+            tClass = "tier-3"; bClass = "badge-3"; bText = "🏃 3-Year Milestone"; 
+        }
+
+        // Format History Layout (Replaces separator with line breaks)
+        const historyHtml = r.clean_distances.replace(/\|/g, '<br>');
 
         return `
             <div class="runner-card ${tClass}">
@@ -120,7 +151,7 @@
                 <div class="name">${r.full_name}</div>
                 <div class="main-stat">${count}</div>
                 <div class="sub-label">Years Completed</div>
-                <div class="history-box">${r.clean_distances}</div>
+                <div class="history-box">${historyHtml}</div>
                 <button class="share-btn" onclick="shareRunner('${r.full_name.replace(/'/g, "\\'")}', ${count})">
                     <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="18" cy="5" r="3"></circle>
@@ -177,30 +208,71 @@
         }
     }
 
-    Papa.parse("masterlist.csv", {
+    Papa.parse("BP_MASTER_LIST_2.csv", {
         download: true, header: true, skipEmptyLines: true,
         complete: function(results) {
             let totalMiles = 0;
-            allRunners = results.data.map(r => {
-                const historyStr = r.distances || "";
-                
-                // MATH LOGIC: Check each entry in history
-                const races = historyStr.split(',').map(s => s.trim());
-                races.forEach(race => {
-                    if (race.toLowerCase().includes("kids k")) {
-                        totalMiles += 0.62; // 1K is ~0.62 miles
-                    } else if (race.length > 2) {
-                        totalMiles += 3.1; // Default 5K
-                    }
-                });
+            let runnersObj = {};
+            let allYears = new Set();
 
-                // Clean display history: Remove 2023 specifically
-                r.clean_distances = historyStr
-                    .replace(/The Big Pumpkin Run 5k 2023|The Big Pumpkin Run Kids K 2023/gi, '')
-                    .split(',').map(s => s.trim()).filter(s => s).join(', ');
+            // DATA COMPILATION LOGIC
+            results.data.forEach(row => {
+                const year = (row['Year'] || "").trim();
+                const fName = (row['First Name'] || "").trim();
+                const lName = (row['Last Name'] || "").trim();
+                const event = (row['Event'] || "").trim();
+
+                if (!year || !fName || !lName) return;
+
+                allYears.add(year);
+
+                const fullName = `${fName} ${lName}`;
+                const searchKey = fullName.toLowerCase();
+
+                // Initialize Runner Profile if new
+                if (!runnersObj[searchKey]) {
+                    runnersObj[searchKey] = {
+                        full_name: toTitleCase(fullName),
+                        yearsSet: new Set(),
+                        eventsByYear: {}
+                    };
+                }
+
+                // Add Year and Event to Runner Profile
+                runnersObj[searchKey].yearsSet.add(year);
+                if (!runnersObj[searchKey].eventsByYear[year]) {
+                    runnersObj[searchKey].eventsByYear[year] = new Set();
+                }
+                runnersObj[searchKey].eventsByYear[year].add(event);
+
+                // Compile Miles based on event type
+                if (event.toLowerCase().includes("kids k")) {
+                    totalMiles += 0.62; // 1K is ~0.62 miles
+                } else {
+                    totalMiles += 3.1; // Default 5K
+                }
+            });
+
+            const maxYearsPossible = allYears.size;
+
+            // Format data for the UI
+            allRunners = Object.values(runnersObj).map(r => {
+                // Sort years descending
+                const sortedYears = Array.from(r.yearsSet).sort((a, b) => b - a);
                 
-                return r;
-            }).sort((a, b) => parseInt(b.years_count) - parseInt(a.years_count) || a.full_name.localeCompare(b.full_name));
+                // Format event string: "2026: The Big Pumpkin Run 5k | 2025: Kids K"
+                const clean_distances = sortedYears.map(yr => {
+                    const eventsArr = Array.from(r.eventsByYear[yr]);
+                    return `<strong>${yr}:</strong> ${eventsArr.join(', ')}`;
+                }).join(' | ');
+
+                return {
+                    full_name: r.full_name,
+                    years_count: r.yearsSet.size,
+                    clean_distances: clean_distances,
+                    max_years: maxYearsPossible
+                };
+            }).sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
 
             document.getElementById('legacyCount').innerText = allRunners.length;
             document.getElementById('milesCombined').innerText = Math.round(totalMiles).toLocaleString();
