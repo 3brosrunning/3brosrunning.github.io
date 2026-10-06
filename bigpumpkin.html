@@ -150,4 +150,141 @@
                 <div class="sub-label">Years Completed</div>
                 <div class="history-box">${historyHtml}</div>
                 <button class="share-btn" onclick="shareRunner('${r.full_name.replace(/'/g, "\\'")}', ${count})">
-                    <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke
+                    <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    Share My Legacy
+                </button>
+            </div>
+        `;
+    }
+
+    function processAndFilter() {
+        filteredRunners = allRunners.filter(r => 
+            r.full_name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        renderList(true);
+    }
+
+    function renderList(reset = false) {
+        if (reset) listElement.innerHTML = "";
+        const nextBatch = filteredRunners.slice(listElement.children.length, listElement.children.length + increment);
+        const htmlString = nextBatch.map(r => createCardHTML(r)).join('');
+        listElement.insertAdjacentHTML('beforeend', htmlString);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
+            renderList();
+        }
+    }, { threshold: 1.0 });
+    observer.observe(document.getElementById('sentinel'));
+
+    let searchTimeout;
+    document.getElementById("runnerSearch").addEventListener("input", function() {
+        clearTimeout(searchTimeout);
+        searchTerm = this.value;
+        searchTimeout = setTimeout(processAndFilter, 300);
+    });
+
+    function shareRunner(name, years) {
+        const signupLink = "https://runsignup.com/Race/TX/PortArthur/TheBigPumpkinRun";
+        const url = new URL(window.location.href); url.searchParams.set('runner', name);
+        const shareUrl = url.toString();
+        const shareText = `I'm officially a Legacy Runner! 🎃 Join me for the Big Pumpkin Run in Port Arthur—it's a family tradition we can't let fade. Register now at: ${signupLink} and come run with me!`;
+
+        if (navigator.share) {
+            navigator.share({ title: 'Join me at the Big Pumpkin Run!', text: shareText, url: shareUrl });
+        } else {
+            navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+            alert("Information copied to clipboard!");
+        }
+    }
+
+    Papa.parse("BP_MASTER_LIST.csv", {
+        download: true, 
+        header: true, 
+        skipEmptyLines: true,
+        transformHeader: function(header) {
+            // This strips hidden Excel BOM characters and extra spaces
+            return header.trim().replace(/^\uFEFF/, '');
+        },
+        complete: function(results) {
+            let totalMiles = 0;
+            let runnersObj = {};
+            let allYears = new Set();
+
+            results.data.forEach(row => {
+                const year = (row['Year'] || "").trim();
+                const fName = (row['First Name'] || "").trim();
+                const lName = (row['Last Name'] || "").trim();
+                const event = (row['Event'] || "").trim();
+
+                if (!year || !fName || !lName) return;
+
+                allYears.add(year);
+
+                const fullName = `${fName} ${lName}`;
+                const searchKey = fullName.toLowerCase();
+
+                if (!runnersObj[searchKey]) {
+                    runnersObj[searchKey] = {
+                        full_name: toTitleCase(fullName),
+                        yearsSet: new Set(),
+                        eventsByYear: {}
+                    };
+                }
+
+                runnersObj[searchKey].yearsSet.add(year);
+                if (!runnersObj[searchKey].eventsByYear[year]) {
+                    runnersObj[searchKey].eventsByYear[year] = new Set();
+                }
+                runnersObj[searchKey].eventsByYear[year].add(event);
+
+                if (event.toLowerCase().includes("kids k")) {
+                    totalMiles += 0.62; 
+                } else {
+                    totalMiles += 3.1; 
+                }
+            });
+
+            const maxYearsPossible = allYears.size;
+
+            allRunners = Object.values(runnersObj).map(r => {
+                const sortedYears = Array.from(r.yearsSet).sort((a, b) => b - a);
+                const clean_distances = sortedYears.map(yr => {
+                    const eventsArr = Array.from(r.eventsByYear[yr]);
+                    return `<strong>${yr}:</strong> ${eventsArr.join(', ')}`;
+                }).join(' | ');
+
+                return {
+                    full_name: r.full_name,
+                    years_count: r.yearsSet.size,
+                    clean_distances: clean_distances,
+                    max_years: maxYearsPossible
+                };
+            }).sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
+
+            document.getElementById('legacyCount').innerText = allRunners.length;
+            document.getElementById('milesCombined').innerText = Math.round(totalMiles).toLocaleString();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const rParam = urlParams.get('runner');
+            if (rParam) { 
+                document.getElementById('runnerSearch').value = rParam; searchTerm = rParam; 
+            }
+            
+            processAndFilter();
+        },
+        error: function(err) {
+            console.error("Error loading CSV on GitHub:", err);
+            document.getElementById('runnerList').innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: red;">Unable to load runner database. Please check the file path.</p>`;
+        }
+    });
+</script>
+</body>
+</html>
