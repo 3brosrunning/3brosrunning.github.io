@@ -100,9 +100,8 @@
       box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
     }
     #runnerList {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       padding: 0;
     }
@@ -110,14 +109,13 @@
       position: relative;
       border: 1px solid #e0e0e0;
       border-radius: 12px;
-      padding: 20px;
+      padding: 35px 20px 20px;
       background-color: #ffffff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       text-align: center;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      flex-basis: calc(33.33% - 20px);
-      box-sizing: border-box;
-      min-width: 250px;
+      display: flex;
+      flex-direction: column;
     }
     .runner-card:hover {
       transform: translateY(-5px);
@@ -128,16 +126,27 @@
       font-weight: 600;
       color: #333;
       margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       text-transform: capitalize;
     }
     .runner-count {
       font-size: 1em;
       color: #666;
       margin-top: 5px;
+      margin-bottom: 15px;
     }
+    .history-box { 
+      background: rgba(0,0,0,0.03); 
+      padding: 12px; 
+      border-radius: 8px; 
+      border: 1px solid rgba(0,0,0,0.05); 
+      font-size: 0.9rem; 
+      flex-grow: 1; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.5; 
+      color: #444;
+    }
+    
     /* Highlight classes */
     .highlight-most-years {
       border: 2px solid #ffc107;
@@ -157,6 +166,7 @@
       font-weight: bold;
       letter-spacing: 1px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
     .highlight-10plus {
       border: 2px solid #007bff;
@@ -176,6 +186,7 @@
       font-weight: bold;
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
     .highlight-5plus {
       border: 2px solid #4CAF50;
@@ -195,9 +206,50 @@
       font-weight: bold;
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
-    @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
-    @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
+
+    /* Floating button */
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #2196f3;
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 999;
+    }
+    .floating-btn:hover {
+      background-color: #1976d2;
+    }
+    .floating-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+    @media (max-width: 600px) {
+      .floating-btn {
+        padding: 10px;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        justify-content: center;
+      }
+      .floating-btn .btn-text {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -233,6 +285,12 @@
     <div id="runnerList">Loading runners…</div>
   </div>
 
+  <!-- Floating button -->
+  <a href="https://runsignup.com/Race/TX/Galveston/Toughest10Galveston" class="floating-btn" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    <span class="btn-text">10K Galveston</span>
+  </a>
+
   <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
@@ -254,10 +312,10 @@
       runnersArray.forEach(runner => {
         const card = document.createElement("div");
         card.className = `runner-card ${getHighlightClass(runner.years_count, maxYears)}`;
-        card.style.paddingTop = "30px";
         card.innerHTML = `
           <p class="runner-name">${runner.full_name}</p>
           <p class="runner-count">${runner.years_count} years</p>
+          <div class="history-box">${runner.years_string}</div>
         `;
         runnerList.appendChild(card);
       });
@@ -274,7 +332,6 @@
         let runnersObj = {};
         let allYears = new Set();
 
-        // Process raw rows (First Name, Last Name, Year) into aggregated data
         results.data.forEach(row => {
             const year = (row['Year'] || "").trim();
             const fName = (row['First Name'] || "").trim();
@@ -284,7 +341,6 @@
 
             allYears.add(year);
 
-            // Clean up name casing so "JOHN DOE" and "John Doe" map to the same person
             const fullName = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
 
             if (!runnersObj[fullName]) {
@@ -298,11 +354,13 @@
 
         const maxYearsPossible = allYears.size;
 
-        // Convert object to array and sort by most years, then alphabetically
         let runnersArray = Object.values(runnersObj).map(r => {
+            // Sort years in descending order (e.g., 2025, 2024, 2022)
+            const sortedYears = Array.from(r.yearsSet).sort((a, b) => b - a);
             return {
                 full_name: r.full_name,
-                years_count: r.yearsSet.size
+                years_count: r.yearsSet.size,
+                years_string: sortedYears.join(', ')
             };
         }).sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
 
@@ -314,7 +372,6 @@
       }
     });
 
-    // Search functionality
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
