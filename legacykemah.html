@@ -148,13 +148,15 @@
       color: #444;
     }
 
-    /* Highlight classes */
-    .highlight-most-years {
+    /* Highlight Milestone Classes */
+    
+    /* Perfect Streak */
+    .highlight-perfect {
       border: 2px solid #ffc107;
       background-color: #fff8e1;
     }
-    .highlight-most-years::before {
-      content: 'Top Legacy Runner';
+    .highlight-perfect::before {
+      content: 'Perfect Streak';
       position: absolute;
       top: 0;
       left: 50%;
@@ -169,8 +171,54 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       white-space: nowrap;
     }
+
+    /* 20+ Years */
+    .highlight-20plus {
+      border: 2px solid #9c27b0; /* Purple */
+      background-color: #f3e5f5;
+    }
+    .highlight-20plus::before {
+      content: '20+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #9c27b0;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    /* 15+ Years */
+    .highlight-15plus {
+      border: 2px solid #f44336; /* Red */
+      background-color: #ffebee;
+    }
+    .highlight-15plus::before {
+      content: '15+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f44336;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    /* 10+ Years */
     .highlight-10plus {
-      border: 2px solid #007bff;
+      border: 2px solid #007bff; /* Blue */
       background-color: #e6f2ff;
     }
     .highlight-10plus::before {
@@ -189,8 +237,10 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       white-space: nowrap;
     }
+
+    /* 5+ Years */
     .highlight-5plus {
-      border: 2px solid #4CAF50;
+      border: 2px solid #4CAF50; /* Green */
       background-color: #eaf7e9;
     }
     .highlight-5plus::before {
@@ -293,7 +343,9 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears && maxYears > 0) return "highlight-most-years"; 
+      if (years === maxYears && maxYears > 0) return "highlight-perfect"; 
+      if (years >= 20) return "highlight-20plus";
+      if (years >= 15) return "highlight-15plus";
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
@@ -353,7 +405,7 @@
         const maxYearsPossible = allYears.size;
 
         let runnersArray = Object.values(runnersObj).map(r => {
-            // Sort years in descending order (e.g., 2026, 2025, 2024)
+            // Sort years in descending order
             const sortedYears = Array.from(r.yearsSet).sort((a, b) => b - a);
             return {
                 full_name: r.full_name,
