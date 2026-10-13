@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <title>Legacy Galveston Toughest 10K - 3 Bros Running Company</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon & Open Graph Tags -->
+  <link rel="shortcut icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240112-1750178494.4869-0.bOuzQ-.png" type="image/png">
+  <link rel="icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240112-1750178494.4869-0.bOuzQ-.png" type="image/png">
+  <meta property="og:title" content="Legacy Galveston Toughest 10K - 3 Bros Running Company">
+  <meta property="og:description" content="Celebrating Strength, Stamina, and the Legacy of the Causeway.">
+  <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240112-1750178494.4869-0.bOuzQ-.png">
+
   <style>
     body { 
       font-family: 'Segoe UI', Arial, sans-serif; 
@@ -17,6 +25,10 @@
       padding: 40px 20px 20px 20px;
       text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+    .header-logo {
+      height: 90px;
+      margin-bottom: 15px;
     }
     .legacy-header h1 {
       font-size: 2.6rem;
@@ -189,6 +201,7 @@
 </head>
 <body>
   <div class="legacy-header">
+    <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240112-1750178494.4869-0.bOuzQ-.png" alt="Galveston Toughest 10K Logo" class="header-logo">
     <h1>Honoring Our Galveston Toughest 10K Runners</h1>
     <h3>Celebrating Strength, Stamina, and the Legacy of the Causeway</h3>
   </div>
@@ -258,7 +271,8 @@
       });
     }
 
-    Papa.parse("runnersgalveston.csv?v=" + new Date().getTime(), {
+    // Updated CSV File Name
+    Papa.parse("galveston_master_list.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
       skipEmptyLines: true,
