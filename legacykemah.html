@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <title>Kemah Legacy Runners - 3 Bros Running Company</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon & Open Graph Tags -->
+  <link rel="shortcut icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240103-1750178131.0079-0.bOuzLt.png" type="image/png">
+  <link rel="icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240103-1750178131.0079-0.bOuzLt.png" type="image/png">
+  <meta property="og:title" content="Kemah Legacy Runners - 3 Bros Running Company">
+  <meta property="og:description" content="Celebrating years of dedication. The Kemah Legacy Runners represent dedication, perseverance, and a love for the sport.">
+  <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240103-1750178131.0079-0.bOuzLt.png">
+
   <style>
     body { 
       font-family: 'Segoe UI', Arial, sans-serif; 
@@ -17,6 +25,10 @@
       padding: 40px 20px 20px 20px;
       text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+    .header-logo {
+      height: 90px;
+      margin-bottom: 15px;
     }
     .legacy-header h1 {
       font-size: 2.6rem;
@@ -42,6 +54,7 @@
       font-size: 1.1rem;
       line-height: 1.7;
       margin-bottom: 30px;
+      text-align: center;
     }
     .signup-link {
       display: inline-block;
@@ -88,9 +101,8 @@
       box-shadow: 0 0 8px rgba(33, 150, 243, 0.2);
     }
     #runnerList {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       padding: 0;
     }
@@ -98,14 +110,13 @@
       position: relative;
       border: 1px solid #e0e0e0;
       border-radius: 12px;
-      padding: 20px;
+      padding: 35px 20px 20px;
       background-color: #ffffff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       text-align: center;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      flex-basis: calc(33.33% - 20px);
-      box-sizing: border-box;
-      min-width: 250px;
+      display: flex;
+      flex-direction: column;
     }
     .runner-card:hover {
       transform: translateY(-5px);
@@ -116,15 +127,27 @@
       font-weight: 600;
       color: #333;
       margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      text-transform: capitalize;
     }
     .runner-count {
       font-size: 1em;
       color: #666;
       margin-top: 5px;
+      margin-bottom: 15px;
     }
+    .history-box { 
+      background: rgba(0,0,0,0.03); 
+      padding: 12px; 
+      border-radius: 8px; 
+      border: 1px solid rgba(0,0,0,0.05); 
+      font-size: 0.9rem; 
+      flex-grow: 1; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.5; 
+      color: #444;
+    }
+
     /* Highlight classes */
     .highlight-most-years {
       border: 2px solid #ffc107;
@@ -144,6 +167,7 @@
       font-weight: bold;
       letter-spacing: 1px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
     .highlight-10plus {
       border: 2px solid #007bff;
@@ -163,6 +187,7 @@
       font-weight: bold;
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
     .highlight-5plus {
       border: 2px solid #4CAF50;
@@ -182,9 +207,8 @@
       font-weight: bold;
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
-    @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
-    @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
 
     /* Floating button */
     .floating-btn {
@@ -231,6 +255,7 @@
 </head>
 <body>
   <div class="legacy-header">
+    <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240103-1750178131.0079-0.bOuzLt.png" alt="Toughest 10K Kemah Logo" class="header-logo">
     <h1>Kemah Legacy Runners</h1>
     <h3>Celebrating Years of Dedication</h3>
   </div>
@@ -268,47 +293,76 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years"; 
+      if (years === maxYears && maxYears > 0) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
     }
 
-    function renderRunners(data) {
+    function renderRunners(runnersArray, maxYears) {
       const runnerList = document.getElementById("runnerList");
       runnerList.innerHTML = "";
-      if (data.length === 0) {
+      if (runnersArray.length === 0) {
         runnerList.innerText = "No runner data available.";
         return;
       }
 
-      const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
-      const maxYears = Math.max(...yearsList);
-
-      data.forEach(runner => {
-        const years = parseInt(runner.Years);
-        if (!runner.First || !runner.Last || isNaN(years)) return;
-
-        const fullName = runner.First + " " + runner.Last;
-
+      runnersArray.forEach(runner => {
         const card = document.createElement("div");
-        card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
-        card.setAttribute("data-years", years);
-        card.style.paddingTop = "30px";
+        card.className = `runner-card ${getHighlightClass(runner.years_count, maxYears)}`;
         card.innerHTML = `
-          <p class="runner-name">${fullName}</p>
-          <p class="runner-count">${years} years</p>
+          <p class="runner-name">${runner.full_name}</p>
+          <p class="runner-count">${runner.years_count} years</p>
+          <div class="history-box">${runner.years_string}</div>
         `;
         runnerList.appendChild(card);
       });
     }
 
-    Papa.parse("runnerskemah.csv?v=" + new Date().getTime(), {
+    Papa.parse("kemah_master_list.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
       skipEmptyLines: true,
+      transformHeader: function(header) {
+          return header.trim().replace(/^\uFEFF/, '');
+      },
       complete: function(results) {
-        renderRunners(results.data);
+        let runnersObj = {};
+        let allYears = new Set();
+
+        results.data.forEach(row => {
+            const year = (row['Year'] || "").trim();
+            const fName = (row['First Name'] || "").trim();
+            const lName = (row['Last Name'] || "").trim();
+
+            if (!year || !fName || !lName) return;
+
+            allYears.add(year);
+
+            const fullName = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
+
+            if (!runnersObj[fullName]) {
+                runnersObj[fullName] = {
+                    full_name: `${fName} ${lName}`,
+                    yearsSet: new Set()
+                };
+            }
+            runnersObj[fullName].yearsSet.add(year);
+        });
+
+        const maxYearsPossible = allYears.size;
+
+        let runnersArray = Object.values(runnersObj).map(r => {
+            // Sort years in descending order (e.g., 2026, 2025, 2024)
+            const sortedYears = Array.from(r.yearsSet).sort((a, b) => b - a);
+            return {
+                full_name: r.full_name,
+                years_count: r.yearsSet.size,
+                years_string: sortedYears.join(', ')
+            };
+        }).sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
+
+        renderRunners(runnersArray, maxYearsPossible);
       },
       error: function(err) {
         document.getElementById("runnerList").innerText = "Error loading runner data.";
