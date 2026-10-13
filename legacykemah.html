@@ -148,6 +148,8 @@
       color: #444;
     }
 
+    #sentinel { height: 50px; width: 100%; }
+
     /* Highlight Milestone Classes */
     
     /* Perfect Streak */
@@ -321,7 +323,7 @@
         Join the Texas Bridge Series
       </a>
       <p class="contact">
-        <em>As of 10/13/26 – questions or corrections, contact us at 
+        <em>As of 10/13/2026 – questions or corrections, contact us at 
         <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
       </p>
     </div>
@@ -331,6 +333,7 @@
     </div>
 
     <div id="runnerList">Loading runners…</div>
+    <div id="sentinel"></div>
   </div>
 
   <!-- Floating button -->
@@ -342,6 +345,13 @@
   <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
+    let allRunners = [];
+    let filteredRunners = [];
+    let maxYearsPossible = 0;
+    const increment = 50;
+    let searchTimeout;
+    const listElement = document.getElementById("runnerList");
+
     function getHighlightClass(years, maxYears) {
       if (years === maxYears && maxYears > 0) return "highlight-perfect"; 
       if (years >= 20) return "highlight-20plus";
@@ -351,25 +361,38 @@
       return "";
     }
 
-    function renderRunners(runnersArray, maxYears) {
-      const runnerList = document.getElementById("runnerList");
-      runnerList.innerHTML = "";
-      if (runnersArray.length === 0) {
-        runnerList.innerText = "No runner data available.";
+    function renderList(reset = false) {
+      if (reset) listElement.innerHTML = "";
+      
+      const nextBatch = filteredRunners.slice(listElement.children.length, listElement.children.length + increment);
+      
+      if (reset && nextBatch.length === 0) {
+        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>No runners found.</p>";
         return;
       }
 
-      runnersArray.forEach(runner => {
-        const card = document.createElement("div");
-        card.className = `runner-card ${getHighlightClass(runner.years_count, maxYears)}`;
-        card.innerHTML = `
-          <p class="runner-name">${runner.full_name}</p>
-          <p class="runner-count">${runner.years_count} years</p>
-          <div class="history-box">${runner.years_string}</div>
+      const htmlString = nextBatch.map(runner => {
+        const hClass = getHighlightClass(runner.years_count, maxYearsPossible);
+        return `
+          <div class="runner-card ${hClass}">
+            <p class="runner-name">${runner.full_name}</p>
+            <p class="runner-count">${runner.years_count} years</p>
+            <div class="history-box">${runner.years_string}</div>
+          </div>
         `;
-        runnerList.appendChild(card);
-      });
+      }).join('');
+      
+      listElement.insertAdjacentHTML('beforeend', htmlString);
     }
+
+    // Lazy load observer
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
+        renderList();
+      }
+    }, { threshold: 1.0 });
+
+    observer.observe(document.getElementById('sentinel'));
 
     Papa.parse("kemah_master_list.csv?v=" + new Date().getTime(), {
       download: true,
@@ -402,9 +425,9 @@
             runnersObj[fullName].yearsSet.add(year);
         });
 
-        const maxYearsPossible = allYears.size;
+        maxYearsPossible = allYears.size;
 
-        let runnersArray = Object.values(runnersObj).map(r => {
+        allRunners = Object.values(runnersObj).map(r => {
             // Sort years in descending order
             const sortedYears = Array.from(r.yearsSet).sort((a, b) => b - a);
             return {
@@ -414,20 +437,24 @@
             };
         }).sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
 
-        renderRunners(runnersArray, maxYearsPossible);
+        filteredRunners = [...allRunners];
+        renderList(true);
       },
       error: function(err) {
-        document.getElementById("runnerList").innerText = "Error loading runner data.";
+        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: red;'>Error loading runner data.</p>";
         console.error(err);
       }
     });
 
+    // Debounced Search
     document.getElementById("runnerSearch").addEventListener("input", function() {
+      clearTimeout(searchTimeout);
       const term = this.value.toLowerCase();
-      document.querySelectorAll(".runner-card").forEach(card => {
-        const name = card.querySelector(".runner-name").innerText.toLowerCase();
-        card.style.display = name.includes(term) ? "" : "none";
-      });
+      
+      searchTimeout = setTimeout(() => {
+        filteredRunners = allRunners.filter(r => r.full_name.toLowerCase().includes(term));
+        renderList(true);
+      }, 300); // Waits 300ms after user stops typing to filter
     });
   </script>
 </body>
