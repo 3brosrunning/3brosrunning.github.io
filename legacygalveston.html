@@ -131,6 +131,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-transform: capitalize;
     }
     .runner-count {
       font-size: 1em;
@@ -236,48 +237,76 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years"; 
+      if (years === maxYears && maxYears > 0) return "highlight-most-years"; 
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
     }
 
-    function renderRunners(data) {
+    function renderRunners(runnersArray, maxYears) {
       const runnerList = document.getElementById("runnerList");
       runnerList.innerHTML = "";
-      if (data.length === 0) {
+      if (runnersArray.length === 0) {
         runnerList.innerText = "No runner data available.";
         return;
       }
 
-      const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
-      const maxYears = Math.max(...yearsList);
-
-      data.forEach(runner => {
-        const years = parseInt(runner.Years);
-        if (!runner.First || !runner.Last || isNaN(years)) return;
-
-        const fullName = runner.First + " " + runner.Last;
-
+      runnersArray.forEach(runner => {
         const card = document.createElement("div");
-        card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
-        card.setAttribute("data-years", years);
+        card.className = `runner-card ${getHighlightClass(runner.years_count, maxYears)}`;
         card.style.paddingTop = "30px";
         card.innerHTML = `
-          <p class="runner-name">${fullName}</p>
-          <p class="runner-count">${years} years</p>
+          <p class="runner-name">${runner.full_name}</p>
+          <p class="runner-count">${runner.years_count} years</p>
         `;
         runnerList.appendChild(card);
       });
     }
 
-    // Updated CSV File Name
     Papa.parse("galveston_master_list.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
       skipEmptyLines: true,
+      transformHeader: function(header) {
+          return header.trim().replace(/^\uFEFF/, '');
+      },
       complete: function(results) {
-        renderRunners(results.data);
+        let runnersObj = {};
+        let allYears = new Set();
+
+        // Process raw rows (First Name, Last Name, Year) into aggregated data
+        results.data.forEach(row => {
+            const year = (row['Year'] || "").trim();
+            const fName = (row['First Name'] || "").trim();
+            const lName = (row['Last Name'] || "").trim();
+
+            if (!year || !fName || !lName) return;
+
+            allYears.add(year);
+
+            // Clean up name casing so "JOHN DOE" and "John Doe" map to the same person
+            const fullName = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
+
+            if (!runnersObj[fullName]) {
+                runnersObj[fullName] = {
+                    full_name: `${fName} ${lName}`,
+                    yearsSet: new Set()
+                };
+            }
+            runnersObj[fullName].yearsSet.add(year);
+        });
+
+        const maxYearsPossible = allYears.size;
+
+        // Convert object to array and sort by most years, then alphabetically
+        let runnersArray = Object.values(runnersObj).map(r => {
+            return {
+                full_name: r.full_name,
+                years_count: r.yearsSet.size
+            };
+        }).sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
+
+        renderRunners(runnersArray, maxYearsPossible);
       },
       error: function(err) {
         document.getElementById("runnerList").innerText = "Error loading runner data.";
@@ -285,6 +314,7 @@
       }
     });
 
+    // Search functionality
     document.getElementById("runnerSearch").addEventListener("input", function() {
       const term = this.value.toLowerCase();
       document.querySelectorAll(".runner-card").forEach(card => {
