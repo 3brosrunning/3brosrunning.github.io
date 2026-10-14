@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <title>Legacy La Porte By the Bay Half Marathon - 3 Bros Running Company</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon & Open Graph Tags -->
+  <link rel="shortcut icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240225-1750178519.7446-0.bOuzRx.png" type="image/png">
+  <link rel="icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240225-1750178519.7446-0.bOuzRx.png" type="image/png">
+  <meta property="og:title" content="Legacy La Porte By the Bay Half Marathon - 3 Bros Running Company">
+  <meta property="og:description" content="Celebrating Endurance on the Fred Hartman Bridge.">
+  <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240225-1750178519.7446-0.bOuzRx.png">
+
   <style>
     body { 
       font-family: 'Segoe UI', Arial, sans-serif; 
@@ -17,6 +25,10 @@
       padding: 40px 20px 20px 20px;
       text-align: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+    .header-logo {
+      height: 90px;
+      margin-bottom: 15px;
     }
     .legacy-header h1 {
       font-size: 2.6rem;
@@ -42,6 +54,7 @@
       font-size: 1.1rem;
       line-height: 1.7;
       margin-bottom: 30px;
+      text-align: center;
     }
     .signup-link {
       display: inline-block;
@@ -88,9 +101,8 @@
       box-shadow: 0 0 8px rgba(142, 36, 170, 0.2);
     }
     #runnerList {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       padding: 0;
     }
@@ -98,14 +110,13 @@
       position: relative;
       border: 1px solid #e0e0e0;
       border-radius: 12px;
-      padding: 20px;
+      padding: 35px 20px 20px;
       background-color: #ffffff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       text-align: center;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      flex-basis: calc(33.33% - 20px);
-      box-sizing: border-box;
-      min-width: 250px;
+      display: flex;
+      flex-direction: column;
     }
     .runner-card:hover {
       transform: translateY(-5px);
@@ -116,22 +127,38 @@
       font-weight: 600;
       color: #333;
       margin: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      text-transform: capitalize;
     }
     .runner-count {
       font-size: 1em;
       color: #666;
       margin-top: 5px;
+      margin-bottom: 15px;
     }
-    /* Highlight classes */
-    .highlight-most-years {
+    .history-box { 
+      background: rgba(0,0,0,0.03); 
+      padding: 12px; 
+      border-radius: 8px; 
+      border: 1px solid rgba(0,0,0,0.05); 
+      font-size: 0.9rem; 
+      flex-grow: 1; 
+      font-weight: 500; 
+      text-align: center; 
+      line-height: 1.5; 
+      color: #444;
+    }
+
+    #sentinel { height: 50px; width: 100%; }
+
+    /* Highlight Milestone Classes */
+    
+    /* Perfect Streak */
+    .highlight-perfect {
       border: 2px solid #ffc107;
       background-color: #fff8e1;
     }
-    .highlight-most-years::before {
-      content: 'Top Legacy Runner';
+    .highlight-perfect::before {
+      content: 'Perfect Streak';
       position: absolute;
       top: 0;
       left: 50%;
@@ -144,18 +171,21 @@
       font-weight: bold;
       letter-spacing: 1px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
-    .highlight-10plus {
-      border: 2px solid #8e24aa;
+
+    /* 20+ Years */
+    .highlight-20plus {
+      border: 2px solid #9c27b0; /* Purple */
       background-color: #f3e5f5;
     }
-    .highlight-10plus::before {
-      content: '10+ Year Legacy';
+    .highlight-20plus::before {
+      content: '20+ Year Legacy';
       position: absolute;
       top: 0;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #8e24aa;
+      background-color: #9c27b0;
       color: white;
       padding: 5px 10px;
       border-radius: 5px;
@@ -163,9 +193,56 @@
       font-weight: bold;
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
+
+    /* 15+ Years */
+    .highlight-15plus {
+      border: 2px solid #f44336; /* Red */
+      background-color: #ffebee;
+    }
+    .highlight-15plus::before {
+      content: '15+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f44336;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    /* 10+ Years */
+    .highlight-10plus {
+      border: 2px solid #007bff; /* Blue */
+      background-color: #e6f2ff;
+    }
+    .highlight-10plus::before {
+      content: '10+ Year Legacy';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    /* 5+ Years */
     .highlight-5plus {
-      border: 2px solid #4CAF50;
+      border: 2px solid #4CAF50; /* Green */
       background-color: #eaf7e9;
     }
     .highlight-5plus::before {
@@ -182,9 +259,8 @@
       font-weight: bold;
       letter-spacing: 0.5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
-    @media (max-width: 768px) { .runner-card { flex-basis: calc(50% - 15px); } }
-    @media (max-width: 500px) { .runner-card { flex-basis: 100%; } }
 
     /* Floating button */
     .floating-btn {
@@ -231,6 +307,7 @@
 </head>
 <body>
   <div class="legacy-header">
+    <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-240225-1750178519.7446-0.bOuzRx.png" alt="La Porte Half Marathon Logo" class="header-logo">
     <h1>La Porte Legacy Runners</h1>
     <h3>Celebrating Endurance on the Fred Hartman Bridge</h3>
   </div>
@@ -250,7 +327,7 @@
         Join the Texas Bridge Series
       </a>
       <p class="contact">
-        <em>As of 9/22/25 – questions or corrections, contact us at 
+        <em>As of 10/13/2026 – questions or corrections, contact us at 
         <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
       </p>
     </div>
@@ -260,6 +337,7 @@
     </div>
 
     <div id="runnerList">Loading runners…</div>
+    <div id="sentinel"></div>
   </div>
 
   <!-- Floating button -->
@@ -271,61 +349,116 @@
   <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
+    let allRunners = [];
+    let filteredRunners = [];
+    let maxYearsPossible = 0;
+    const increment = 50;
+    let searchTimeout;
+    const listElement = document.getElementById("runnerList");
+
     function getHighlightClass(years, maxYears) {
-      if (years === maxYears) return "highlight-most-years"; 
+      if (years === maxYears && maxYears > 0) return "highlight-perfect"; 
+      if (years >= 20) return "highlight-20plus";
+      if (years >= 15) return "highlight-15plus";
       if (years >= 10) return "highlight-10plus";
       if (years >= 5) return "highlight-5plus";
       return "";
     }
 
-    function renderRunners(data) {
-      const runnerList = document.getElementById("runnerList");
-      runnerList.innerHTML = "";
-      if (data.length === 0) {
-        runnerList.innerText = "No runner data available.";
+    function renderList(reset = false) {
+      if (reset) listElement.innerHTML = "";
+      
+      const nextBatch = filteredRunners.slice(listElement.children.length, listElement.children.length + increment);
+      
+      if (reset && nextBatch.length === 0) {
+        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>No runners found.</p>";
         return;
       }
 
-      const yearsList = data.map(r => parseInt(r.Years)).filter(y => !isNaN(y));
-      const maxYears = Math.max(...yearsList);
-
-      data.forEach(runner => {
-        const years = parseInt(runner.Years);
-        if (!runner.First || !runner.Last || isNaN(years)) return;
-
-        const fullName = runner.First + " " + runner.Last;
-
-        const card = document.createElement("div");
-        card.className = `runner-card ${getHighlightClass(years, maxYears)}`;
-        card.setAttribute("data-years", years);
-        card.style.paddingTop = "30px";
-        card.innerHTML = `
-          <p class="runner-name">${fullName}</p>
-          <p class="runner-count">${years} years</p>
+      const htmlString = nextBatch.map(runner => {
+        const hClass = getHighlightClass(runner.years_count, maxYearsPossible);
+        return `
+          <div class="runner-card ${hClass}">
+            <p class="runner-name">${runner.full_name}</p>
+            <p class="runner-count">${runner.years_count} years</p>
+            <div class="history-box">${runner.years_string}</div>
+          </div>
         `;
-        runnerList.appendChild(card);
-      });
+      }).join('');
+      
+      listElement.insertAdjacentHTML('beforeend', htmlString);
     }
 
-    Papa.parse("runnerslaporte.csv?v=" + new Date().getTime(), {
+    // Lazy load observer
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
+        renderList();
+      }
+    }, { threshold: 1.0 });
+
+    observer.observe(document.getElementById('sentinel'));
+
+    Papa.parse("laporte_master_list.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
       skipEmptyLines: true,
+      transformHeader: function(header) {
+          return header.trim().replace(/^\uFEFF/, '');
+      },
       complete: function(results) {
-        renderRunners(results.data);
+        let runnersObj = {};
+        let allYears = new Set();
+
+        results.data.forEach(row => {
+            const year = (row['Year'] || "").trim();
+            const fName = (row['First Name'] || "").trim();
+            const lName = (row['Last Name'] || "").trim();
+
+            if (!year || !fName || !lName) return;
+
+            allYears.add(year);
+
+            const fullName = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
+
+            if (!runnersObj[fullName]) {
+                runnersObj[fullName] = {
+                    full_name: `${fName} ${lName}`,
+                    yearsSet: new Set()
+                };
+            }
+            runnersObj[fullName].yearsSet.add(year);
+        });
+
+        maxYearsPossible = allYears.size;
+
+        allRunners = Object.values(runnersObj).map(r => {
+            // Sort years in descending order
+            const sortedYears = Array.from(r.yearsSet).sort((a, b) => b - a);
+            return {
+                full_name: r.full_name,
+                years_count: r.yearsSet.size,
+                years_string: sortedYears.join(', ')
+            };
+        }).sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
+
+        filteredRunners = [...allRunners];
+        renderList(true);
       },
       error: function(err) {
-        document.getElementById("runnerList").innerText = "Error loading runner data.";
+        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: red;'>Error loading runner data.</p>";
         console.error(err);
       }
     });
 
+    // Debounced Search
     document.getElementById("runnerSearch").addEventListener("input", function() {
+      clearTimeout(searchTimeout);
       const term = this.value.toLowerCase();
-      document.querySelectorAll(".runner-card").forEach(card => {
-        const name = card.querySelector(".runner-name").innerText.toLowerCase();
-        card.style.display = name.includes(term) ? "" : "none";
-      });
+      
+      searchTimeout = setTimeout(() => {
+        filteredRunners = allRunners.filter(r => r.full_name.toLowerCase().includes(term));
+        renderList(true);
+      }, 300); // Waits 300ms after user stops typing to filter
     });
   </script>
 </body>
