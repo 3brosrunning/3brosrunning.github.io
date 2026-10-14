@@ -306,4 +306,176 @@
 </head>
 <body>
   <div class="legacy-header">
-    <img src="
+    <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-241525-1731519877.2565-0.bNnowf.png" alt="Texas Bridge Series Logo" class="header-logo">
+    <h1>Texas Bridge Series Legacy Runners</h1>
+    <h3>Honoring Those Who Completed Every Race, Every Year</h3>
+  </div>
+
+  <div class="legacy-content">
+    <div class="content-text">
+      <p>
+        The <strong>Texas Bridge Series</strong> is one of the most unique running challenges in Texas—three races, three bridges, and one incredible finish. Starting with the Kemah Toughest 10K, continuing with the Galveston Toughest 10K, and finishing with the La Porte By the Bay Half Marathon, this series demands grit and determination.
+      </p>
+      <p>
+        Our legacy runners are those who have completed <em>all three races</em> in a single year, conquering the Kemah Bridge, Galveston Causeway, and the Fred Hartman Bridge. Their dedication keeps the tradition alive and inspires runners across Texas.
+      </p>
+      <p class="gratitude">
+        We proudly celebrate these champions of endurance who return year after year to complete the full Texas Bridge Series.
+      </p>
+      <p>With gratitude,<br><strong>The 3 Bros Running Company Team</strong></p>
+      <p class="contact">
+        <em>As of 10/13/2026 – questions or corrections, contact us at 
+        <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
+      </p>
+      <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" class="back-link">Return to Texas Bridge Series Website</a>
+    </div>
+
+    <div class="search-container">
+      <input type="text" id="runnerSearch" placeholder="Search for a runner...">
+    </div>
+
+    <div id="runnerList">Loading runners…</div>
+    <div id="sentinel"></div>
+  </div>
+
+  <!-- Floating button -->
+  <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" class="floating-btn" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    <span class="btn-text">Bridge Series</span>
+  </a>
+
+  <!-- PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    let allRunners = [];
+    let filteredRunners = [];
+    let maxYearsPossible = 0;
+    const increment = 50;
+    let searchTimeout;
+    const listElement = document.getElementById("runnerList");
+
+    function getHighlightClass(years, maxYears) {
+      if (years === maxYears && maxYears > 0) return "highlight-perfect"; 
+      if (years >= 20) return "highlight-20plus";
+      if (years >= 15) return "highlight-15plus";
+      if (years >= 10) return "highlight-10plus";
+      if (years >= 5) return "highlight-5plus";
+      return "";
+    }
+
+    function renderList(reset = false) {
+      if (reset) listElement.innerHTML = "";
+      
+      const nextBatch = filteredRunners.slice(listElement.children.length, listElement.children.length + increment);
+      
+      if (reset && nextBatch.length === 0) {
+        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>No runners found.</p>";
+        return;
+      }
+
+      const htmlString = nextBatch.map(runner => {
+        const hClass = getHighlightClass(runner.years_count, maxYearsPossible);
+        return `
+          <div class="runner-card ${hClass}">
+            <p class="runner-name">${runner.full_name}</p>
+            <p class="runner-count">${runner.years_count} series completed</p>
+            <div class="history-box">${runner.years_string}</div>
+          </div>
+        `;
+      }).join('');
+      
+      listElement.insertAdjacentHTML('beforeend', htmlString);
+    }
+
+    // Lazy load observer
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
+        renderList();
+      }
+    }, { threshold: 1.0 });
+
+    observer.observe(document.getElementById('sentinel'));
+
+    Papa.parse("tbs_master_list.csv?v=" + new Date().getTime(), {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: function(header) {
+          return header.trim().replace(/^\uFEFF/, '');
+      },
+      complete: function(results) {
+        let runnersObj = {};
+        let allSeriesYears = new Set();
+        allRunners = [];
+
+        results.data.forEach(row => {
+            const year = (row['Year'] || "").trim();
+            const fName = (row['First Name'] || "").trim();
+            const lName = (row['Last Name'] || "").trim();
+            const event = (row['Event'] || "").trim();
+
+            if (!year || !fName || !lName || !event) return;
+
+            const fullName = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
+
+            if (!runnersObj[fullName]) {
+                runnersObj[fullName] = {
+                    full_name: `${fName} ${lName}`,
+                    eventsByYear: {}
+                };
+            }
+            if (!runnersObj[fullName].eventsByYear[year]) {
+                runnersObj[fullName].eventsByYear[year] = new Set();
+            }
+            // Add the specific event to that year's set
+            runnersObj[fullName].eventsByYear[year].add(event.toLowerCase());
+        });
+
+        // Determine who completed all 3 events in a given year
+        Object.values(runnersObj).forEach(r => {
+            let completedYears = [];
+            for (const [yr, eventsSet] of Object.entries(r.eventsByYear)) {
+                // To complete the series, they must have 3 distinct events in the same year
+                if (eventsSet.size >= 3) {
+                    completedYears.push(yr);
+                    allSeriesYears.add(yr);
+                }
+            }
+            
+            // Only add them if they completed at least one series year
+            if (completedYears.length > 0) {
+                const sortedYears = completedYears.sort((a, b) => b - a);
+                allRunners.push({
+                    full_name: r.full_name,
+                    years_count: completedYears.length,
+                    years_string: sortedYears.join(', ')
+                });
+            }
+        });
+
+        maxYearsPossible = allSeriesYears.size;
+
+        allRunners.sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
+
+        filteredRunners = [...allRunners];
+        renderList(true);
+      },
+      error: function(err) {
+        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: red;'>Error loading runner data.</p>";
+        console.error(err);
+      }
+    });
+
+    // Debounced Search
+    document.getElementById("runnerSearch").addEventListener("input", function() {
+      clearTimeout(searchTimeout);
+      const term = this.value.toLowerCase();
+      
+      searchTimeout = setTimeout(() => {
+        filteredRunners = allRunners.filter(r => r.full_name.toLowerCase().includes(term));
+        renderList(true);
+      }, 300); // Waits 300ms after user stops typing to filter
+    });
+  </script>
+</body>
+</html>
