@@ -20,21 +20,37 @@
 
   <style>
     :root {
-      /* Logo Color Palette */
+      /* Brand Palette */
       --tbs-blue: #0167b4;
       --tbs-blue-dark: #014c85;
       --tbs-star-blue: #bae2fa;
-      --tbs-ice-bg: #f0f7fc;
       --tbs-charcoal: #3f3e3d;
-      --gold: #FFD700;
-      --gold-bg: #fffdf0;
-
-      /* Tier Accents */
-      --tier-20: #faf5ff;
-      --tier-15: #fff0f5;
-      --tier-10: #f0f9ff;
-      --tier-5:  #f8fafc;
       --page-bg: #f4f7fa;
+
+      /* Gold / Leader Accents */
+      --gold: #FFD700;
+      --gold-dark: #b8860b;
+      --gold-bg: #fffdf2;
+
+      /* Milestone Colors */
+      --tier-20-bg: #fdf2f8;
+      --tier-20-border: #db2777;
+      --tier-20-text: #9d174d;
+
+      --tier-15-bg: #f5f3ff;
+      --tier-15-border: #7c3aed;
+      --tier-15-text: #5b21b6;
+
+      --tier-10-bg: #e0f2fe;
+      --tier-10-border: #0284c7;
+      --tier-10-text: #0369a1;
+
+      --tier-5-bg: #ecfdf5;
+      --tier-5-border: #059669;
+      --tier-5-text: #047857;
+
+      --tier-standard-bg: #ffffff;
+      --tier-standard-border: #e2edf6;
     }
 
     * { box-sizing: border-box; }
@@ -46,7 +62,7 @@
       overflow-y: scroll;
     }
 
-    /* Sticky Navigation Header */
+    /* Sticky Header */
     .header-nav {
       background: #ffffff;
       padding: 12px 25px;
@@ -56,7 +72,7 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 8px rgba(1, 103, 180, 0.08);
+      box-shadow: 0 2px 10px rgba(1, 103, 180, 0.08);
     }
     .header-link {
       display: flex;
@@ -96,7 +112,7 @@
       line-height: 1.5;
     }
 
-    /* Container & Controls */
+    /* Controls & Toolbar */
     .container {
       max-width: 1240px;
       margin: 0 auto;
@@ -160,7 +176,30 @@
       box-shadow: 0 4px 12px rgba(1, 103, 180, 0.3);
     }
 
-    /* Runner Cards Grid */
+    /* Legend Bar */
+    .legend-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #555;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    /* Grid Layout */
     #runnerList {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -168,30 +207,87 @@
       margin: 40px 0;
       min-height: 400px;
     }
+
+    /* Base Card Styling */
     .runner-card {
-      background: white;
       border-radius: 14px;
-      padding: 42px 22px 24px;
+      padding: 44px 22px 24px;
       text-align: center;
       position: relative;
-      border: 1px solid #e2edf6;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
       display: flex;
       flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: var(--tier-standard-bg);
+      border: 1.5px solid var(--tier-standard-border);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
     }
     .runner-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 24px rgba(1, 103, 180, 0.12);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.1);
     }
 
-    /* Badges & Accent Tiers */
+    /* Distinct Tier Color Themes */
+    .runner-card.tier-5 {
+      background: var(--tier-5-bg);
+      border: 2px solid var(--tier-5-border);
+    }
+    .runner-card.tier-5 .main-stat { color: var(--tier-5-text); }
+    .runner-card.tier-5 .badge { background: var(--tier-5-border); color: #fff; }
+
+    .runner-card.tier-10 {
+      background: var(--tier-10-bg);
+      border: 2px solid var(--tier-10-border);
+    }
+    .runner-card.tier-10 .main-stat { color: var(--tier-10-text); }
+    .runner-card.tier-10 .badge { background: var(--tier-10-border); color: #fff; }
+
+    .runner-card.tier-15 {
+      background: var(--tier-15-bg);
+      border: 2px solid var(--tier-15-border);
+    }
+    .runner-card.tier-15 .main-stat { color: var(--tier-15-text); }
+    .runner-card.tier-15 .badge { background: var(--tier-15-border); color: #fff; }
+
+    .runner-card.tier-20 {
+      background: var(--tier-20-bg);
+      border: 2px solid var(--tier-20-border);
+    }
+    .runner-card.tier-20 .main-stat { color: var(--tier-20-text); }
+    .runner-card.tier-20 .badge { background: var(--tier-20-border); color: #fff; }
+
+    /* Superlative Highlight: Gold / Top Leaders */
+    .runner-card.tier-gold {
+      background: linear-gradient(180deg, #fffef2 0%, #fff9d6 100%) !important;
+      border: 3px solid var(--gold) !important;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35) !important;
+      outline: 2px solid rgba(255, 215, 0, 0.4);
+    }
+    .runner-card.tier-gold .main-stat { color: #8a6500 !important; }
+    .runner-card.tier-gold .badge-gold {
+      background: linear-gradient(90deg, #ffd700 0%, #ffae00 100%) !important;
+      color: #111 !important;
+      box-shadow: 0 3px 8px rgba(184, 134, 11, 0.4);
+      font-weight: 900;
+    }
+
+    /* Superlative Highlight: Inception / Perfect Streak */
+    .runner-card.tier-perfect {
+      border: 3px solid #00897b !important;
+      box-shadow: 0 10px 26px rgba(0, 137, 123, 0.28) !important;
+    }
+    .runner-card.tier-perfect .badge-perfect {
+      background: #00897b !important;
+      color: #fff !important;
+      box-shadow: 0 3px 8px rgba(0, 137, 123, 0.3);
+    }
+
+    /* Badges */
     .badge {
       position: absolute;
       top: -12px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 5px 14px;
+      padding: 5px 16px;
       font-size: 0.72rem;
       font-weight: 900;
       border-radius: 20px;
@@ -199,17 +295,9 @@
       letter-spacing: 0.6px;
       white-space: nowrap;
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      background: var(--tbs-charcoal);
+      color: #fff;
     }
-    .badge-gold { background: var(--gold); color: #111; }
-    .badge-perfect { background: #00897b; color: #fff; }
-    .badge-standard { background: var(--tbs-charcoal); color: #fff; }
-
-    .tier-gold { background: var(--gold-bg) !important; border: 2.5px solid var(--gold) !important; }
-    .tier-perfect { border: 2.5px solid #00897b !important; }
-    .tier-20 { background: var(--tier-20); border-top: 5px solid #7b1fa2; }
-    .tier-15 { background: var(--tier-15); border-top: 5px solid #c2185b; }
-    .tier-10 { background: var(--tier-10); border-top: 5px solid var(--tbs-blue); }
-    .tier-5  { background: var(--tier-5);  border-top: 5px solid #0288d1; }
 
     .runner-name {
       font-weight: 900;
@@ -218,7 +306,7 @@
       margin: 0 0 6px;
     }
     .main-stat {
-      font-size: 2.4rem;
+      font-size: 2.6rem;
       font-weight: 900;
       color: var(--tbs-blue);
       line-height: 1.1;
@@ -240,10 +328,10 @@
     }
     .history-box {
       text-align: left;
-      background: var(--tbs-ice-bg);
+      background: rgba(255, 255, 255, 0.75);
       padding: 10px 14px;
       border-radius: 8px;
-      border: 1px solid #ddecfa;
+      border: 1px solid rgba(0,0,0,0.06);
       font-size: 0.82rem;
       max-height: 140px;
       overflow-y: auto;
@@ -253,7 +341,7 @@
     }
     .history-item {
       padding: 4px 0;
-      border-bottom: 1px solid #e1effa;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
       color: var(--tbs-charcoal);
     }
     .history-item:last-child { border-bottom: none; }
@@ -336,6 +424,15 @@
         <button class="filter-btn" data-filter="Galveston">Toughest 10K Galveston</button>
         <button class="filter-btn" data-filter="LaPorte">La Porte By the Bay Half</button>
       </div>
+
+      <div class="legend-bar">
+        <span class="legend-item"><span class="legend-color" style="background:#ffd700; border: 1px solid #b8860b;"></span> Leader (Gold)</span>
+        <span class="legend-item"><span class="legend-color" style="background:#00897b;"></span> Perfect Streak</span>
+        <span class="legend-item"><span class="legend-color" style="background:#db2777;"></span> 20+ Years</span>
+        <span class="legend-item"><span class="legend-color" style="background:#7c3aed;"></span> 15+ Years</span>
+        <span class="legend-item"><span class="legend-color" style="background:#0284c7;"></span> 10+ Years</span>
+        <span class="legend-item"><span class="legend-color" style="background:#059669;"></span> 5+ Years</span>
+      </div>
     </div>
 
     <div id="runnerList"></div>
@@ -365,29 +462,44 @@
     function createCardHTML(r) {
       let tClass = "", bText = "", bClass = "badge-standard";
       const totalPossible = historicalPossible[currentFilter] || 0;
+      const isLeader = (r.cVal === maxVal && maxVal > 0);
+      const isPerfect = (totalPossible > 0 && r.cVal === totalPossible);
 
-      // Milestone Loyalty Tiers
-      if (r.cVal >= 20) { tClass = "tier-20"; bText = "Series Immortal"; }
-      else if (r.cVal >= 15) { tClass = "tier-15"; bText = "Series Elite"; }
-      else if (r.cVal >= 10) { tClass = "tier-10"; bText = "Series Veteran"; }
-      else if (r.cVal >= 5)  { tClass = "tier-5";  bText = "Series Faithful"; }
-      else { bText = "Bridge Runner"; }
+      // Milestone Loyalty Tier Classification
+      if (r.cVal >= 20) {
+        tClass = "tier-20";
+        bText = "20+ Year Legacy";
+      } else if (r.cVal >= 15) {
+        tClass = "tier-15";
+        bText = "15+ Year Legacy";
+      } else if (r.cVal >= 10) {
+        tClass = "tier-10";
+        bText = "10+ Year Veteran";
+      } else if (r.cVal >= 5) {
+        tClass = "tier-5";
+        bText = "5+ Year Faithful";
+      } else {
+        bText = "Bridge Finisher";
+      }
 
-      // Perfect Record check
-      if (totalPossible > 0 && r.cVal === totalPossible) {
-        tClass = "tier-perfect";
+      // Inception / Perfect Streak Overrides
+      if (isPerfect) {
+        tClass += " tier-perfect";
         bClass = "badge-perfect";
         bText = "Perfect Record";
       }
 
-      // Leader check
-      if (r.cVal === maxVal && maxVal > 0) {
-        tClass = "tier-gold";
+      // Top Leader Overrides (Highest Precedence)
+      if (isLeader) {
+        tClass += " tier-gold";
         bClass = "badge-gold";
         bText = currentFilter === 'Series' ? "All-Time Series Leader" : `${currentFilter} Leader`;
+        if (isPerfect) {
+          bText += " (Perfect Record)";
+        }
       }
 
-      // Format clean history entries without emojis
+      // Format clean history items without emojis
       let historyItems = [];
       if (currentFilter === 'Series') {
         historyItems = r.seriesYears.map(yr => 
@@ -547,6 +659,7 @@
           if (event === 'La Porte Half') laporteYearsSet.add(year);
         });
 
+        // Compute total active years for series and each individual event
         kemahYearsSet.forEach(yr => {
           if (galvYearsSet.has(yr) && laporteYearsSet.has(yr)) {
             seriesYearsSet.add(yr);
