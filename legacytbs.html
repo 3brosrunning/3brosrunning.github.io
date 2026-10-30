@@ -459,6 +459,23 @@
 
     const listElement = document.getElementById("runnerList");
 
+    // Case-insensitive, robust event classifier
+    function classifyEvent(rawEvent) {
+      if (!rawEvent) return null;
+      const str = rawEvent.toLowerCase().replace(/[^a-z0-9]/g, ' ');
+
+      if (str.includes('kemah')) {
+        return 'Kemah 10k';
+      }
+      if (str.includes('galveston') || str.includes('galv')) {
+        return 'Galveston 10k';
+      }
+      if (str.includes('porte') || str.includes('laporte') || str.includes('la porte') || str.includes('hartman')) {
+        return 'La Porte Half';
+      }
+      return null;
+    }
+
     function createCardHTML(r) {
       let tClass = "", bText = "", bClass = "badge-standard";
       const totalPossible = historicalPossible[currentFilter] || 0;
@@ -627,15 +644,21 @@
         let laporteYearsSet = new Set();
 
         results.data.forEach(row => {
-          const year = (row['Year'] || "").trim();
-          const fName = (row['First Name'] || "").trim();
-          const lName = (row['Last Name'] || "").trim();
-          const event = (row['Event'] || "").trim();
+          const rawYear = (row['Year'] || "").trim();
+          let fName = (row['First Name'] || "").trim();
+          let lName = (row['Last Name'] || "").trim();
+          const rawEvent = (row['Event'] || "").trim();
 
-          if (!year || !fName || !lName || !event) return;
+          const event = classifyEvent(rawEvent);
+          const parsedYear = parseInt(rawYear);
 
-          const key = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
-          const formattedName = `${fName.charAt(0).toUpperCase() + fName.slice(1).toLowerCase()} ${lName.charAt(0).toUpperCase() + lName.slice(1).toLowerCase()}`;
+          if (!parsedYear || isNaN(parsedYear) || !fName || !lName || !event) return;
+          const year = parsedYear.toString();
+
+          // Strip middle initials/periods (e.g. "Mark E." -> "Mark") to aggregate historical duplicates
+          const cleanFirst = fName.replace(/\s+[a-zA-Z]\.?$/, '').trim();
+          const key = `${cleanFirst.toLowerCase()} ${lName.toLowerCase()}`;
+          const formattedName = `${cleanFirst.charAt(0).toUpperCase() + cleanFirst.slice(1).toLowerCase()} ${lName.charAt(0).toUpperCase() + lName.slice(1).toLowerCase()}`;
 
           if (!runnersObj[key]) {
             runnersObj[key] = {
@@ -650,16 +673,19 @@
             runnersObj[key].eventsByYear[year] = new Set();
           }
 
-          runnersObj[key].eventsByYear[year].add(event);
-          runnersObj[key].raceEntries.push({ year: parseInt(year), event: event });
-          runnersObj[key].totalFinishes += 1;
+          // Prevent duplicate finish increments if a runner appears in both on-site and virtual lists for the same event
+          if (!runnersObj[key].eventsByYear[year].has(event)) {
+            runnersObj[key].eventsByYear[year].add(event);
+            runnersObj[key].raceEntries.push({ year: parsedYear, event: event });
+            runnersObj[key].totalFinishes += 1;
+          }
 
           if (event === 'Kemah 10k') kemahYearsSet.add(year);
           if (event === 'Galveston 10k') galvYearsSet.add(year);
           if (event === 'La Porte Half') laporteYearsSet.add(year);
         });
 
-        // Compute total active years for series and each individual event
+        // Compute total active series years across the history
         kemahYearsSet.forEach(yr => {
           if (galvYearsSet.has(yr) && laporteYearsSet.has(yr)) {
             seriesYearsSet.add(yr);
