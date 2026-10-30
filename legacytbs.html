@@ -2,479 +2,594 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Texas Bridge Series Legacy Runners - 3 Bros Running Company</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legacy Board | Texas Bridge Series</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Favicon & Open Graph Tags -->
+  <!-- Favicon & Open Graph Meta -->
   <link rel="shortcut icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-241525-1731519877.2565-0.bNnowf.png" type="image/png">
   <link rel="icon" href="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-241525-1731519877.2565-0.bNnowf.png" type="image/png">
-  <meta property="og:title" content="Texas Bridge Series Legacy Runners - 3 Bros Running Company">
-  <meta property="og:description" content="Honoring Those Who Completed Every Race, Every Year.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Texas Bridge Series Legacy Board">
+  <meta property="og:description" content="Check out my race history across the toughest bridges in Texas! Join the tradition at 3brosrunning.com.">
+  <meta property="og:url" content="https://www.ticketsignup.io/w/TexasBridgeSeries">
   <meta property="og:image" content="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-241525-1731519877.2565-0.bNnowf.png">
 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
   <style>
-    body { 
-      font-family: 'Segoe UI', Arial, sans-serif; 
-      background: #f7f8fa; 
-      margin: 0; 
+    :root {
+      --tbs-orange: #ff5722;
+      --tbs-amber: #ff9800;
+      --tbs-dark: #212121;
+      --gold: #FFD700;
+      --gold-bg: #fffdf0;
+      --tier-20: #faf5ff;
+      --tier-15: #fff0f5;
+      --tier-10: #fff8e1;
+      --tier-5: #f0f7ff;
+      --bg-color: #f7f8fa;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Roboto", sans-serif;
+      margin: 0;
+      background-color: var(--bg-color);
       color: #333;
+      overflow-y: scroll;
     }
-    .legacy-header {
-      background: linear-gradient(100deg, #ff5722 0%, #ff9800 100%);
-      color: #fff;
-      padding: 40px 20px 20px 20px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+
+    /* Sticky Navigation Header */
+    .header-nav {
+      background: #ffffff;
+      padding: 12px 25px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-    .header-logo {
-      height: 90px;
-      margin-bottom: 15px;
-    }
-    .legacy-header h1 {
-      font-size: 2.6rem;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-    .legacy-header h3 {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
-    .legacy-content {
-      max-width: 960px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-    .content-text {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.09);
-      padding: 36px 28px;
-      font-size: 1.15rem;
-      line-height: 1.7;
-    }
-    .gratitude {
-      font-style: italic;
-      color: #ff5722;
-      font-weight: 600;
-      margin-top: 24px;
-      margin-bottom: 24px;
-      border-left: 4px solid #ff9800;
-      padding-left: 12px;
-      background: #fff3e0;
-    }
-    .contact {
-      margin-top: 26px;
-      font-size: 0.98rem;
-      color: #888;
-    }
-    .back-link {
-      margin-top: 16px;
-      display: inline-block;
-      font-weight: bold;
-      color: #ff5722;
+    .header-link {
+      display: flex;
+      align-items: center;
       text-decoration: none;
-      transition: color 0.3s ease;
+      gap: 12px;
     }
-    .back-link:hover {
-      color: #d84315;
-      text-decoration: underline;
+    .header-logo { height: 42px; width: auto; object-fit: contain; }
+    .site-title {
+      font-weight: 900;
+      color: var(--tbs-orange);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-size: 1.15rem;
     }
-    .search-container {
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+      color: white;
+      padding: 55px 20px 75px;
       text-align: center;
-      margin: 30px 0;
+      border-bottom: 4px solid #e64a19;
+    }
+    .hero-banner h1 {
+      font-size: 2.6rem;
+      margin: 0 0 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .hero-banner p {
+      font-size: 1.15rem;
+      margin: 0 auto;
+      max-width: 680px;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    /* Container & Toolbar */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+    .toolbar {
+      background: white;
+      padding: 28px 25px;
+      border-radius: 14px;
+      margin-top: -45px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+      z-index: 10;
     }
     #runnerSearch {
-      width: 90%;
-      max-width: 500px;
-      padding: 12px 15px;
-      font-size: 16px;
-      border: 2px solid #ddd;
-      border-radius: 25px;
-      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 520px;
+      padding: 14px 22px;
+      border-radius: 50px;
+      border: 2px solid #e5e7eb;
+      font-size: 1rem;
+      margin-bottom: 22px;
+      outline: none;
+      transition: all 0.2s ease;
     }
     #runnerSearch:focus {
-      outline: none;
-      border-color: #ff5722;
-      box-shadow: 0 0 8px rgba(255, 87, 34, 0.2);
+      border-color: var(--tbs-orange);
+      box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.15);
     }
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .filter-btn {
+      padding: 10px 18px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 30px;
+      background: #f8fafc;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #475569;
+      transition: all 0.2s ease;
+    }
+    .filter-btn:hover { background: #e2e8f0; }
+    .filter-btn.active {
+      background: var(--tbs-orange);
+      color: white;
+      border-color: var(--tbs-orange);
+      box-shadow: 0 3px 10px rgba(255, 87, 34, 0.3);
+    }
+
+    /* Card Grid */
     #runnerList {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-      padding: 0;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin: 40px 0;
+      min-height: 400px;
     }
     .runner-card {
-      position: relative;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 35px 20px 20px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background: white;
+      border-radius: 14px;
+      padding: 42px 22px 24px;
       text-align: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      border: 1px solid #eef0f2;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
       display: flex;
       flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .runner-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.09);
     }
+
+    /* Badges & Tiers */
+    .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 5px 14px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .badge-gold { background: var(--gold); color: #111; }
+    .badge-perfect { background: #2e7d32; color: #fff; }
+    .badge-standard { background: #334155; color: #fff; }
+
+    .tier-gold { background: var(--gold-bg) !important; border: 2.5px solid var(--gold) !important; }
+    .tier-perfect { border: 2.5px solid #2e7d32 !important; }
+    .tier-20 { background: var(--tier-20); border-top: 5px solid #9c27b0; }
+    .tier-15 { background: var(--tier-15); border-top: 5px solid #d81b60; }
+    .tier-10 { background: var(--tier-10); border-top: 5px solid var(--tbs-amber); }
+    .tier-5  { background: var(--tier-5); border-top: 5px solid #0288d1; }
+
     .runner-name {
-      font-size: 1.25em;
-      font-weight: 600;
-      color: #333;
-      margin: 0;
-      text-transform: capitalize;
+      font-weight: 900;
+      font-size: 1.35rem;
+      color: #1e293b;
+      margin: 0 0 6px;
     }
-    .runner-count {
-      font-size: 1em;
-      color: #666;
-      margin-top: 5px;
-      margin-bottom: 15px;
+    .main-stat {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--tbs-orange);
+      line-height: 1.1;
+      margin: 8px 0 4px;
     }
-    .history-box { 
-      background: rgba(0,0,0,0.03); 
-      padding: 12px; 
-      border-radius: 8px; 
-      border: 1px solid rgba(0,0,0,0.05); 
-      font-size: 0.9rem; 
-      flex-grow: 1; 
-      font-weight: 500; 
-      text-align: center; 
-      line-height: 1.5; 
-      color: #444;
-    }
-
-    #sentinel { height: 50px; width: 100%; }
-
-    /* Highlight Milestone Classes */
-    
-    /* Perfect Streak */
-    .highlight-perfect {
-      border: 2px solid #ffc107;
-      background-color: #fff8e1;
-    }
-    .highlight-perfect::before {
-      content: 'Perfect Streak';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #ffc107;
-      color: #333;
-      padding: 5px 12px;
-      border-radius: 5px;
-      font-size: 0.9em;
-      font-weight: bold;
-      letter-spacing: 1px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-    }
-
-    /* 20+ Years */
-    .highlight-20plus {
-      border: 2px solid #9c27b0; 
-      background-color: #f3e5f5;
-    }
-    .highlight-20plus::before {
-      content: '20+ Year Legacy';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #9c27b0;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.8em;
-      font-weight: bold;
+    .sub-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
+      margin-bottom: 8px;
     }
+    .lifetime-stat {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 14px;
+    }
+    .history-box {
+      text-align: left;
+      background: rgba(248, 250, 252, 0.9);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      font-size: 0.82rem;
+      max-height: 140px;
+      overflow-y: auto;
+      flex-grow: 1;
+      margin-bottom: 14px;
+      line-height: 1.45;
+    }
+    .history-item {
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      color: #334155;
+    }
+    .history-item:last-child { border-bottom: none; }
 
-    /* 15+ Years */
-    .highlight-15plus {
-      border: 2px solid #f44336; 
-      background-color: #ffebee;
-    }
-    .highlight-15plus::before {
-      content: '15+ Year Legacy';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #f44336;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.8em;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-    }
-
-    /* 10+ Years */
-    .highlight-10plus {
-      border: 2px solid #ff5722; /* Themed Orange */
-      background-color: #ffe0b2;
-    }
-    .highlight-10plus::before {
-      content: '10+ Year Legacy';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #ff5722;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.8em;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-    }
-
-    /* 5+ Years */
-    .highlight-5plus {
-      border: 2px solid #4CAF50; 
-      background-color: #eaf7e9;
-    }
-    .highlight-5plus::before {
-      content: '5+ Year Legacy';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #4CAF50;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.8em;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-    }
-
-    /* Floating button */
-    .floating-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #ff5722;
-      color: #fff;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: bold;
+    /* Share Button */
+    .share-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #475569;
       cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: background 0.3s ease;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      z-index: 999;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.2s ease;
     }
-    .floating-btn:hover {
-      background-color: #e64a19;
+    .share-btn:hover { background: #f1f5f9; border-color: #94a3b8; }
+    .share-icon { width: 14px; height: 14px; }
+
+    /* Floating CTA */
+    .floating-cta {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: var(--tbs-orange);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 900;
+      z-index: 2000;
+      border: 2px solid #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+      transition: transform 0.2s, background 0.2s;
     }
-    .floating-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: #fff;
+    .floating-cta:hover {
+      background: #e64a19;
+      transform: scale(1.04);
     }
-    @media (max-width: 600px) {
-      .floating-btn {
-        padding: 10px;
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        justify-content: center;
-      }
-      .floating-btn .btn-text {
-        display: none;
-      }
-    }
+
+    #sentinel { height: 40px; width: 100%; }
   </style>
 </head>
 <body>
-  <div class="legacy-header">
-    <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-241525-1731519877.2565-0.bNnowf.png" alt="Texas Bridge Series Logo" class="header-logo">
-    <h1>Texas Bridge Series Legacy Runners</h1>
-    <h3>Honoring Those Who Completed Every Race, Every Year</h3>
-  </div>
 
-  <div class="legacy-content">
-    <div class="content-text">
-      <p>
-        The <strong>Texas Bridge Series</strong> is one of the most unique running challenges in Texas—three races, three bridges, and one incredible finish. Starting with the Kemah Toughest 10K, continuing with the Galveston Toughest 10K, and finishing with the La Porte By the Bay Half Marathon, this series demands grit and determination.
-      </p>
-      <p>
-        Our legacy runners are those who have completed <em>all three races</em> in a single year, conquering the Kemah Bridge, Galveston Causeway, and the Fred Hartman Bridge. Their dedication keeps the tradition alive and inspires runners across Texas.
-      </p>
-      <p class="gratitude">
-        We proudly celebrate these champions of endurance who return year after year to complete the full Texas Bridge Series.
-      </p>
-      <p>With gratitude,<br><strong>The 3 Bros Running Company Team</strong></p>
-      <p class="contact">
-        <em>As of 10/13/2026 – questions or corrections, contact us at 
-        <a href="mailto:admin@3brosrunning.com">admin@3brosrunning.com</a></em>
-      </p>
-      <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" class="back-link">Return to Texas Bridge Series Website</a>
+  <header class="header-nav">
+    <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" class="header-link">
+      <img src="https://d368g9lw5ileu7.cloudfront.net/uploads/generic/genericImage-websiteLogo-241525-1731519877.2565-0.bNnowf.png" class="header-logo" alt="Bridge Series Logo">
+      <span class="site-title">Texas Bridge Series Legacy</span>
+    </a>
+  </header>
+
+  <section class="hero-banner">
+    <h1>Legacy Runners</h1>
+    <p>Conquering the Toughest Bridges in Texas: Kemah 10K, Galveston 10K, and La Porte Half Marathon.</p>
+  </section>
+
+  <main class="container">
+    <div class="toolbar">
+      <input type="text" id="runnerSearch" placeholder="Search for a legend by name...">
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="Series">Texas Bridge Series</button>
+        <button class="filter-btn" data-filter="Kemah">Toughest 10K Kemah</button>
+        <button class="filter-btn" data-filter="Galveston">Toughest 10K Galveston</button>
+        <button class="filter-btn" data-filter="LaPorte">La Porte By the Bay Half</button>
+      </div>
     </div>
 
-    <div class="search-container">
-      <input type="text" id="runnerSearch" placeholder="Search for a runner...">
-    </div>
-
-    <div id="runnerList">Loading runners…</div>
+    <div id="runnerList"></div>
     <div id="sentinel"></div>
-  </div>
+  </main>
 
-  <!-- Floating button -->
-  <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" class="floating-btn" target="_blank">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-    <span class="btn-text">Bridge Series</span>
-  </a>
+  <a href="https://www.ticketsignup.io/w/TexasBridgeSeries" class="floating-cta" target="_blank">Register Now</a>
 
-  <!-- PapaParse -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
+    let rawRunnersMap = {};
     let allRunners = [];
     let filteredRunners = [];
-    let maxYearsPossible = 0;
-    const increment = 50;
-    let searchTimeout;
+    let currentFilter = 'Series';
+    let searchTerm = '';
+    let maxVal = 0;
+    const batchSize = 50;
+
+    // Track historical totals to establish "Completed Every Year" status
+    const historicalPossible = {
+      Series: 0,
+      Kemah: 0,
+      Galveston: 0,
+      LaPorte: 0
+    };
+
     const listElement = document.getElementById("runnerList");
 
-    function getHighlightClass(years, maxYears) {
-      if (years === maxYears && maxYears > 0) return "highlight-perfect"; 
-      if (years >= 20) return "highlight-20plus";
-      if (years >= 15) return "highlight-15plus";
-      if (years >= 10) return "highlight-10plus";
-      if (years >= 5) return "highlight-5plus";
-      return "";
+    function createCardHTML(r) {
+      let tClass = "", bText = "", bClass = "badge-standard";
+      const totalPossible = historicalPossible[currentFilter] || 0;
+
+      // 1. Loyalty Tier Assignments
+      if (r.cVal >= 20) { tClass = "tier-20"; bText = "Series Immortal"; }
+      else if (r.cVal >= 15) { tClass = "tier-15"; bText = "Series Elite"; }
+      else if (r.cVal >= 10) { tClass = "tier-10"; bText = "Series Veteran"; }
+      else if (r.cVal >= 5)  { tClass = "tier-5";  bText = "Series Faithful"; }
+      else { bText = "Bridge Runner"; }
+
+      // 2. Completed every race since inception
+      if (totalPossible > 0 && r.cVal === totalPossible) {
+        tClass = "tier-perfect";
+        bClass = "badge-perfect";
+        bText = "Perfect Record";
+      }
+
+      // 3. Overall Top Leader(s)
+      if (r.cVal === maxVal && maxVal > 0) {
+        tClass = "tier-gold";
+        bClass = "badge-gold";
+        bText = currentFilter === 'Series' ? "All-Time Series Leader" : `${currentFilter} Leader`;
+      }
+
+      // Format History List
+      let historyItems = [];
+      if (currentFilter === 'Series') {
+        historyItems = r.seriesYears.map(yr => `<div class="history-item">🏁 <strong>${yr}</strong>: Full Series Completed (Kemah, Galveston, La Porte)</div>`);
+      } else {
+        const targetEventKey = currentFilter === 'Kemah' ? 'Kemah 10k' : (currentFilter === 'Galveston' ? 'Galveston 10k' : 'La Porte Half');
+        historyItems = r.raceEntries
+          .filter(entry => entry.event === targetEventKey)
+          .map(entry => `<div class="history-item">🏅 <strong>${entry.year}</strong>: ${entry.event} Finisher</div>`);
+      }
+
+      return `
+        <div class="runner-card ${tClass}" id="runner-${r.displayName.replace(/[^a-zA-Z0-9]/g, '-')}">
+          <div class="badge ${bClass}">${bText}</div>
+          <div class="runner-name">${r.displayName}</div>
+          <div class="main-stat">${r.cVal}</div>
+          <div class="sub-label">${r.cLabel}</div>
+          <div class="lifetime-stat">Lifetime Bridge Finishes: ${r.totalFinishes}</div>
+          <div class="history-box">${historyItems.join('')}</div>
+          <button class="share-btn" onclick="shareRunner('${r.displayName.replace(/'/g, "\\'")}')">
+            <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            Share My Legacy
+          </button>
+        </div>
+      `;
+    }
+
+    function processAndFilter() {
+      filteredRunners = allRunners.map(r => {
+        let val = 0;
+        let label = "";
+
+        if (currentFilter === 'Series') {
+          val = r.seriesCount;
+          label = val === 1 ? "Series Completed" : "Series Completed";
+        } else if (currentFilter === 'Kemah') {
+          val = r.kemahCount;
+          label = val === 1 ? "Kemah Finish" : "Kemah Finishes";
+        } else if (currentFilter === 'Galveston') {
+          val = r.galvestonCount;
+          label = val === 1 ? "Galveston Finish" : "Galveston Finishes";
+        } else if (currentFilter === 'LaPorte') {
+          val = r.laporteCount;
+          label = val === 1 ? "La Porte Finish" : "La Porte Finishes";
+        }
+
+        return { ...r, cVal: val, cLabel: label };
+      }).filter(r => r.displayName.toLowerCase().includes(searchTerm.toLowerCase()) && r.cVal > 0);
+
+      filteredRunners.sort((a, b) => b.cVal - a.cVal || a.displayName.localeCompare(b.displayName));
+      maxVal = filteredRunners.length > 0 ? filteredRunners[0].cVal : 0;
+
+      renderList(true);
     }
 
     function renderList(reset = false) {
       if (reset) listElement.innerHTML = "";
-      
-      const nextBatch = filteredRunners.slice(listElement.children.length, listElement.children.length + increment);
-      
+      const start = listElement.children.length;
+      const nextBatch = filteredRunners.slice(start, start + batchSize);
+
       if (reset && nextBatch.length === 0) {
-        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>No runners found.</p>";
+        listElement.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: #64748b; font-size: 1.1rem; padding: 40px 0;">No matching runners found.</p>`;
         return;
       }
 
-      const htmlString = nextBatch.map(runner => {
-        const hClass = getHighlightClass(runner.years_count, maxYearsPossible);
-        return `
-          <div class="runner-card ${hClass}">
-            <p class="runner-name">${runner.full_name}</p>
-            <p class="runner-count">${runner.years_count} series completed</p>
-            <div class="history-box">${runner.years_string}</div>
-          </div>
-        `;
-      }).join('');
-      
+      const htmlString = nextBatch.map(r => createCardHTML(r)).join('');
       listElement.insertAdjacentHTML('beforeend', htmlString);
     }
 
-    // Lazy load observer
+    // Infinite Scroll
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
         renderList();
       }
-    }, { threshold: 1.0 });
-
+    }, { threshold: 0.1 });
     observer.observe(document.getElementById('sentinel'));
 
+    // Debounced Search Input
+    let searchTimeout;
+    document.getElementById("runnerSearch").addEventListener("input", function() {
+      clearTimeout(searchTimeout);
+      searchTerm = this.value.trim();
+      searchTimeout = setTimeout(processAndFilter, 250);
+    });
+
+    // Category Filter Selection
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        currentFilter = this.getAttribute("data-filter");
+        processAndFilter();
+      });
+    });
+
+    // Share & Deep-Link Functionality
+    function shareRunner(name) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('runner', name);
+      const shareTitle = "Texas Bridge Series Legacy";
+      const shareText = `Check out ${name}'s race legacy in the Texas Bridge Series! View stats:`;
+
+      if (navigator.share) {
+        navigator.share({ title: shareTitle, text: shareText, url: url.toString() }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url.toString()).then(() => {
+          alert(`Link to ${name}'s legacy card copied to clipboard!`);
+        });
+      }
+    }
+
+    // Ingest and Parse Data
     Papa.parse("tbs_master_list.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
       skipEmptyLines: true,
-      transformHeader: function(header) {
-          return header.trim().replace(/^\uFEFF/, '');
-      },
+      transformHeader: h => h.trim().replace(/^\uFEFF/, ''),
       complete: function(results) {
         let runnersObj = {};
-        let allSeriesYears = new Set();
-        allRunners = [];
+        let seriesYearsSet = new Set();
+        let kemahYearsSet = new Set();
+        let galvYearsSet = new Set();
+        let laporteYearsSet = new Set();
 
         results.data.forEach(row => {
-            const year = (row['Year'] || "").trim();
-            const fName = (row['First Name'] || "").trim();
-            const lName = (row['Last Name'] || "").trim();
-            const event = (row['Event'] || "").trim();
+          const year = (row['Year'] || "").trim();
+          const fName = (row['First Name'] || "").trim();
+          const lName = (row['Last Name'] || "").trim();
+          const event = (row['Event'] || "").trim();
 
-            if (!year || !fName || !lName || !event) return;
+          if (!year || !fName || !lName || !event) return;
 
-            const fullName = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
+          // Standardize key and clean display formatting
+          const key = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
+          const formattedName = `${fName.charAt(0).toUpperCase() + fName.slice(1).toLowerCase()} ${lName.charAt(0).toUpperCase() + lName.slice(1).toLowerCase()}`;
 
-            if (!runnersObj[fullName]) {
-                runnersObj[fullName] = {
-                    full_name: `${fName} ${lName}`,
-                    eventsByYear: {}
-                };
-            }
-            if (!runnersObj[fullName].eventsByYear[year]) {
-                runnersObj[fullName].eventsByYear[year] = new Set();
-            }
-            // Add the specific event to that year's set
-            runnersObj[fullName].eventsByYear[year].add(event.toLowerCase());
+          if (!runnersObj[key]) {
+            runnersObj[key] = {
+              displayName: formattedName,
+              eventsByYear: {},
+              raceEntries: [],
+              totalFinishes: 0
+            };
+          }
+
+          if (!runnersObj[key].eventsByYear[year]) {
+            runnersObj[key].eventsByYear[year] = new Set();
+          }
+
+          runnersObj[key].eventsByYear[year].add(event);
+          runnersObj[key].raceEntries.push({ year: parseInt(year), event: event });
+          runnersObj[key].totalFinishes += 1;
+
+          // Track dataset coverage
+          if (event === 'Kemah 10k') kemahYearsSet.add(year);
+          if (event === 'Galveston 10k') galvYearsSet.add(year);
+          if (event === 'La Porte Half') laporteYearsSet.add(year);
         });
 
-        // Determine who completed all 3 events in a given year
-        Object.values(runnersObj).forEach(r => {
-            let completedYears = [];
-            for (const [yr, eventsSet] of Object.entries(r.eventsByYear)) {
-                // To complete the series, they must have 3 distinct events in the same year
-                if (eventsSet.size >= 3) {
-                    completedYears.push(yr);
-                    allSeriesYears.add(yr);
-                }
-            }
-            
-            // Only add them if they completed at least one series year
-            if (completedYears.length > 0) {
-                const sortedYears = completedYears.sort((a, b) => b - a);
-                allRunners.push({
-                    full_name: r.full_name,
-                    years_count: completedYears.length,
-                    years_string: sortedYears.join(', ')
-                });
-            }
+        // Compute possible series years across the history
+        kemahYearsSet.forEach(yr => {
+          if (galvYearsSet.has(yr) && laporteYearsSet.has(yr)) {
+            seriesYearsSet.add(yr);
+          }
         });
 
-        maxYearsPossible = allSeriesYears.size;
+        historicalPossible.Series = seriesYearsSet.size;
+        historicalPossible.Kemah = kemahYearsSet.size;
+        historicalPossible.Galveston = galvYearsSet.size;
+        historicalPossible.LaPorte = laporteYearsSet.size;
 
-        allRunners.sort((a, b) => b.years_count - a.years_count || a.full_name.localeCompare(b.full_name));
+        allRunners = Object.values(runnersObj).map(r => {
+          let seriesYears = [];
+          let kemahCount = 0;
+          let galvestonCount = 0;
+          let laporteCount = 0;
 
-        filteredRunners = [...allRunners];
-        renderList(true);
+          for (const [yr, events] of Object.entries(r.eventsByYear)) {
+            // Full Bridge Series completion requirement: all 3 events in same calendar year
+            if (events.has('Kemah 10k') && events.has('Galveston 10k') && events.has('La Porte Half')) {
+              seriesYears.push(parseInt(yr));
+            }
+            if (events.has('Kemah 10k')) kemahCount++;
+            if (events.has('Galveston 10k')) galvestonCount++;
+            if (events.has('La Porte Half')) laporteCount++;
+          }
+
+          // Sort race history descending by year
+          r.raceEntries.sort((a, b) => b.year - a.year);
+          seriesYears.sort((a, b) => b - a);
+
+          return {
+            displayName: r.displayName,
+            totalFinishes: r.totalFinishes,
+            seriesCount: seriesYears.length,
+            seriesYears: seriesYears,
+            kemahCount: kemahCount,
+            galvestonCount: galvestonCount,
+            laporteCount: laporteCount,
+            raceEntries: r.raceEntries
+          };
+        });
+
+        // Check for URL ?runner= query deep-link
+        const urlParams = new URLSearchParams(window.location.search);
+        const rParam = urlParams.get('runner');
+        if (rParam) {
+          document.getElementById('runnerSearch').value = rParam;
+          searchTerm = rParam;
+        }
+
+        processAndFilter();
       },
       error: function(err) {
-        listElement.innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: red;'>Error loading runner data.</p>";
+        listElement.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: red;">Error loading legacy data.</p>`;
         console.error(err);
       }
-    });
-
-    // Debounced Search
-    document.getElementById("runnerSearch").addEventListener("input", function() {
-      clearTimeout(searchTimeout);
-      const term = this.value.toLowerCase();
-      
-      searchTimeout = setTimeout(() => {
-        filteredRunners = allRunners.filter(r => r.full_name.toLowerCase().includes(term));
-        renderList(true);
-      }, 300); // Waits 300ms after user stops typing to filter
     });
   </script>
 </body>
