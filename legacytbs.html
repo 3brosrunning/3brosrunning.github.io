@@ -20,24 +20,29 @@
 
   <style>
     :root {
-      --tbs-orange: #ff5722;
-      --tbs-amber: #ff9800;
-      --tbs-dark: #212121;
+      /* Logo Color Palette */
+      --tbs-blue: #0167b4;
+      --tbs-blue-dark: #014c85;
+      --tbs-star-blue: #bae2fa;
+      --tbs-ice-bg: #f0f7fc;
+      --tbs-charcoal: #3f3e3d;
       --gold: #FFD700;
       --gold-bg: #fffdf0;
+
+      /* Tier Accents */
       --tier-20: #faf5ff;
       --tier-15: #fff0f5;
-      --tier-10: #fff8e1;
-      --tier-5: #f0f7ff;
-      --bg-color: #f7f8fa;
+      --tier-10: #f0f9ff;
+      --tier-5:  #f8fafc;
+      --page-bg: #f4f7fa;
     }
 
     * { box-sizing: border-box; }
     body {
       font-family: "Roboto", sans-serif;
       margin: 0;
-      background-color: var(--bg-color);
-      color: #333;
+      background-color: var(--page-bg);
+      color: #2b2b2b;
       overflow-y: scroll;
     }
 
@@ -45,13 +50,13 @@
     .header-nav {
       background: #ffffff;
       padding: 12px 25px;
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 2px solid var(--tbs-star-blue);
       display: flex;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(1, 103, 180, 0.08);
     }
     .header-link {
       display: flex;
@@ -59,10 +64,10 @@
       text-decoration: none;
       gap: 12px;
     }
-    .header-logo { height: 42px; width: auto; object-fit: contain; }
+    .header-logo { height: 44px; width: auto; object-fit: contain; }
     .site-title {
       font-weight: 900;
-      color: var(--tbs-orange);
+      color: var(--tbs-blue);
       text-transform: uppercase;
       letter-spacing: 0.8px;
       font-size: 1.15rem;
@@ -70,11 +75,11 @@
 
     /* Hero Banner */
     .hero-banner {
-      background: linear-gradient(135deg, #ff5722 0%, #ff9800 100%);
+      background: linear-gradient(135deg, var(--tbs-blue-dark) 0%, var(--tbs-blue) 60%, #0288d1 100%);
       color: white;
-      padding: 55px 20px 75px;
+      padding: 55px 20px 80px;
       text-align: center;
-      border-bottom: 4px solid #e64a19;
+      border-bottom: 4px solid var(--tbs-star-blue);
     }
     .hero-banner h1 {
       font-size: 2.6rem;
@@ -84,14 +89,14 @@
       letter-spacing: 1px;
     }
     .hero-banner p {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       margin: 0 auto;
-      max-width: 680px;
-      opacity: 0.95;
+      max-width: 700px;
+      color: #e3f2fd;
       line-height: 1.5;
     }
 
-    /* Container & Toolbar */
+    /* Container & Controls */
     .container {
       max-width: 1240px;
       margin: 0 auto;
@@ -102,7 +107,8 @@
       padding: 28px 25px;
       border-radius: 14px;
       margin-top: -45px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 24px rgba(1, 103, 180, 0.1);
+      border: 1px solid #e1ecf4;
       text-align: center;
       position: relative;
       z-index: 10;
@@ -112,15 +118,17 @@
       max-width: 520px;
       padding: 14px 22px;
       border-radius: 50px;
-      border: 2px solid #e5e7eb;
+      border: 2px solid #d4e3ee;
       font-size: 1rem;
       margin-bottom: 22px;
       outline: none;
       transition: all 0.2s ease;
+      background: #fafcfe;
     }
     #runnerSearch:focus {
-      border-color: var(--tbs-orange);
-      box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.15);
+      border-color: var(--tbs-blue);
+      box-shadow: 0 0 0 4px rgba(1, 103, 180, 0.16);
+      background: #ffffff;
     }
     .filter-group {
       display: flex;
@@ -129,27 +137,30 @@
       gap: 10px;
     }
     .filter-btn {
-      padding: 10px 18px;
-      border: 1.5px solid #e2e8f0;
+      padding: 10px 20px;
+      border: 1.5px solid #d2e3f0;
       border-radius: 30px;
-      background: #f8fafc;
+      background: #f4f9fd;
       cursor: pointer;
       font-weight: 700;
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      color: #475569;
+      color: var(--tbs-charcoal);
       transition: all 0.2s ease;
     }
-    .filter-btn:hover { background: #e2e8f0; }
+    .filter-btn:hover {
+      background: #e1f0fa;
+      border-color: #bcd8ed;
+    }
     .filter-btn.active {
-      background: var(--tbs-orange);
-      color: white;
-      border-color: var(--tbs-orange);
-      box-shadow: 0 3px 10px rgba(255, 87, 34, 0.3);
+      background: var(--tbs-blue);
+      color: #ffffff;
+      border-color: var(--tbs-blue);
+      box-shadow: 0 4px 12px rgba(1, 103, 180, 0.3);
     }
 
-    /* Card Grid */
+    /* Runner Cards Grid */
     #runnerList {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -163,18 +174,18 @@
       padding: 42px 22px 24px;
       text-align: center;
       position: relative;
-      border: 1px solid #eef0f2;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      border: 1px solid #e2edf6;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
       display: flex;
       flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .runner-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 22px rgba(0,0,0,0.09);
+      box-shadow: 0 10px 24px rgba(1, 103, 180, 0.12);
     }
 
-    /* Badges & Tiers */
+    /* Badges & Accent Tiers */
     .badge {
       position: absolute;
       top: -12px;
@@ -190,15 +201,15 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
     .badge-gold { background: var(--gold); color: #111; }
-    .badge-perfect { background: #2e7d32; color: #fff; }
-    .badge-standard { background: #334155; color: #fff; }
+    .badge-perfect { background: #00897b; color: #fff; }
+    .badge-standard { background: var(--tbs-charcoal); color: #fff; }
 
     .tier-gold { background: var(--gold-bg) !important; border: 2.5px solid var(--gold) !important; }
-    .tier-perfect { border: 2.5px solid #2e7d32 !important; }
-    .tier-20 { background: var(--tier-20); border-top: 5px solid #9c27b0; }
-    .tier-15 { background: var(--tier-15); border-top: 5px solid #d81b60; }
-    .tier-10 { background: var(--tier-10); border-top: 5px solid var(--tbs-amber); }
-    .tier-5  { background: var(--tier-5); border-top: 5px solid #0288d1; }
+    .tier-perfect { border: 2.5px solid #00897b !important; }
+    .tier-20 { background: var(--tier-20); border-top: 5px solid #7b1fa2; }
+    .tier-15 { background: var(--tier-15); border-top: 5px solid #c2185b; }
+    .tier-10 { background: var(--tier-10); border-top: 5px solid var(--tbs-blue); }
+    .tier-5  { background: var(--tier-5);  border-top: 5px solid #0288d1; }
 
     .runner-name {
       font-weight: 900;
@@ -209,7 +220,7 @@
     .main-stat {
       font-size: 2.4rem;
       font-weight: 900;
-      color: var(--tbs-orange);
+      color: var(--tbs-blue);
       line-height: 1.1;
       margin: 8px 0 4px;
     }
@@ -224,38 +235,44 @@
     .lifetime-stat {
       font-size: 0.76rem;
       font-weight: 700;
-      color: #94a3b8;
+      color: #8da4b6;
       margin-bottom: 14px;
     }
     .history-box {
       text-align: left;
-      background: rgba(248, 250, 252, 0.9);
-      padding: 10px 12px;
+      background: var(--tbs-ice-bg);
+      padding: 10px 14px;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #ddecfa;
       font-size: 0.82rem;
       max-height: 140px;
       overflow-y: auto;
       flex-grow: 1;
       margin-bottom: 14px;
-      line-height: 1.45;
+      line-height: 1.5;
     }
     .history-item {
-      padding: 3px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
-      color: #334155;
+      padding: 4px 0;
+      border-bottom: 1px solid #e1effa;
+      color: var(--tbs-charcoal);
     }
     .history-item:last-child { border-bottom: none; }
+    .history-year {
+      font-weight: 700;
+      color: var(--tbs-blue-dark);
+      display: inline-block;
+      width: 44px;
+    }
 
     /* Share Button */
     .share-btn {
       background: #ffffff;
-      border: 1px solid #cbd5e1;
-      padding: 8px 14px;
+      border: 1.5px solid #cbdde9;
+      padding: 9px 15px;
       border-radius: 8px;
       font-size: 0.8rem;
       font-weight: 700;
-      color: #475569;
+      color: var(--tbs-charcoal);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -263,7 +280,11 @@
       gap: 7px;
       transition: all 0.2s ease;
     }
-    .share-btn:hover { background: #f1f5f9; border-color: #94a3b8; }
+    .share-btn:hover {
+      background: #f0f7fd;
+      border-color: var(--tbs-blue);
+      color: var(--tbs-blue);
+    }
     .share-icon { width: 14px; height: 14px; }
 
     /* Floating CTA */
@@ -271,21 +292,21 @@
       position: fixed;
       bottom: 25px;
       right: 25px;
-      background: var(--tbs-orange);
+      background: var(--tbs-blue);
       color: white;
       padding: 14px 24px;
       border-radius: 50px;
       text-decoration: none;
       font-weight: 900;
       z-index: 2000;
-      border: 2px solid #fff;
+      border: 2px solid #ffffff;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+      box-shadow: 0 6px 18px rgba(1, 103, 180, 0.35);
       transition: transform 0.2s, background 0.2s;
     }
     .floating-cta:hover {
-      background: #e64a19;
+      background: var(--tbs-blue-dark);
       transform: scale(1.04);
     }
 
@@ -303,7 +324,7 @@
 
   <section class="hero-banner">
     <h1>Legacy Runners</h1>
-    <p>Conquering the Toughest Bridges in Texas: Kemah 10K, Galveston 10K, and La Porte Half Marathon.</p>
+    <p>Honoring runners across the toughest bridges in Texas: Kemah 10K, Galveston 10K, and La Porte Half Marathon.</p>
   </section>
 
   <main class="container">
@@ -332,7 +353,6 @@
     let maxVal = 0;
     const batchSize = 50;
 
-    // Track historical totals to establish "Completed Every Year" status
     const historicalPossible = {
       Series: 0,
       Kemah: 0,
@@ -346,36 +366,38 @@
       let tClass = "", bText = "", bClass = "badge-standard";
       const totalPossible = historicalPossible[currentFilter] || 0;
 
-      // 1. Loyalty Tier Assignments
+      // Milestone Loyalty Tiers
       if (r.cVal >= 20) { tClass = "tier-20"; bText = "Series Immortal"; }
       else if (r.cVal >= 15) { tClass = "tier-15"; bText = "Series Elite"; }
       else if (r.cVal >= 10) { tClass = "tier-10"; bText = "Series Veteran"; }
       else if (r.cVal >= 5)  { tClass = "tier-5";  bText = "Series Faithful"; }
       else { bText = "Bridge Runner"; }
 
-      // 2. Completed every race since inception
+      // Perfect Record check
       if (totalPossible > 0 && r.cVal === totalPossible) {
         tClass = "tier-perfect";
         bClass = "badge-perfect";
         bText = "Perfect Record";
       }
 
-      // 3. Overall Top Leader(s)
+      // Leader check
       if (r.cVal === maxVal && maxVal > 0) {
         tClass = "tier-gold";
         bClass = "badge-gold";
         bText = currentFilter === 'Series' ? "All-Time Series Leader" : `${currentFilter} Leader`;
       }
 
-      // Format History List
+      // Format clean history entries without emojis
       let historyItems = [];
       if (currentFilter === 'Series') {
-        historyItems = r.seriesYears.map(yr => `<div class="history-item">🏁 <strong>${yr}</strong>: Full Series Completed (Kemah, Galveston, La Porte)</div>`);
+        historyItems = r.seriesYears.map(yr => 
+          `<div class="history-item"><span class="history-year">${yr}</span> Full Series (Kemah, Galveston, La Porte)</div>`
+        );
       } else {
-        const targetEventKey = currentFilter === 'Kemah' ? 'Kemah 10k' : (currentFilter === 'Galveston' ? 'Galveston 10k' : 'La Porte Half');
+        const targetKey = currentFilter === 'Kemah' ? 'Kemah 10k' : (currentFilter === 'Galveston' ? 'Galveston 10k' : 'La Porte Half');
         historyItems = r.raceEntries
-          .filter(entry => entry.event === targetEventKey)
-          .map(entry => `<div class="history-item">🏅 <strong>${entry.year}</strong>: ${entry.event} Finisher</div>`);
+          .filter(entry => entry.event === targetKey)
+          .map(entry => `<div class="history-item"><span class="history-year">${entry.year}</span> ${entry.event} Finisher</div>`);
       }
 
       return `
@@ -442,7 +464,6 @@
       listElement.insertAdjacentHTML('beforeend', htmlString);
     }
 
-    // Infinite Scroll
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && listElement.children.length < filteredRunners.length) {
         renderList();
@@ -450,7 +471,6 @@
     }, { threshold: 0.1 });
     observer.observe(document.getElementById('sentinel'));
 
-    // Debounced Search Input
     let searchTimeout;
     document.getElementById("runnerSearch").addEventListener("input", function() {
       clearTimeout(searchTimeout);
@@ -458,7 +478,6 @@
       searchTimeout = setTimeout(processAndFilter, 250);
     });
 
-    // Category Filter Selection
     document.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", function() {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -468,7 +487,6 @@
       });
     });
 
-    // Share & Deep-Link Functionality
     function shareRunner(name) {
       const url = new URL(window.location.href);
       url.searchParams.set('runner', name);
@@ -484,7 +502,6 @@
       }
     }
 
-    // Ingest and Parse Data
     Papa.parse("tbs_master_list.csv?v=" + new Date().getTime(), {
       download: true,
       header: true,
@@ -505,7 +522,6 @@
 
           if (!year || !fName || !lName || !event) return;
 
-          // Standardize key and clean display formatting
           const key = `${fName.toLowerCase()} ${lName.toLowerCase()}`;
           const formattedName = `${fName.charAt(0).toUpperCase() + fName.slice(1).toLowerCase()} ${lName.charAt(0).toUpperCase() + lName.slice(1).toLowerCase()}`;
 
@@ -526,13 +542,11 @@
           runnersObj[key].raceEntries.push({ year: parseInt(year), event: event });
           runnersObj[key].totalFinishes += 1;
 
-          // Track dataset coverage
           if (event === 'Kemah 10k') kemahYearsSet.add(year);
           if (event === 'Galveston 10k') galvYearsSet.add(year);
           if (event === 'La Porte Half') laporteYearsSet.add(year);
         });
 
-        // Compute possible series years across the history
         kemahYearsSet.forEach(yr => {
           if (galvYearsSet.has(yr) && laporteYearsSet.has(yr)) {
             seriesYearsSet.add(yr);
@@ -551,7 +565,6 @@
           let laporteCount = 0;
 
           for (const [yr, events] of Object.entries(r.eventsByYear)) {
-            // Full Bridge Series completion requirement: all 3 events in same calendar year
             if (events.has('Kemah 10k') && events.has('Galveston 10k') && events.has('La Porte Half')) {
               seriesYears.push(parseInt(yr));
             }
@@ -560,7 +573,6 @@
             if (events.has('La Porte Half')) laporteCount++;
           }
 
-          // Sort race history descending by year
           r.raceEntries.sort((a, b) => b.year - a.year);
           seriesYears.sort((a, b) => b - a);
 
@@ -576,7 +588,6 @@
           };
         });
 
-        // Check for URL ?runner= query deep-link
         const urlParams = new URLSearchParams(window.location.search);
         const rParam = urlParams.get('runner');
         if (rParam) {
