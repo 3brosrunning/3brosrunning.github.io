@@ -78,6 +78,11 @@
             border-radius: 8px;
             background-color: #ecf0f1;
         }
+        .item-text {
+            color: #d35400;
+            font-size: 22px;
+            margin: 10px 0;
+        }
         .error-link {
             display: block;
             margin-top: 15px;
@@ -103,6 +108,7 @@
 
     <div class="container result-box" id="result-view">
         <h2 id="result-name"></h2>
+        <h2 id="result-item" class="item-text"></h2>
         <h3 id="result-status"></h3>
         
         <div id="pickup-action">
@@ -123,28 +129,39 @@
         let currentBib = null;
 
         // Fetch and parse the CSV on page load
-        // Assumes CSV format has Bib in the first column and Name in the second column
         window.onload = async function() {
             document.getElementById('loading-msg').innerText = "Loading data...";
             try {
-                const response = await fetch('La_Porte_Nov15_Legacy_Pickups.csv');
+                // Pointing to the new CSV file
+                const response = await fetch('La_Porte_Nov15_Legacy_Pickups_2.csv');
                 if (!response.ok) throw new Error("CSV not found");
                 const csvText = await response.text();
                 
                 const lines = csvText.split('\n');
-                for (let i = 1; i < lines.length; i++) { // Skips header row (i = 1)
+                for (let i = 1; i < lines.length; i++) { // Skips header row
                     const row = lines[i].split(',');
+                    
+                    // Proceed only if the row has enough columns
                     if (row.length >= 2) {
-                        const bib = row[0].trim();
-                        const name = row[1].trim();
+                        const bib = row[0] ? row[0].trim() : "";
+                        const firstName = row[1] ? row[1].trim() : "";
+                        const lastName = row[2] ? row[2].trim() : "";
+                        const fullName = (firstName + " " + lastName).trim();
+                        
+                        // Extract item from Column E (index 4)
+                        const itemToGive = (row.length >= 5 && row[4].trim() !== "") ? row[4].trim() : "Item not specified in CSV";
+                        
                         if (bib !== "") {
-                            legacyData[bib] = name;
+                            legacyData[bib] = {
+                                name: fullName,
+                                item: itemToGive
+                            };
                         }
                     }
                 }
                 document.getElementById('loading-msg').innerText = "Ready to check!";
             } catch (error) {
-                document.getElementById('loading-msg').innerText = "Error: Ensure La_Porte_Nov15_Legacy_Pickups.csv is uploaded.";
+                document.getElementById('loading-msg').innerText = "Error: Ensure La_Porte_Nov15_Legacy_Pickups_2.csv is uploaded.";
                 console.error(error);
             }
         };
@@ -158,23 +175,22 @@
                 return;
             }
 
-            // Hide search view, show results view and floating back button
             document.getElementById('search-view').style.display = 'none';
             document.getElementById('result-view').style.display = 'block';
             document.getElementById('floating-back-btn').style.display = 'block';
 
-            const name = legacyData[currentBib];
+            const runnerData = legacyData[currentBib];
             const nameEl = document.getElementById('result-name');
+            const itemEl = document.getElementById('result-item');
             const statusEl = document.getElementById('result-status');
             const pickupDiv = document.getElementById('pickup-action');
             const notFoundDiv = document.getElementById('not-found-action');
 
-            if (name) {
-                // Bib found in CSV
-                nameEl.innerText = "Runner: " + name;
+            if (runnerData) {
+                nameEl.innerText = "Runner: " + runnerData.name;
+                itemEl.innerText = "Give: " + runnerData.item;
                 notFoundDiv.style.display = 'none';
 
-                // Check localStorage to see if already picked up
                 const isPickedUp = localStorage.getItem('legacy_pickup_' + currentBib);
                 
                 if (isPickedUp) {
@@ -187,8 +203,8 @@
                     pickupDiv.style.display = 'block';
                 }
             } else {
-                // Bib not found
                 nameEl.innerText = "Runner Not Found";
+                itemEl.innerText = "";
                 statusEl.innerText = "";
                 pickupDiv.style.display = 'none';
                 notFoundDiv.style.display = 'block';
@@ -197,10 +213,8 @@
 
         function markPickedUp() {
             if (currentBib) {
-                // Save to local device storage
                 localStorage.setItem('legacy_pickup_' + currentBib, 'true');
                 
-                // Update UI
                 const statusEl = document.getElementById('result-status');
                 statusEl.innerText = "Status: ALREADY PICKED UP \u2705";
                 statusEl.style.color = "red";
@@ -209,7 +223,6 @@
         }
 
         function resetToStart() {
-            // Reset variables and view
             currentBib = null;
             document.getElementById('bib-input').value = "";
             document.getElementById('search-view').style.display = 'block';
